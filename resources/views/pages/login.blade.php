@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
 @section('content')
 
-<div>
+<div class="login-page">
     <div>
 
         <div>

@@ -1,8 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
-@section('content')
-
-<div>
+<div class="register-page">
     <div>
 
         <div>
@@ -85,5 +83,3 @@
         </div>
     </div>
 </div>
-
-@endsection
