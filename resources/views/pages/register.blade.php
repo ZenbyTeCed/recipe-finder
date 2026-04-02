@@ -73,7 +73,8 @@
         <div class="rp-register-form">
             <h3>Create Account</h3>
             <p>Sign up to start tracking your nutrition goals</p>
-            <form class="rp-register-form-fields">
+            <form class="rp-register-form-fields" action="/register" method="POST">
+                @csrf
 
                 <label for="fullname">Full Name</label>
                 <div class="rp-input-wrapper">

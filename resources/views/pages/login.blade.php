@@ -51,7 +51,8 @@
         <div class="lp-login-form">
             <h3>Welcome Back</h3>
             <p>Enter your credentials to access you account</p>
-            <form class="lp-login-form-fields">
+            <form class="lp-login-form-fields" action="/login" method="POST">
+                @csrf
                 <label for="email">Email Address</label>
                 <div class="lp-input-wrapper">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="lp-input-icon">
