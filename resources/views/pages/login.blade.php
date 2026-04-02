@@ -78,8 +78,8 @@
                 <hr>
             </div>
 
-            <button class="lp-login-with-google">
-                Login with Google <img alt="google">
+            <button class="lp-login-with-google" id="google-login-btn" type="button">
+                Login with Google
             </button>
 
             <div class="lp-login-create">
@@ -88,5 +88,39 @@
         </div>
     </div>
 </div>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "{{ env('FIREBASE_API_KEY') }}",
+        authDomain: "{{ env('FIREBASE_AUTH_DOMAIN') }}",
+        projectId: "{{ env('FIREBASE_PROJECT_ID') }}",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    document.getElementById('google-login-btn').addEventListener('click', async () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        try {
+            const result = await firebase.auth().signInWithPopup(provider);
+            const idToken = await result.user.getIdToken();
+
+            // Send token to Laravel
+            const response = await fetch('/auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({ id_token: idToken }),
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    });
+</script>
 
 @endsection

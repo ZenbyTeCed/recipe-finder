@@ -3,6 +3,10 @@
 <head>
     <title>WellCook</title>
     <link rel="icon" type="image/png" href="{{ asset('images/WellCook.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     @vite('public/css/login.css')
     @vite('public/css/register.css')
     @vite('public/css/general.css')
