@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>@yield('title')</title>
+    <title>WellCook</title>
     @vite('public/css/general.css')
 </head>
 <body>

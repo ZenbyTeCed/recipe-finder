@@ -5,8 +5,8 @@
 <div class="register-page">
     <div class="rp-section1">
 
-        <div class="rp-logo">
-            <img>
+        <div class="lp-logo">
+            <img src="{{ asset('images/WellCook.png') }}" alt="WellCook Logo">
             <h1>WellCook</h1>
         </div>
 

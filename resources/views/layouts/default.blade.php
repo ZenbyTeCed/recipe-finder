@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>@yield('title')</title>
+    <title>WellCook</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/WellCook.png') }}">
     @vite('public/css/login.css')
     @vite('public/css/register.css')
     @vite('public/css/general.css')

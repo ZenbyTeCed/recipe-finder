@@ -6,7 +6,7 @@
     <div class="lp-section1">
 
         <div class="lp-logo">
-            <img>
+            <img src="{{ asset('images/WellCook.png') }}" alt="WellCook Logo">
             <h1>WellCook</h1>
         </div>
 

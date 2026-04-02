@@ -20,6 +20,7 @@
     font-weight: 500;
     line-height: 1.2;
     margin-bottom: 20px;
+    margin-top: 5px;
 }
 
 .lp-description p:nth-child(2) {
@@ -36,6 +37,21 @@
   gap: 15px;
   justify-content: space-between;
   margin-top: 30px;
+}
+
+.lp-logo {
+    display: flex;
+    align-items: center;
+}
+
+.lp-logo img {
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+}
+
+.lp-logo h1 {
+    font-size: 35px;
 }
 
 .lp-features > div {
