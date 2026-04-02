@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>@yield('title')</title>
+    @vite('public/css/general.css')
 </head>
 <body>
     <header>

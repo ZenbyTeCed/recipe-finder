@@ -1,3 +1,240 @@
 .login-page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-width: 70%;
+    gap: 60px;
+    margin: 0 auto;
+    min-height: 80vh;
+    padding: 50px 0;
+}
 
+.lp-section1,
+.lp-section2 {
+    flex: 1;
+}
+
+.lp-description p:nth-child(1) {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.lp-description p:nth-child(2) {
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.lp-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.lp-features > div {
+  flex: 1 1 calc(50% - 20px);
+  box-sizing: border-box;
+}
+
+.lp-features-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: 150px;
+}
+
+.lp-features-card .lp-fc-icon {
+    font-size: 30px;
+    opacity: 1;
+    margin: 0;
+}
+
+.lp-features-card h3 {
+    background-color: white;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 3px;
+    margin-top: 7px;
+}
+
+.lp-features-card p {
+    background-color: white;
+    font-size: 15px;
+    opacity: 0.7;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.lp-login-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+    height: 500px;
+
+    background-color: white;
+    padding: 20px 25px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.138);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.lp-login-form h3 {
+    background-color: white;
+    font-size: 25px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.lp-login-form p {
+    background-color: white;
+    font-size: 16px;
+    opacity: 0.7;
+    margin-bottom: 20px;
+
+}
+
+.lp-login-form-fields {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.lp-login-form-fields label {
+    background-color: white;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.lp-login-form-fields input {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: oklch(94.912% 0.00011 271.152);
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+
+    transition: all 0.2s ease;
+}
+
+.lp-login-form-fields input:focus {
+    outline: none;
+    /* border: 1px solid rgba(0, 0, 0, 0.2); */
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.lp-login-form-fields button {
+    background-color: #030213;
+    color: white;
+    font-size: 15px;
+    border: none;
+    padding: 12px;
+    margin-top: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+}
+
+.lp-login-form-fields button:hover {
+    background-color: #030213ec;
+    color: white;
+}
+
+.lp-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.lp-input-icon {
+    position: absolute;
+    left: 12px;
+    width: 20px;
+    height: 20px;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.lp-login-form-fields input {
+    padding-left: 40px;   /* override previous padding to make room for icon */
+}
+
+.lp-lf-divider {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; 
+  margin: 30px 0;
+  background-color: white;
+}
+
+.lp-lf-divider hr {
+  flex: 1;
+  opacity: 0.4;
+}
+
+.lp-lf-divider p {
+  margin: 0 3px;
+  opacity: 0.7;
+  letter-spacing: -0.5px;
+}
+
+.lp-login-with-google {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid rgba(0, 0, 0, 0.138);
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lp-login-with-google:hover {
+    background-color: oklch(87.917% 0.0001 271.152);
+}
+
+.lp-login-create {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.lp-login-create p {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.lp-login-create a {
+    color: #ea580c ;
+    background-color: white;
+    font-size: 14px;
+    margin-left: 3px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.lp-login-create a:hover {
+    color: #ea580c;
+    text-decoration: underline;
 }
