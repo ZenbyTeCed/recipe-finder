@@ -113,11 +113,11 @@ html, body {
     opacity: 0.8;
 }
 
-.user-actions button:nth-child(1) {
+.user-actions a:nth-child(1) {
     background-color: transparent;
     color: #4d4d4d;
     border: 1px solid #4d4d4d2f;
-    padding: 5px 12px;
+    padding: 2px 12px;
     border-radius: 6px;
     font-size: 15px;
     transition: all 0.2s ease;
@@ -136,7 +136,7 @@ html, body {
     transition: color 0.2s ease;
 }
 
-.user-actions button:nth-child(1):hover {
+.user-actions a:nth-child(1):hover {
     background-color: #f3f4f6;
     color: #111;
 }

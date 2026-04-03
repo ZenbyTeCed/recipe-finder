@@ -27,3 +27,7 @@ Route::get('/meal-log', function () {
 Route::get('/favorites', function () {
     return view('pages.favorites');
 });
+
+Route::get('/profile', function () {
+    return view('pages.profile');
+});

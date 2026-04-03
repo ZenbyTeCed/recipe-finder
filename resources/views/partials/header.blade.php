@@ -29,10 +29,10 @@
                 <div class="user-actions-divider"></div>
 
                 <div class="user-actions">
-                    <button class="user-btn">
+                    <a class="user-btn" href="/profile">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         <span>{{ session('user_fullname') }}</span>
-                    </button>
+                    </a>
 
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
