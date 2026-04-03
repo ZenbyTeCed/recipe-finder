@@ -19,3 +19,7 @@ Route::get('/home', function () {
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 });
+
+Route::get('/meal-log', function () {
+    return view('pages.meal-log');
+});
