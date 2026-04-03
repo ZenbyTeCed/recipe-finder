@@ -23,3 +23,7 @@ Route::get('/dashboard', function () {
 Route::get('/meal-log', function () {
     return view('pages.meal-log');
 });
+
+Route::get('/favorites', function () {
+    return view('pages.favorites');
+});

@@ -9,7 +9,8 @@
     @vite('public/css/header.css')
     @vite('public/css/homepage.css')
     @vite('public/css/dashboard.css')    
-    @vite('public/css/meal-log.css')    
+    @vite('public/css/meal-log.css')
+    @vite('public/css/favorites.css')
 </head>
 <body class="wellcook-body">
     <header>
