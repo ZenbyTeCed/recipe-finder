@@ -3,10 +3,12 @@
 <head>
     <title>WellCook</title>
     <link rel="icon" type="image/png" href="{{ asset('images/WellCook.png') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite('public/css/general.css')
     @vite('public/css/footer.css')
     @vite('public/css/header.css')
     @vite('public/css/homepage.css')
+    @vite('public/css/dashboard.css')    
 </head>
 <body class="wellcook-body">
     <header>
