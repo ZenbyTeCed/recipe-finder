@@ -114,8 +114,10 @@
                 body: JSON.stringify({ id_token: idToken }),
             });
 
-            if (response.redirected) {
-                window.location.href = response.url;
+            const data = await response.json();
+
+            if (data.redirect) {
+                window.location.href = data.redirect;
             }
         } catch (error) {
             console.error(error);

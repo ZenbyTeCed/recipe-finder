@@ -90,7 +90,7 @@ class AuthController extends Controller
                 'user_fullname'  => $userDoc['fullname'] ?? '',
             ]);
 
-            return redirect('/dashboard');
+            return redirect('/home');
 
         } catch (InvalidPassword | UserNotFound $e) {
             return back()->withErrors(['email' => 'Invalid email or password.']);
@@ -137,7 +137,7 @@ class AuthController extends Controller
                 'user_fullname'  => $user->displayName ?? '',
             ]);
 
-            return redirect('/dashboard');
+            return response()->json(['redirect' => '/home']);
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);

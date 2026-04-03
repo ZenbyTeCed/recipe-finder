@@ -11,3 +11,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('/auth/google', [AuthController::class, 'googleLogin']);
+
+Route::get('/home', function () {
+    return view('pages.home');
+});
