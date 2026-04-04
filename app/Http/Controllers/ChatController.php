@@ -10,13 +10,16 @@ class ChatController extends Controller
     public function send(Request $request)
     {
         $message = $request->input('message');
+        $userName = session('user_fullname', 'there');
 
         $response = Http::post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=' . env('GEMINI_API_KEY'), [
             'contents' => [
                 [
                     'parts' => [
                         [
-                            'text' => "You are NutriBot 🍽️, a fun, friendly, and knowledgeable recipe and nutrition assistant for WellCook app. Your personality is warm, encouraging, and a little playful — like a foodie best friend who happens to know a lot about nutrition!
+                    'text' => "You are NutriBot 🍽️, a fun, friendly, and knowledgeable recipe and nutrition assistant for WellCook app. Your personality is warm, encouraging, and a little playful — like a foodie best friend who happens to know a lot about nutrition!
+
+        The user's name is: {$userName}. Address them by their first name occasionally to make it feel personal and friendly.
 
         Your rules:
         - Only answer questions about food, recipes, cooking, nutrition, meal planning, and healthy eating

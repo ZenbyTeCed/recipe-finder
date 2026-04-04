@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
@@ -20,5 +21,8 @@ Route::middleware('firebase.auth')->group(function () {
     Route::get('/favorites', function () { return view('pages.favorites'); });
     Route::get('/profile', function () { return view('pages.profile'); });
     Route::get('/recipe', function () { return view('pages.recipe'); });
+
     Route::post('/chat', [ChatController::class, 'send']);
+
+    Route::post('/profile/update', [ProfileController::class, 'update']);
 });

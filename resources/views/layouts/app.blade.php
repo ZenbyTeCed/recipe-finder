@@ -52,7 +52,7 @@
 
         <div class="chat-messages" id="chatMessages">
             <div class="chat-message bot">
-                <p>Hi! I'm your Recipe & Nutrition AI Assistant! 🔍 I can help you with recipe suggestions, cooking tips, nutrition advice, and meal planning. What would you like to know?</p>
+                <p>Hi! I'm NutriBot your Recipe & Nutrition AI Assistant! 🔍 I can help you with recipe suggestions, cooking tips, nutrition advice, and meal planning. What would you like to know?</p>
                 <span class="chat-time">12:53 PM</span>
             </div>
         </div>

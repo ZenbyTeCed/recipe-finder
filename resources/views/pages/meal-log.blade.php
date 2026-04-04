@@ -86,4 +86,8 @@
     </div>
 </div>
 
+@push('scripts')
+    @vite('resources/js/meal-log.js')
+@endpush
+
 @endsection
