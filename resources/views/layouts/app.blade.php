@@ -12,6 +12,7 @@
     @vite('public/css/meal-log.css')
     @vite('public/css/favorites.css')
     @vite('public/css/profile.css')
+    @vite('public/css/recipe.css')
 
 </head>
 <body class="wellcook-body">

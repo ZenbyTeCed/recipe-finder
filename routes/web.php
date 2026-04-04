@@ -31,3 +31,7 @@ Route::get('/favorites', function () {
 Route::get('/profile', function () {
     return view('pages.profile');
 });
+
+Route::get('/recipe', function () {
+    return view('pages.recipe');
+});

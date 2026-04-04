@@ -11,7 +11,7 @@
         </div>
 
         <div class="results-section">
-            <div class="recipe-card">
+            <div class="recipe-card" onclick="window.location='/recipe'">
 
                 {{-- Image --}}
                 <div class="recipe-card-image">
