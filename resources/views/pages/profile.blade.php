@@ -41,21 +41,21 @@
                 </div>
                 <div class="profile-field">
                     <label for="calorie">Daily Calorie Goal</label>
-                    <input id="calorie" type="number" placeholder="2000">
+                    <input id="calorie" type="number" placeholder="2000" value="{{ session('goals.calories') }}">
                     <p class="profile-field-hint">Recommended: 1500-2500 calories</p>
                 </div>
                 <div class="profile-macros">
                     <div class="profile-field">
                         <label>Protein (grams)</label>
-                        <input type="number" placeholder="150">
+                        <input name="protein" type="number" placeholder="150" value="{{ session('goals.protein') }}">
                     </div>
                     <div class="profile-field">
                         <label>Carbs (grams)</label>
-                        <input type="number" placeholder="200">
+                        <input name="carbs" type="number" placeholder="200" value="{{ session('goals.carbs') }}">
                     </div>
                     <div class="profile-field">
                         <label>Fat (grams)</label>
-                        <input type="number" placeholder="65">
+                        <input name="fat" type="number" placeholder="65" value="{{ session('goals.fat') }}">
                     </div>
                 </div>
                 <div class="profile-macro-hint">

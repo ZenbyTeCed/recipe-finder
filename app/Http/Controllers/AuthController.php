@@ -78,16 +78,22 @@ class AuthController extends Controller
 
             $user = $signInResult->data();
 
-            // Get user profile from Realtime Database
-            $userDoc = $this->database
-                ->getReference('users/' . $user['localId'])
+            // Get goals from Realtime Database
+            $goals = $this->database
+                ->getReference('users/' . $user['localId'] . '/goals')
                 ->getValue();
 
             session([
                 'firebase_uid'   => $user['localId'],
                 'firebase_token' => $user['idToken'],
                 'user_email'     => $user['email'],
-                'user_fullname'  => $userDoc['fullname'] ?? '',
+                'user_fullname'  => $user['displayName'] ?? '',
+                'goals'          => $goals ?? [
+                    'calories' => 2000,
+                    'protein'  => 150,
+                    'carbs'    => 200,
+                    'fat'      => 65,
+                ],
             ]);
 
             return redirect('/home');
