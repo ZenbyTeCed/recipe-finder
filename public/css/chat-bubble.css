@@ -251,3 +251,31 @@
     transform: scale(1.1);
     box-shadow: 0 6px 20px rgba(234, 88, 12, 0.6);
 }
+
+.chat-quick-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.chat-quick-header p {
+    margin: 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.chat-quick-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    transition: color 0.2s ease;
+}
+
+.chat-quick-close:hover {
+    color: #374151;
+}
