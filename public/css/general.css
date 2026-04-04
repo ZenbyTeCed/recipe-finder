@@ -110,7 +110,16 @@ html, body {
 }
 
 .nav-links a.active {
-    opacity: 0.8;
+    color: #c2410c;
+}
+
+.nav-links a.active {
+    background-color: #ffedd5;
+    color: #ea580c;
+}
+
+.nav-links a.active svg {
+    stroke: #c2410c;
 }
 
 .user-actions a:nth-child(1) {
