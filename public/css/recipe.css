@@ -82,6 +82,16 @@
     flex-shrink: 0;
 }
 
+.rd-bookmark-btn.favorited svg {
+    fill: #ea580c;
+    stroke: #ea580c;
+}
+
+.rd-bookmark-btn.favorited {
+    border-color: #ea580c;
+    color: #ea580c;
+}
+
 .rd-bookmark-btn:hover {
     color: #ea580c;
     border-color: #ea580c;

@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/ai.js',
                 'resources/js/meal-log.js',
                 'resources/js/toast.js',
+                'resources/js/recipe.js',
             ],
             refresh: true,
         }),

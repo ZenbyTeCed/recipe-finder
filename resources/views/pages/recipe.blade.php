@@ -6,7 +6,7 @@
     <div class="recipe-detail-container">
 
         <a href="/home" class="rd-back-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
             Back to Search
         </a>
 
@@ -20,9 +20,22 @@
                         <h1>Tuna Nicoise</h1>
                         <p>French · Seafood</p>
                     </div>
-                    <button class="rd-bookmark-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark-icon lucide-bookmark"><path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z"/></svg>
-                    </button>
+                    <form id="favoriteForm" action="/favorites/add" method="POST">
+                        @csrf
+                        <input type="hidden" name="recipe_id" value="tuna-nicoise">
+                        <input type="hidden" name="name" value="Tuna Nicoise">
+                        <input type="hidden" name="cuisine" value="French Cuisine">
+                        <input type="hidden" name="category" value="Seafood">
+                        <input type="hidden" name="time" value="25">
+                        <input type="hidden" name="calories" value="450">
+                        <input type="hidden" name="protein" value="35">
+                        <input type="hidden" name="carbs" value="28">
+                        <input type="hidden" name="fat" value="22">
+                        <input type="hidden" name="image" value="https://placehold.co/480x350">
+                        <button type="submit" class="rd-bookmark-btn" id="favoriteBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg>
+                        </button>
+                    </form>
                 </div>
                 <div class="rd-tags">
                     <span class="rd-tag">High Protein</span>
@@ -39,10 +52,19 @@
                         <span>450 calories</span>
                     </div>
                 </div>
-                <button class="rd-log-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg>
-                    Log This Meal
-                </button>
+                <form action="/meal-log/store" method="POST">
+                    @csrf
+                    <input type="hidden" name="name" value="Tuna Nicoise">
+                    <input type="hidden" name="serving" value="1 serving">
+                    <input type="hidden" name="calories" value="450">
+                    <input type="hidden" name="protein" value="35">
+                    <input type="hidden" name="carbs" value="28">
+                    <input type="hidden" name="fat" value="22">
+                    <button type="submit" class="rd-log-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg>
+                        Log This Meal
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -80,31 +102,16 @@
             </div>
             <div class="rd-nutrition-bars">
                 <div class="rd-bar-item">
-                    <div class="rd-bar-label">
-                        <span>Protein</span>
-                        <span>31%</span>
-                    </div>
-                    <div class="rd-bar-track">
-                        <div class="rd-bar-fill" style="width: 31%"></div>
-                    </div>
+                    <div class="rd-bar-label"><span>Protein</span><span>31%</span></div>
+                    <div class="rd-bar-track"><div class="rd-bar-fill" style="width: 31%"></div></div>
                 </div>
                 <div class="rd-bar-item">
-                    <div class="rd-bar-label">
-                        <span>Carbs</span>
-                        <span>25%</span>
-                    </div>
-                    <div class="rd-bar-track">
-                        <div class="rd-bar-fill" style="width: 25%"></div>
-                    </div>
+                    <div class="rd-bar-label"><span>Carbs</span><span>25%</span></div>
+                    <div class="rd-bar-track"><div class="rd-bar-fill" style="width: 25%"></div></div>
                 </div>
                 <div class="rd-bar-item">
-                    <div class="rd-bar-label">
-                        <span>Fat</span>
-                        <span>44%</span>
-                    </div>
-                    <div class="rd-bar-track">
-                        <div class="rd-bar-fill" style="width: 44%"></div>
-                    </div>
+                    <div class="rd-bar-label"><span>Fat</span><span>44%</span></div>
+                    <div class="rd-bar-track"><div class="rd-bar-fill" style="width: 44%"></div></div>
                 </div>
             </div>
         </div>
@@ -135,5 +142,9 @@
 
     </div>
 </div>
+
+@push('scripts')
+    @vite('resources/js/recipe.js')
+@endpush
 
 @endsection
