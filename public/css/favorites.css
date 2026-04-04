@@ -223,7 +223,14 @@ body {
     letter-spacing: -0.3px;
 }
 
-.ml-empty {
+.favorites-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+
     border: 1px solid #e0e0e0;
     border-radius: 15px;
     background-color: white;
@@ -232,21 +239,21 @@ body {
     border-radius: 10px;
 }
 
-.ml-empty svg {
-    opacity: 0.4;
+.favorites-empty svg {
+    opacity: 0.2;
     margin-top: 30px;
 }
 
-.ml-empty p:nth-child(2) {
+.favorites-empty p:nth-child(2) {
     font-size: 18px;
     margin-bottom: 0;
 }
 
-.ml-empty p:nth-child(3) {
+.favorites-empty p:nth-child(3) {
     color: rgba(0, 0, 0, 0.403);
 }
 
-.ml-empty button {
+.favorites-empty button {
     background-color: black;
     border: none;
     color: white;
@@ -261,10 +268,10 @@ body {
     transition: all 0.2s ease;
 }
 
-.ml-empty button:hover {
+.favorites-empty button:hover {
     background-color: rgba(0, 0, 0, 0.874);
 }
 
-.ml-empty button:active {
+.favorites-empty button:active {
     opacity: 0.8;
 }
