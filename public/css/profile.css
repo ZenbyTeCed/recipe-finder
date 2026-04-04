@@ -41,7 +41,13 @@
     padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 18px;
+}
+
+.profile-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .profile-card-header h4 {
@@ -52,7 +58,7 @@
 }
 
 .profile-card-header p {
-    font-size: 13px;
+    font-size: 15px;
     color: #6b7280;
     margin: 0;
 }
@@ -60,7 +66,7 @@
 .profile-card-title {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
 }
 
 .profile-card-title h4 {
