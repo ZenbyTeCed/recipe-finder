@@ -11,6 +11,8 @@
     @vite('public/css/dashboard.css')    
     @vite('public/css/meal-log.css')
     @vite('public/css/favorites.css')
+    @vite('public/css/profile.css')
+
 </head>
 <body class="wellcook-body">
     <header>
