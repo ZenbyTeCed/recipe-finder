@@ -10,6 +10,17 @@
     @vite('public/css/login.css')
     @vite('public/css/register.css')
     @vite('public/css/general.css')
+
+    @vite('resources/js/auth.js')
+
+    <script>
+        window.firebaseConfig = {
+            apiKey: "{{ env('FIREBASE_API_KEY') }}",
+            authDomain: "{{ env('FIREBASE_AUTH_DOMAIN') }}",
+            projectId: "{{ env('FIREBASE_PROJECT_ID') }}",
+        };
+    </script>
+    
 </head>
 <body>
 
