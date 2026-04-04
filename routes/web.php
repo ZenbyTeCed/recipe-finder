@@ -12,26 +12,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('/auth/google', [AuthController::class, 'googleLogin']);
 
-Route::get('/home', function () {
-    return view('pages.home');
-});
-
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
-});
-
-Route::get('/meal-log', function () {
-    return view('pages.meal-log');
-});
-
-Route::get('/favorites', function () {
-    return view('pages.favorites');
-});
-
-Route::get('/profile', function () {
-    return view('pages.profile');
-});
-
-Route::get('/recipe', function () {
-    return view('pages.recipe');
+Route::middleware('firebase.auth')->group(function () {
+    Route::get('/home', function () { return view('pages.home'); });
+    Route::get('/dashboard', function () { return view('pages.dashboard'); });
+    Route::get('/meal-log', function () { return view('pages.meal-log'); });
+    Route::get('/favorites', function () { return view('pages.favorites'); });
+    Route::get('/profile', function () { return view('pages.profile'); });
+    Route::get('/recipe', function () { return view('pages.recipe'); });
 });
