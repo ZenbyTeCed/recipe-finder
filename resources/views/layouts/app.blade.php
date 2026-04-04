@@ -4,6 +4,14 @@
     <title>WellCook</title>
     <link rel="icon" type="image/png" href="{{ asset('images/WellCook.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @if (session('success'))
+    <meta name="flash-success" content="{{ session('success') }}">
+    @endif
+
+    @if (session('error'))
+        <meta name="flash-error" content="{{ session('error') }}">
+    @endif
     
     @vite('public/css/general.css')
     @vite('public/css/footer.css')
@@ -80,7 +88,14 @@
         </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-icon lucide-circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        <span id="toastMessage"></span>
+    </div>
+
     @vite('resources/js/ai.js')
+    @vite('resources/js/toast.js')
     @stack('scripts')
 </body>
 </html>

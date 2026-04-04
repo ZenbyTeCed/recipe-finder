@@ -6,10 +6,12 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', 'resources/js/app.js',
-                'resources/css/app.css', 'resources/js/auth.js',         
-                'resources/css/app.css', 'resources/js/ai.js',    
-                'resources/css/app.css', 'resources/js/meal-log.js',          
+                'resources/css/app.css',
+                'resources/js/app.js',
+                'resources/js/auth.js',
+                'resources/js/ai.js',
+                'resources/js/meal-log.js',
+                'resources/js/toast.js',
             ],
             refresh: true,
         }),

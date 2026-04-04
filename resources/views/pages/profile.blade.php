@@ -15,14 +15,6 @@
         <form class="profile-form" action="/profile/update" method="POST">
             @csrf
 
-            @if (session('success'))
-                <p class="profile-success">{{ session('success') }}</p>
-            @endif
-
-            @if ($errors->any())
-                <p class="profile-error">{{ $errors->first() }}</p>
-            @endif
-
             <div class="profile-card">
                 <div class="profile-card-header">
                     <h4>Personal Information</h4>
