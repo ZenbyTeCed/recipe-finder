@@ -49,19 +49,21 @@
                             @endforeach
                         </select>
                     </div>
-
                 </div>
             </form>
 
             <div class="results-info">
                 <p>Found <span>{{ $totalCount }}</span> recipes</p>
-                @if ($query || $category || $area)
-                    <a href="{{ route('home') }}" class="clear-filters-btn">
-                        <button>Clear Filters</button>
-                    </a>
-                @else
-                    <button>Clear Filters</button>
-                @endif
+                <div class="results-actions">
+                    @if ($query || $category || $area)
+                        <a href="{{ route('home') }}" class="clear-filters-btn">Clear Filters</a>
+                    @endif
+                    @if (!$query && !$category && !$area)
+                        <button onclick="handleReload(this)" class="reload-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+                        </button>
+                    @endif
+                </div>
             </div>
         </div>
 
@@ -75,18 +77,6 @@
                     <div class="recipe-card-info">
                         <h3>{{ $recipe['name'] }}</h3>
                         <p class="recipe-card-cuisine">{{ $recipe['area'] ?? '' }} Cuisine</p>
-                        <!-- <div class="recipe-card-meta">
-                            <span class="recipe-card-time">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
-                                N/A
-                            </span>
-                            <span class="recipe-card-calories">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame-icon lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
-                                N/A
-                            </span>
-                        </div> -->
                         <div class="recipe-card-tags">
                             <span class="recipe-card-tag">{{ $recipe['category'] ?? '' }}</span>
                             <span class="recipe-card-tag">{{ $recipe['area'] ?? '' }}</span>
@@ -99,19 +89,25 @@
                 </div>
             @endforelse
         </div>
-    </div>
 
+    </div>
 </div>
 
 <script>
-    // Auto-submit on typing with debounce
     let debounceTimer;
     document.getElementById('search-input').addEventListener('input', function () {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(function () {
             document.getElementById('search-form').submit();
-        }, 600); // waits 600ms after user stops typing
+        }, 600);
     });
+
+    function handleReload(btn) {
+        btn.classList.add('spinning');
+        setTimeout(function () {
+            window.location.href = '{{ route('home') }}';
+        }, 600); // waits for spin to finish before navigating
+    }
 </script>
 
 @endsection

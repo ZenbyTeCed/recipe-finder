@@ -139,14 +139,54 @@
     color: #555;
 }
 
-.results-info button {
-    background-color: transparent;
-    border: none;
+.results-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.clear-filters-btn {
     font-size: 14px;
     font-weight: 500;
+    color: #555;
+    text-decoration: none;
     cursor: pointer;
 }
 
+.clear-filters-btn:hover {
+    color: #1a1a1a;
+}
+
+.reload-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #555;
+    padding: 0;
+}
+
+.reload-btn:hover {
+    color: #1a1a1a;
+}
+
+.reload-btn svg {
+    transition: transform 0.4s ease;
+}
+
+.reload-btn:hover svg {
+    transform: rotate(180deg);
+}
+
+.reload-btn.spinning svg {
+    animation: spin 0.6s ease forwards;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
 /* Results Section */
 
 .results-section {

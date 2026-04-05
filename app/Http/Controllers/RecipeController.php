@@ -77,7 +77,9 @@ class RecipeController extends Controller
 
         $recipes = collect($meals)->map(function ($meal) {
             return $this->mealDb->normalizeCard($meal);
-        })->values()->all();
+        })->values()->slice(0, 30)->values()->all();
+
+        $totalCount = count($recipes);
 
         return view('pages.home', [
             'recipes'         => $recipes,
@@ -89,4 +91,5 @@ class RecipeController extends Controller
             'validAreas'      => $validAreas,
         ]);
     }
+    
 }
