@@ -289,12 +289,12 @@
     outline: none;
     box-sizing: border-box;
     margin-bottom: 16px;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .modal-body input:focus {
-    border-color: #ea580c;
-    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+    border-color: #0000005e;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
 .modal-nutrition {

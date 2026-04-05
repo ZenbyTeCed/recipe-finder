@@ -250,3 +250,90 @@ html, body {
 .toast.error {
     border-color: #fecaca;
 }
+
+/* Goal Achieved Modal */
+.goal-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.goal-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.goal-modal {
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px 36px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.goal-modal-overlay.open .goal-modal {
+    transform: translateY(0) scale(1);
+}
+
+.goal-modal-icon {
+    font-size: 60px;
+    margin-bottom: 16px;
+    animation: goal-bounce 0.6s ease infinite alternate;
+}
+
+@keyframes goal-bounce {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+.goal-modal h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 8px 0;
+}
+
+.goal-modal-sub {
+    font-size: 15px;
+    color: #6b7280;
+    margin: 0 0 16px 0;
+}
+
+.goal-modal-msg {
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.7;
+    margin: 0 0 28px 0;
+    background-color: #f9fafb;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.goal-modal-btn {
+    background: linear-gradient(135deg, #c2410c, #ea580c);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.goal-modal-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}

@@ -94,6 +94,17 @@
         <span id="toastMessage"></span>
     </div>
 
+    <!-- Goal Achieved Modal -->
+    <div class="goal-modal-overlay" id="goalModalOverlay">
+        <div class="goal-modal">
+            <div class="goal-modal-icon">🎉</div>
+            <h2>All Goals Achieved!</h2>
+            <p class="goal-modal-sub">Congratulations, <strong>{{ session('user_fullname') }}</strong>!</p>
+            <p class="goal-modal-msg">You've crushed all your nutritional goals for today! Your dedication to a healthy lifestyle is truly inspiring. Rest well and come back tomorrow to keep the streak going! 💪</p>
+            <button class="goal-modal-btn" id="goalModalClose">Let's Go! 🚀</button>
+        </div>
+    </div>
+
     @vite('resources/js/ai.js')
     @vite('resources/js/toast.js')
     @vite('resources/js/recipe.js')

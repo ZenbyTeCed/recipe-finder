@@ -24,3 +24,32 @@ if (document.readyState === 'loading') {
 }
 
 window.showToast = showToast;
+
+// Goal modal
+function showGoalModal() {
+    const overlay = document.getElementById('goalModalOverlay');
+    if (overlay) {
+        overlay.classList.add('open');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const closeBtn = document.getElementById('goalModalClose');
+    const overlay  = document.getElementById('goalModalOverlay');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            overlay.classList.remove('open');
+        });
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('open');
+            }
+        });
+    }
+});
+
+window.showGoalModal = showGoalModal;
