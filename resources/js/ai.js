@@ -6,23 +6,42 @@ const chatSendBtn = document.querySelector('.chat-send-btn');
 const chatMessages = document.getElementById('chatMessages');
 const chatQuickQuestions = document.getElementById('chatQuickQuestions');
 const chatQuickClose = document.getElementById('chatQuickClose');
+const chatClearBtn = document.getElementById('chatClearBtn');
 
-// Toggle open/close
-chatBtn.addEventListener('click', () => {
-    chatWindow.classList.toggle('open');
-});
+const STORAGE_KEY = 'nutribot_messages';
 
-chatCloseBtn.addEventListener('click', () => {
-    chatWindow.classList.remove('open');
-});
-
-chatQuickClose.addEventListener('click', () => {
-    chatQuickQuestions.style.display = 'none';
-});
-
-// Send message
 function getCurrentTime() {
     return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function saveMessages() {
+    const messages = [];
+    document.querySelectorAll('.chat-message:not(.typing-indicator)').forEach(msg => {
+        messages.push({
+            type: msg.classList.contains('bot') ? 'bot' : 'user',
+            html: msg.querySelector('p').innerHTML,
+            time: msg.querySelector('.chat-time')?.textContent ?? '',
+        });
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+}
+
+function loadMessages() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+
+    const messages = JSON.parse(saved);
+    if (messages.length === 0) return;
+
+    chatMessages.innerHTML = '';
+    messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.classList.add('chat-message', msg.type);
+        div.innerHTML = `<p>${msg.html}</p><span class="chat-time">${msg.time}</span>`;
+        chatMessages.appendChild(div);
+    });
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 function formatMessage(text) {
@@ -31,7 +50,6 @@ function formatMessage(text) {
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
         .replace(/`(.*?)`/g, '<code>$1</code>')
         .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" class="chat-link">$1</a>')
-        // Convert plain URLs that aren't already inside an <a> tag
         .replace(/(^|[\s\n])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" class="chat-link">View Recipe →</a>')
         .replace(/\n/g, '<br>');
 }
@@ -43,6 +61,7 @@ function appendMessage(text, type) {
     msg.innerHTML = `<p>${formatted}</p><span class="chat-time">${getCurrentTime()}</span>`;
     chatMessages.appendChild(msg);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    saveMessages();
 }
 
 function appendTyping() {
@@ -91,21 +110,36 @@ async function sendMessage(message) {
     }
 }
 
-// Send on button click
-chatSendBtn.addEventListener('click', () => {
-    sendMessage(chatInput.value);
+chatBtn.addEventListener('click', () => {
+    chatWindow.classList.toggle('open');
+    chatBtn.classList.toggle('hidden');
 });
 
-// Send on Enter key
+chatCloseBtn.addEventListener('click', () => {
+    chatWindow.classList.remove('open');
+    chatBtn.classList.remove('hidden');
+});
+chatQuickClose.addEventListener('click', () => chatQuickQuestions.style.display = 'none');
+
+chatClearBtn.addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEY);
+    chatMessages.innerHTML = `
+        <div class="chat-message bot">
+            <p>Hi! I'm NutriBot your Recipe & Nutrition AI Assistant! 🔍 I can help you with recipe suggestions, cooking tips, nutrition advice, and meal planning. What would you like to know?</p>
+            <span class="chat-time">${getCurrentTime()}</span>
+        </div>
+    `;
+    saveMessages();
+});
+
+chatSendBtn.addEventListener('click', () => sendMessage(chatInput.value));
+
 chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        sendMessage(chatInput.value);
-    }
+    if (e.key === 'Enter') sendMessage(chatInput.value);
 });
 
-// Quick question buttons
 document.querySelectorAll('.chat-quick-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        sendMessage(btn.textContent.trim());
-    });
+    btn.addEventListener('click', () => sendMessage(btn.textContent.trim()));
 });
+
+loadMessages();

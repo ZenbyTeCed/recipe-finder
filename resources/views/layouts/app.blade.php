@@ -45,17 +45,23 @@
 
     <!-- Chat Window -->
     <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <div class="chat-header-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <div class="chat-header-wrapper">
+            <div class="chat-header">
+                <div class="chat-header-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                </div>
+                <div class="chat-header-info">
+                    <h4>NutriBot Assistant</h4>
+                    <p>Powered by Gemini</p>
+                </div>
+                <button class="chat-close-btn" id="chatCloseBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+                
             </div>
-            <div class="chat-header-info">
-                <h4>NutriBot Assistant</h4>
-                <p>Powered by Gemini</p>
+            <div class="chat-header-clear">
+                <button class="chat-clear-btn" id="chatClearBtn">Clear</button>
             </div>
-            <button class="chat-close-btn" id="chatCloseBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-            </button>
         </div>
 
         <div class="chat-messages" id="chatMessages">

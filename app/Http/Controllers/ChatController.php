@@ -136,7 +136,6 @@ $tools = [
         }
 
         if (isset($data['error'])) {
-            \Log::info('Gemini error: ' . json_encode($data['error']));
             return response()->json([
                 'reply' => '😅 Something went wrong on my end. Please try again in a moment!'
             ]);
