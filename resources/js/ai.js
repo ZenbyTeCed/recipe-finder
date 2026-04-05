@@ -30,6 +30,9 @@ function formatMessage(text) {
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
         .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" class="chat-link">$1</a>')
+        // Convert plain URLs that aren't already inside an <a> tag
+        .replace(/(^|[\s\n])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" class="chat-link">View Recipe →</a>')
         .replace(/\n/g, '<br>');
 }
 
@@ -71,6 +74,10 @@ async function sendMessage(message) {
     const data = await response.json();
     typing.remove();
     appendMessage(data.reply, 'bot');
+
+    if (data.mealLogged) {
+        window.showToast('Meal logged successfully!', 'success');
+    }
 }
 
 // Send on button click

@@ -279,3 +279,13 @@
 .chat-quick-close:hover {
     color: #374151;
 }
+
+.chat-link {
+    color: #e53e3e;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.chat-link:hover {
+    opacity: 0.8;
+}

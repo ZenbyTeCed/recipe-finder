@@ -109,6 +109,26 @@ class MealLogController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
+
+            // TEMPORARY DEBUG
+    $uid = session('firebase_uid');
+    
+    try {
+        $this->database
+            ->getReference('debug_test/' . $uid)
+            ->set(['test' => 'working', 'time' => now()->toDateTimeString()]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Firebase write test — UID: ' . $uid,
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Firebase error: ' . $e->getMessage(),
+        ]);
+    }
     }
 
     public function destroy(Request $request)

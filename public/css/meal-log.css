@@ -482,6 +482,45 @@
     gap: 12px;
 }
 
+.ml-modal-nutribot-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background-color: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+
+.ml-modal-nutribot-hint svg {
+    color: #ea580c;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.ml-modal-nutribot-hint p {
+    font-size: 14px;
+    color: #374151;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.ml-nutribot-link {
+    background: none;
+    border: none;
+    color: #ea580c;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s ease;
+}
+
+.ml-nutribot-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
 /* Submit button */
 .ml-modal-submit {
     display: flex;

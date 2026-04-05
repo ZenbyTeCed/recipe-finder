@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Kreait\Firebase\Contract\Database;
 
 class ChatController extends Controller
 {
+    protected string $model = 'gemini-2.5-flash-lite';
+    protected string $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/';
+
+    public function __construct(protected Database $database) {}
+
     public function send(Request $request)
     {
-        $message = $request->input('message');
+        $message  = $request->input('message');
         $userName = session('user_fullname', 'there');
 
-        $response = Http::post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=' . env('GEMINI_API_KEY'), [
-            'contents' => [
-                [
-                    'parts' => [
-                        [
-                    'text' => "You are NutriBot 🍽️, a fun, friendly, and knowledgeable recipe and nutrition assistant for WellCook app. Your personality is warm, encouraging, and a little playful — like a foodie best friend who happens to know a lot about nutrition!
+        $systemPrompt = "You are NutriBot 🍽️, a fun, friendly, and knowledgeable recipe and nutrition assistant for WellCook app. Your personality is warm, encouraging, and a little playful — like a foodie best friend who happens to know a lot about nutrition!
 
         The user's name is: {$userName}. Address them by their first name occasionally to make it feel personal and friendly.
 
@@ -30,44 +31,189 @@ class ChatController extends Controller
         - Be encouraging when users talk about health goals
         - When suggesting recipes, always mention approximate calories or key nutrients if possible
         - Address the user in a friendly, conversational tone
-        - If user ask for a recommendation, ask first what categories the user wants, and its ethnicity
+        - Users may ask you for approximate macros (calories, protein, carbs, fat) of Filipino or other local meals to help them log their meals manually. When asked, provide a helpful estimate in this format:
+        🔥 Calories: ~XXX kcal
+        💪 Protein: ~XXg
+        🌾 Carbs: ~XXg
+        💧 Fat: ~XXg
+        Always remind them these are estimates and can vary based on cooking method and portion size.
+        - When the user wants to search for a recipe, use the searchRecipe function.
+        - When the user wants to log a meal, use the logMeal function. Always estimate nutrition if not provided.";
 
-        User: " . $message
-                        ]
-                    ]
-                ]
+        $tools = [
+            [
+                'functionDeclarations' => [
+                    [
+                        'name'        => 'searchRecipe',
+                        'description' => 'Search for recipes by name or ingredient from TheMealDB',
+                        'parameters'  => [
+                            'type'       => 'object',
+                            'properties' => [
+                                'query' => [
+                                    'type'        => 'string',
+                                    'description' => 'The recipe name or ingredient to search for',
+                                ],
+                            ],
+                            'required' => ['query'],
+                        ],
+                    ],
+                    [
+                        'name'        => 'logMeal',
+                        'description' => 'Log a meal to the user\'s meal log with nutrition information',
+                        'parameters'  => [
+                            'type'       => 'object',
+                            'properties' => [
+                                'name'      => ['type' => 'string', 'description' => 'Name of the meal'],
+                                'serving'   => ['type' => 'string', 'description' => 'Serving size e.g. 1 cup, 100g'],
+                                'meal_type' => ['type' => 'string', 'description' => 'Breakfast, Lunch, Dinner, or Snack'],
+                                'calories'  => ['type' => 'number', 'description' => 'Estimated calories'],
+                                'protein'   => ['type' => 'number', 'description' => 'Estimated protein in grams'],
+                                'carbs'     => ['type' => 'number', 'description' => 'Estimated carbs in grams'],
+                                'fat'       => ['type' => 'number', 'description' => 'Estimated fat in grams'],
+                            ],
+                            'required' => ['name', 'serving', 'calories', 'protein', 'carbs', 'fat'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        // First Gemini call
+        $response = Http::post(
+            $this->apiUrl . $this->model . ':generateContent?key=' . env('GEMINI_API_KEY'),
+            [
+                'system_instruction' => ['parts' => [['text' => $systemPrompt]]],
+                'contents'           => [['role' => 'user', 'parts' => [['text' => $message]]]],
+                'tools'              => $tools,
             ]
-        ]);
+        );
 
-        $data = $response->json();
+        $data   = $response->json();
         $status = $response->status();
 
-        // Handle rate limit
-        if ($status === 429) {
+        if ($status === 429 || ($data['error']['code'] ?? 0) === 429) {
             return response()->json([
                 'reply' => '⏳ Oops! NutriBot is taking a quick breather — I\'ve hit my rate limit. Please wait a moment and try again! 🙏'
             ]);
         }
 
-        // Handle other API errors
         if (isset($data['error'])) {
-            $errorCode = $data['error']['code'] ?? 0;
-
-            if ($errorCode === 429) {
-                return response()->json([
-                    'reply' => '⏳ Oops! NutriBot is taking a quick breather — I\'ve hit my rate limit. Please wait a moment and try again! 🙏'
-                ]);
-            }
-
             return response()->json([
                 'reply' => '😅 Something went wrong on my end. Please try again in a moment!'
             ]);
         }
 
-        $reply = $data['candidates'][0]['content']['parts'][0]['text'] ?? '😅 Sorry, I could not process your request. Please try again!';
+        $candidate = $data['candidates'][0]['content'] ?? null;
+        $parts     = $candidate['parts'] ?? [];
+
+        // Check if Gemini wants to call a function
+        foreach ($parts as $part) {
+            if (!isset($part['functionCall'])) continue;
+
+            $funcName = $part['functionCall']['name'];
+            $args     = $part['functionCall']['args'];
+
+            // Execute the function
+            if ($funcName === 'searchRecipe') {
+                $result = $this->searchRecipe($args['query']);
+            } elseif ($funcName === 'logMeal') {
+                $result = $this->logMeal($args);
+            } else {
+                continue;
+            }
+
+            // Send result back to Gemini — same model
+            $secondResponse = Http::post(
+                $this->apiUrl . $this->model . ':generateContent?key=' . env('GEMINI_API_KEY'),
+                [
+                    'system_instruction' => ['parts' => [['text' => $systemPrompt]]],
+                    'contents'           => [
+                        ['role' => 'user',  'parts' => [['text' => $message]]],
+                        ['role' => 'model', 'parts' => $parts],
+                        ['role' => 'user',  'parts' => [[
+                            'functionResponse' => [
+                                'name'     => $funcName,
+                                'response' => ['result' => json_encode($result)],
+                            ],
+                        ]]],
+                    ],
+                    'tools' => $tools,
+                ]
+            );
+
+            $secondData  = $secondResponse->json();
+            $secondParts = $secondData['candidates'][0]['content']['parts'] ?? [];
+
+            // Find the text part in the response
+            $reply = '😅 Sorry, I could not process your request.';
+            foreach ($secondParts as $secondPart) {
+                if (isset($secondPart['text'])) {
+                    $reply = $secondPart['text'];
+                    break;
+                }
+            }
+
+            return response()->json(['reply' => $reply]);
+        }
+
+        // No function call — regular text reply
+        $reply = '😅 Sorry, I could not process your request. Please try again!';
+        foreach ($parts as $part) {
+            if (isset($part['text'])) {
+                $reply = $part['text'];
+                break;
+            }
+        }
 
         return response()->json(['reply' => $reply]);
+    }
 
-        
+    private function searchRecipe(string $query): array
+    {
+        $response = Http::get('https://www.themealdb.com/api/json/v1/1/search.php', [
+            's' => $query,
+        ]);
+
+        $meals = $response->json()['meals'] ?? [];
+
+        if (empty($meals)) {
+            return ['found' => false, 'message' => 'No recipes found for: ' . $query];
+        }
+
+        return [
+            'found'   => true,
+            'recipes' => collect($meals)->take(5)->map(fn($meal) => [
+                'name'     => $meal['strMeal'],
+                'category' => $meal['strCategory'],
+                'area'     => $meal['strArea'],
+                'url'      => route('recipe.show', $meal['idMeal']),
+            ])->values()->all(),
+        ];
+    }
+
+    private function logMeal(array $args): array
+    {
+        $uid   = session('firebase_uid');
+        $today = now()->toDateString();
+
+        try {
+            $this->database
+                ->getReference('meal_logs/' . $uid . '/' . $today)
+                ->push([
+                    'name'      => $args['name'],
+                    'serving'   => $args['serving']   ?? '1 serving',
+                    'meal_type' => $args['meal_type'] ?? 'Lunch',
+                    'calories'  => (float) $args['calories'],
+                    'protein'   => (float) $args['protein'],
+                    'carbs'     => (float) $args['carbs'],
+                    'fat'       => (float) $args['fat'],
+                    'logged_at' => now()->toDateTimeString(),
+                ]);
+
+            return ['success' => true, 'message' => $args['name'] . ' has been logged successfully!'];
+
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
     }
 }

@@ -107,7 +107,7 @@
 
     @vite('resources/js/ai.js')
     @vite('resources/js/toast.js')
-    @vite('resources/js/recipe.js')
+    <!-- @vite('resources/js/recipe.js') -->
     @stack('scripts')
 </body>
 </html>

@@ -73,3 +73,23 @@ mlModalForm.addEventListener('submit', async (e) => {
         showToast(data.message, 'error');
     }
 });
+
+document.getElementById('mlNutribotLink').addEventListener('click', () => {
+    mlModalOverlay.classList.remove('open');
+
+    // Open chat window
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.classList.add('open');
+
+    // Pre-fill the meal name if already typed
+    const mealName = document.getElementById('ml-name').value;
+    const serving  = document.getElementById('ml-serving').value;
+
+    const chatInput = document.querySelector('.chat-input');
+    if (mealName) {
+        chatInput.value = `What are the approximate macros (calories, protein, carbs, fat) for ${mealName}${serving ? ' (' + serving + ')' : ''}?`;
+    } else {
+        chatInput.value = 'What are the approximate macros for ';
+        chatInput.focus();
+    }
+});
