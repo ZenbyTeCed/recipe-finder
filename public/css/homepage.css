@@ -290,3 +290,38 @@
     border: 1px solid #e5e7eb;
     color: #374151;
 }
+
+/* No Results */
+.search-empty{
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px 20px;
+    gap: 10px;
+}
+
+.search-empty-title{
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.search-empty-sub {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.ml-manual-link {
+    color: #ea580c;
+    text-decoration: none;
+        transition: text-decoration 0.2s ease;
+}
+
+.ml-manual-link:hover {
+    text-decoration: underline;
+}

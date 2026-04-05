@@ -84,8 +84,10 @@
                     </div>
                 </div>
             @empty
-                <div class="no-results">
-                    <p>No recipes found. Try a different search or filter.</p>
+                <div class="search-empty">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="m14 8-6 6"/><path d="m8 8 6 6"/></svg>
+                    <p class="search-empty-title">No recipes found</p>
+                    <p class="search-empty-sub">Try a different search or filter, or <a href="/meal-log" class="ml-manual-link">manually log your meal</a> instead.</p>
                 </div>
             @endforelse
         </div>
