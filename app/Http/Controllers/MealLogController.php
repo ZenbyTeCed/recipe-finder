@@ -62,7 +62,40 @@ class MealLogController extends Controller
                     'logged_at' => now()->toDateTimeString(),
                 ]);
 
-            return response()->json(['success' => true, 'message' => 'Meal logged successfully!']);
+            // Recalculate totals
+            $logs = $this->database
+                ->getReference('meal_logs/' . $uid . '/' . $today)
+                ->getValue();
+
+            $consumed = ['calories' => 0, 'protein' => 0, 'carbs' => 0, 'fat' => 0];
+            if ($logs) {
+                foreach ($logs as $meal) {
+                    $consumed['calories'] += $meal['calories'] ?? 0;
+                    $consumed['protein']  += $meal['protein']  ?? 0;
+                    $consumed['carbs']    += $meal['carbs']    ?? 0;
+                    $consumed['fat']      += $meal['fat']      ?? 0;
+                }
+            }
+
+            // Check goals
+            $goals = session('goals', [
+                'calories' => 2000,
+                'protein'  => 150,
+                'carbs'    => 200,
+                'fat'      => 65,
+            ]);
+
+            $notifications = [];
+            if ($consumed['calories'] >= $goals['calories']) $notifications[] = 'Calorie goal reached!';
+            if ($consumed['protein']  >= $goals['protein'])  $notifications[] = 'Protein goal reached!';
+            if ($consumed['carbs']    >= $goals['carbs'])    $notifications[] = 'Carbs goal reached!';
+            if ($consumed['fat']      >= $goals['fat'])      $notifications[] = 'Fat goal reached!';
+
+            return response()->json([
+                'success'       => true,
+                'message'       => 'Meal logged successfully!',
+                'notifications' => $notifications,
+            ]);
 
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);

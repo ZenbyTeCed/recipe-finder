@@ -3,27 +3,15 @@
 @section('content')
 
 @php
-    $goals = session('goals', [
-        'calories' => 2000,
-        'protein'  => 150,
-        'carbs'    => 200,
-        'fat'      => 65,
-    ]);
 
-    $consumed = [
-        'calories' => 0,
-        'protein'  => 0,
-        'carbs'    => 0,
-        'fat'      => 0,
-    ];
+    $goalsHit = $goalsHit ?? [];
 
     $calPct  = $goals['calories'] > 0 ? min(100, round(($consumed['calories'] / $goals['calories']) * 100)) : 0;
     $protPct = $goals['protein']  > 0 ? min(100, round(($consumed['protein']  / $goals['protein'])  * 100)) : 0;
     $carbPct = $goals['carbs']    > 0 ? min(100, round(($consumed['carbs']    / $goals['carbs'])    * 100)) : 0;
     $fatPct  = $goals['fat']      > 0 ? min(100, round(($consumed['fat']      / $goals['fat'])      * 100)) : 0;
 
-    $remaining = $goals['calories'] - $consumed['calories'];
-    
+    $remaining = max(0, $goals['calories'] - $consumed['calories']);
 @endphp
 
 <div class="dashboard-page">

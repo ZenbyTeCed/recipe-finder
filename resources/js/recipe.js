@@ -18,6 +18,15 @@ document.getElementById('logMealForm').addEventListener('submit', async (e) => {
     if (data.success) {
         logMealOverlay.classList.remove('open');
         showToast(data.message, 'success');
+
+        // Show goal notifications with delay
+        if (data.notifications && data.notifications.length > 0) {
+            data.notifications.forEach((msg, index) => {
+                setTimeout(() => {
+                    showToast(msg, 'success');
+                }, (index + 1) * 1500);
+            });
+        }
     } else {
         showToast(data.message, 'error');
     }
