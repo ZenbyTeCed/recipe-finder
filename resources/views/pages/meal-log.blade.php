@@ -10,6 +10,12 @@
                 <h1>Meal Log</h1>
                 <p>Track all your logged meals and nutrition</p>
             </div>
+            <div class="ml-header-btn">
+                <button class="ml-add-btn" id="mlAddBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                    Log a Meal
+                </button>
+            </div>
         </div>
 
         <div class="ml-summary">
@@ -93,6 +99,64 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<!-- Custom Meal Log Modal -->
+<div class="ml-modal-overlay" id="mlModalOverlay">
+    <div class="ml-modal">
+        <div class="ml-modal-header">
+            <div>
+                <h3>Log a Meal</h3>
+                <p>Add your meal details manually</p>
+            </div>
+            <button class="ml-modal-close" id="mlModalClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+
+        <form class="ml-modal-form" id="mlModalForm" action="/meal-log/store" method="POST">
+            @csrf
+            <div class="ml-modal-field">
+                <label for="ml-name">Meal Name</label>
+                <input type="text" id="ml-name" name="name" placeholder="e.g. Chicken Adobo" required>
+            </div>
+            <div class="ml-modal-field">
+                <label for="ml-serving">Serving Size</label>
+                <input type="text" id="ml-serving" name="serving" placeholder="e.g. 1 cup, 1 plate" required>
+            </div>
+            <div class="ml-modal-field">
+                <label for="ml-mealtype">Meal Type</label>
+                <select id="ml-mealtype" name="meal_type">
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch" selected>Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                </select>
+            </div>
+            <div class="ml-modal-macros">
+                <div class="ml-modal-field">
+                    <label for="ml-calories">Calories</label>
+                    <input type="number" id="ml-calories" name="calories" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="ml-protein">Protein (g)</label>
+                    <input type="number" id="ml-protein" name="protein" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="ml-carbs">Carbs (g)</label>
+                    <input type="number" id="ml-carbs" name="carbs" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="ml-fat">Fat (g)</label>
+                    <input type="number" id="ml-fat" name="fat" placeholder="0" min="0" required>
+                </div>
+            </div>
+            <button type="submit" class="ml-modal-submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                Log Meal
+            </button>
+        </form>
     </div>
 </div>
 

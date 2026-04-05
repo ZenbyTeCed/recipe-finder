@@ -329,3 +329,178 @@
 .modal-log-btn:hover {
     background-color: #1f2937;
 }
+
+/*Log a Meal MODAL */
+/* Header button */
+.ml-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ml-add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #111827;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.ml-add-btn:hover {
+    background-color: #1f2937;
+}
+
+/* Modal overlay */
+.ml-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.ml-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Modal */
+.ml-modal {
+    background-color: white;
+    border-radius: 16px;
+    padding: 28px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    transform: translateY(20px);
+    transition: transform 0.2s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.ml-modal-overlay.open .ml-modal {
+    transform: translateY(0);
+}
+
+.ml-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.ml-modal-header h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 4px 0;
+}
+
+.ml-modal-header p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.ml-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.ml-modal-close:hover {
+    color: #111827;
+}
+
+/* Form fields */
+.ml-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ml-modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ml-modal-field label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+}
+
+.ml-modal-field input,
+.ml-modal-field select {
+    padding: 10px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #111827;
+    background-color: #f9fafb;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ml-modal-field input:hover,
+.ml-modal-field select:hover {
+    border-color: #0000005e;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.ml-modal-field input:focus,
+.ml-modal-field select:focus {
+    border-color: #0000005e;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Macros grid */
+.ml-modal-macros {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* Submit button */
+.ml-modal-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #111827;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.ml-modal-submit:hover {
+    background-color: #1f2937;
+}
