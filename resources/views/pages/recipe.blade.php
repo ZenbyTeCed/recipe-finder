@@ -60,7 +60,7 @@
                     <input type="hidden" name="protein" value="35">
                     <input type="hidden" name="carbs" value="28">
                     <input type="hidden" name="fat" value="22">
-                    <button type="submit" class="rd-log-btn">
+                    <button type="button" class="rd-log-btn" id="logMealBtn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg>
                         Log This Meal
                     </button>
@@ -140,6 +140,44 @@
             <p class="rd-instructions-text">Boil the eggs for 8 minutes until hard-boiled. Cool and peel. Cook green beans in boiling salted water for 4-5 minutes. Drain and refresh in cold water. Arrange lettuce leaves on plates. Top with tuna, eggs, green beans, tomatoes, olives, and anchovies. Drizzle with olive oil and lemon juice. Season with salt and pepper.</p>
         </div>
 
+    </div>
+</div>
+
+<!-- Log Meal Modal -->
+<div class="modal-overlay" id="logMealOverlay">
+    <div class="modal">
+        <div class="modal-header">
+            <div>
+                <h3>Log Meal</h3>
+                <p>How many servings did you have?</p>
+            </div>
+            <button class="modal-close" id="modalCloseBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <label for="servings">Servings</label>
+            <input type="number" id="servings" value="1" min="0.5" step="0.5">
+
+            <div class="modal-nutrition">
+                <p><strong>Total Calories:</strong> <span id="modalCalories">450</span> cal</p>
+                <p><strong>Protein:</strong> <span id="modalProtein">35</span>g</p>
+                <p><strong>Carbs:</strong> <span id="modalCarbs">28</span>g</p>
+                <p><strong>Fat:</strong> <span id="modalFat">22</span>g</p>
+            </div>
+        </div>
+
+        <form action="/meal-log/store" method="POST" id="logMealForm">
+            @csrf
+            <input type="hidden" name="name" value="Tuna Nicoise">
+            <input type="hidden" name="serving" id="servingInput" value="1 serving">
+            <input type="hidden" name="calories" id="caloriesInput" value="450">
+            <input type="hidden" name="protein" id="proteinInput" value="35">
+            <input type="hidden" name="carbs" id="carbsInput" value="28">
+            <input type="hidden" name="fat" id="fatInput" value="22">
+            <button type="submit" class="modal-log-btn">Log Meal</button>
+        </form>
     </div>
 </div>
 

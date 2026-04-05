@@ -49,19 +49,24 @@ class MealLogController extends Controller
         $uid   = session('firebase_uid');
         $today = now()->toDateString();
 
-        $this->database
-            ->getReference('meal_logs/' . $uid . '/' . $today)
-            ->push([
-                'name'     => $request->name,
-                'serving'  => $request->serving,
-                'calories' => $request->calories,
-                'protein'  => $request->protein,
-                'carbs'    => $request->carbs,
-                'fat'      => $request->fat,
-                'logged_at' => now()->toDateTimeString(),
-            ]);
+        try {
+            $this->database
+                ->getReference('meal_logs/' . $uid . '/' . $today)
+                ->push([
+                    'name'      => $request->name,
+                    'serving'   => $request->serving,
+                    'calories'  => $request->calories,
+                    'protein'   => $request->protein,
+                    'carbs'     => $request->carbs,
+                    'fat'       => $request->fat,
+                    'logged_at' => now()->toDateTimeString(),
+                ]);
 
-        return redirect('/meal-log')->with('success', 'Meal logged successfully!');
+            return response()->json(['success' => true, 'message' => 'Meal logged successfully!']);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 
     public function destroy(Request $request)
