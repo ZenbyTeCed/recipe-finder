@@ -16,218 +16,102 @@
                 <p>Find the perfect recipe for any occasion</p>
             </div>
 
-            <div class="search-filters">
-                <input type="text" placeholder="Search by recipe name or ingredient...">
+            <form method="GET" action="{{ route('home') }}" class="search-filters" id="search-form">
+                <input
+                    type="text"
+                    name="query"
+                    value="{{ $query ?? '' }}"
+                    placeholder="Search by recipe name or ingredient..."
+                    id="search-input"
+                >
 
                 <div class="filter-options">
                     <div class="filter-option">
                         <label>Category</label>
-                        <select name="category">
+                        <select name="category" onchange="document.getElementById('search-form').submit()">
                             <option value="">All Categories</option>
-                            <option value="breakfast">Breakfast</option>
-                            <option value="lunch">Lunch</option>
-                            <option value="dinner">Dinner</option>
-                            <option value="snack">Snack</option>
-                            <option value="dessert">Dessert</option>
+                            @foreach ($validCategories as $cat)
+                                <option value="{{ $cat }}" {{ ($category ?? '') === $cat ? 'selected' : '' }}>
+                                    {{ $cat }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
+
                     <div class="filter-option">
                         <label>Cuisine</label>
-                        <select name="cuisine">
+                        <select name="area" onchange="document.getElementById('search-form').submit()">
                             <option value="">All Cuisines</option>
-                            <option value="italian">Italian</option>
-                            <option value="asian">Asian</option>
-                            <option value="mexican">Mexican</option>
-                            <option value="american">American</option>
-                            <option value="french">French</option>
-                            <option value="mediterranean">Mediterranean</option>
-                            <option value="japanese">Japanese</option>
-                            <option value="chinese">Chinese</option>
-                            <option value="indian">Indian</option>
+                            @foreach ($validAreas as $a)
+                                <option value="{{ $a }}" {{ ($area ?? '') === $a ? 'selected' : '' }}>
+                                    {{ $a }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
-                    <div class="filter-option">
-                        <label>Max Cook Time</label>
-                        <select name="max_time">
-                            <option value="">Anytime</option>
-                            <option value="15">Under 30 min</option>
-                            <option value="30">Under 60 min</option>
-                        </select>
-                    </div>
+
                 </div>
-            </div>
+            </form>
 
             <div class="results-info">
-                <p>Found <span>0</span> recipes</p>
-                <button>Clear Filters</button>
+                <p>Found <span>{{ $totalCount }}</span> recipes</p>
+                @if ($query || $category || $area)
+                    <a href="{{ route('home') }}" class="clear-filters-btn">
+                        <button>Clear Filters</button>
+                    </a>
+                @else
+                    <button>Clear Filters</button>
+                @endif
             </div>
         </div>
-        
+
         <div class="results-section">
-            <div class="recipe-card" onclick="window.location='/recipe'">
-                <div class="recipe-card-image">
-                    <img src="https://placehold.co/400x250" alt="Tuna Nicoise">
-                    <span class="recipe-card-category">Seafood</span>
-                </div>
-                <div class="recipe-card-info"">
-                    <h3>Tuna Nicoise</h3>
-                    <p class="recipe-card-cuisine">French Cuisine</p>
-                    <div class="recipe-card-meta">
-                        <span class="recipe-card-time">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                            25 min
-                        </span>
-                        <span class="recipe-card-calories">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame-icon lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
-                            450 cal
-                        </span>
+            @forelse ($recipes as $recipe)
+                <div class="recipe-card" onclick="window.location='{{ route('recipe.show', $recipe['id']) }}'">
+                    <div class="recipe-card-image">
+                        <img src="{{ $recipe['image'] }}" alt="{{ $recipe['name'] }}">
+                        <span class="recipe-card-category">{{ $recipe['category'] ?? '' }}</span>
                     </div>
-                    <div class="recipe-card-tags">
-                        <span class="recipe-card-tag">High Protein</span>
-                        <span class="recipe-card-tag">Gluten Free</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="recipe-card" onclick="window.location='/recipe'">
-                <div class="recipe-card-image">
-                    <img src="https://placehold.co/400x250" alt="Tuna Nicoise">
-                    <span class="recipe-card-category">Seafood</span>
-                </div>
-                <div class="recipe-card-info">
-                    <h3>Tuna Nicoise</h3>
-                    <p class="recipe-card-cuisine">French Cuisine</p>
-                    <div class="recipe-card-meta">
-                        <span class="recipe-card-time">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                            25 min
-                        </span>
-                        <span class="recipe-card-calories">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame-icon lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
-                            450 cal
-                        </span>
-                    </div>
-                    <div class="recipe-card-tags">
-                        <span class="recipe-card-tag">High Protein</span>
-                        <span class="recipe-card-tag">Gluten Free</span>
+                    <div class="recipe-card-info">
+                        <h3>{{ $recipe['name'] }}</h3>
+                        <p class="recipe-card-cuisine">{{ $recipe['area'] ?? '' }} Cuisine</p>
+                        <!-- <div class="recipe-card-meta">
+                            <span class="recipe-card-time">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                                N/A
+                            </span>
+                            <span class="recipe-card-calories">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame-icon lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
+                                N/A
+                            </span>
+                        </div> -->
+                        <div class="recipe-card-tags">
+                            <span class="recipe-card-tag">{{ $recipe['category'] ?? '' }}</span>
+                            <span class="recipe-card-tag">{{ $recipe['area'] ?? '' }}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="recipe-card" onclick="window.location='/recipe'">
-                <div class="recipe-card-image">
-                    <img src="https://placehold.co/400x250" alt="Tuna Nicoise">
-                    <span class="recipe-card-category">Seafood</span>
+            @empty
+                <div class="no-results">
+                    <p>No recipes found. Try a different search or filter.</p>
                 </div>
-                <div class="recipe-card-info">
-                    <h3>Tuna Nicoise</h3>
-                    <p class="recipe-card-cuisine">French Cuisine</p>
-                    <div class="recipe-card-meta">
-                        <span class="recipe-card-time">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                            25 min
-                        </span>
-                        <span class="recipe-card-calories">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame-icon lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
-                            450 cal
-                        </span>
-                    </div>
-                    <div class="recipe-card-tags">
-                        <span class="recipe-card-tag">High Protein</span>
-                        <span class="recipe-card-tag">Gluten Free</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="recipe-card" onclick="window.location='/recipe'">
-                <div class="recipe-card-image">
-                    <img src="https://placehold.co/400x250" alt="Tuna Nicoise">
-                    <span class="recipe-card-category">Seafood</span>
-                </div>
-                <div class="recipe-card-info">
-                    <h3>Tuna Nicoise</h3>
-                    <p class="recipe-card-cuisine">French Cuisine</p>
-                    <div class="recipe-card-meta">
-                        <span class="recipe-card-time">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                            25 min
-                        </span>
-                        <span class="recipe-card-calories">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame-icon lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
-                            450 cal
-                        </span>
-                    </div>
-                    <div class="recipe-card-tags">
-                        <span class="recipe-card-tag">High Protein</span>
-                        <span class="recipe-card-tag">Gluten Free</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="recipe-card" onclick="window.location='/recipe'">
-                <div class="recipe-card-image">
-                    <img src="https://placehold.co/400x250" alt="Tuna Nicoise">
-                    <span class="recipe-card-category">Seafood</span>
-                </div>
-                <div class="recipe-card-info">
-                    <h3>Tuna Nicoise</h3>
-                    <p class="recipe-card-cuisine">French Cuisine</p>
-                    <div class="recipe-card-meta">
-                        <span class="recipe-card-time">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                            25 min
-                        </span>
-                        <span class="recipe-card-calories">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame-icon lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
-                            450 cal
-                        </span>
-                    </div>
-                    <div class="recipe-card-tags">
-                        <span class="recipe-card-tag">High Protein</span>
-                        <span class="recipe-card-tag">Gluten Free</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="recipe-card" onclick="window.location='/recipe'">
-                <div class="recipe-card-image">
-                    <img src="https://placehold.co/400x250" alt="Tuna Nicoise">
-                    <span class="recipe-card-category">Seafood</span>
-                </div>
-                <div class="recipe-card-info">
-                    <h3>Tuna Nicoise</h3>
-                    <p class="recipe-card-cuisine">French Cuisine</p>
-                    <div class="recipe-card-meta">
-                        <span class="recipe-card-time">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                            25 min
-                        </span>
-                        <span class="recipe-card-calories">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame-icon lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
-                            450 cal
-                        </span>
-                    </div>
-                    <div class="recipe-card-tags">
-                        <span class="recipe-card-tag">High Protein</span>
-                        <span class="recipe-card-tag">Gluten Free</span>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
     </div>
 
 </div>
+
+<script>
+    // Auto-submit on typing with debounce
+    let debounceTimer;
+    document.getElementById('search-input').addEventListener('input', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+            document.getElementById('search-form').submit();
+        }, 600); // waits 600ms after user stops typing
+    });
+</script>
 
 @endsection
