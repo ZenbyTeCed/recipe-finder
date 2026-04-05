@@ -5,18 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Kreait\Firebase\Contract\Database;
+use Kreait\Firebase\Contract\Auth;
 
 class ChatController extends Controller
 {
     protected string $model = 'gemini-2.5-flash-lite';
     protected string $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
-    public function __construct(protected Database $database) {}
+    public function __construct(protected Database $database, protected Auth $auth) {}
 
     public function send(Request $request)
     {
         $message  = $request->input('message');
         $userName = session('user_fullname', 'there');
+        $goals    = session('goals', [ // ← ADDED
+            'calories' => 2000,
+            'protein'  => 150,
+            'carbs'    => 200,
+            'fat'      => 65,
+        ]);
 
         $systemPrompt = "You are NutriBot 🍽️, a fun, friendly, and knowledgeable recipe and nutrition assistant for WellCook app. Your personality is warm, encouraging, and a little playful — like a foodie best friend who happens to know a lot about nutrition!
 
@@ -38,9 +45,12 @@ class ChatController extends Controller
         💧 Fat: ~XXg
         Always remind them these are estimates and can vary based on cooking method and portion size.
         - When the user wants to search for a recipe, use the searchRecipe function.
-        - When the user wants to log a meal, use the logMeal function. Always estimate nutrition if not provided.";
+        - When the user wants to log a meal, use the logMeal function. Always estimate nutrition if not provided.
+        - When the user wants to change their name, use the updateName function.
+        - When the user wants to set or update their daily nutrition goals, use the updateGoals function.";
 
-        $tools = [
+
+$tools = [
             [
                 'functionDeclarations' => [
                     [
@@ -74,6 +84,34 @@ class ChatController extends Controller
                             'required' => ['name', 'serving', 'calories', 'protein', 'carbs', 'fat'],
                         ],
                     ],
+                    [
+                        'name'        => 'updateName',
+                        'description' => 'Update the user\'s display name',
+                        'parameters'  => [
+                            'type'       => 'object',
+                            'properties' => [
+                                'name' => [
+                                    'type'        => 'string',
+                                    'description' => 'The new display name for the user',
+                                ],
+                            ],
+                            'required' => ['name'],
+                        ],
+                    ],
+                    [
+                        'name'        => 'updateGoals',
+                        'description' => 'Update the user\'s daily nutrition goals',
+                        'parameters'  => [
+                            'type'       => 'object',
+                            'properties' => [
+                                'calories' => ['type' => 'number', 'description' => 'Daily calorie goal in kcal'],
+                                'protein'  => ['type' => 'number', 'description' => 'Daily protein goal in grams'],
+                                'carbs'    => ['type' => 'number', 'description' => 'Daily carbs goal in grams'],
+                                'fat'      => ['type' => 'number', 'description' => 'Daily fat goal in grams'],
+                            ],
+                            'required' => ['calories', 'protein', 'carbs', 'fat'],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -98,6 +136,7 @@ class ChatController extends Controller
         }
 
         if (isset($data['error'])) {
+            \Log::info('Gemini error: ' . json_encode($data['error']));
             return response()->json([
                 'reply' => '😅 Something went wrong on my end. Please try again in a moment!'
             ]);
@@ -118,6 +157,10 @@ class ChatController extends Controller
                 $result = $this->searchRecipe($args['query']);
             } elseif ($funcName === 'logMeal') {
                 $result = $this->logMeal($args);
+            } elseif ($funcName === 'updateName') {
+                $result = $this->updateName($args['name']);
+            } elseif ($funcName === 'updateGoals') {
+                $result = $this->updateGoals($args);
             } else {
                 continue;
             }
@@ -144,7 +187,6 @@ class ChatController extends Controller
             $secondData  = $secondResponse->json();
             $secondParts = $secondData['candidates'][0]['content']['parts'] ?? [];
 
-            // Find the text part in the response
             $reply = '😅 Sorry, I could not process your request.';
             foreach ($secondParts as $secondPart) {
                 if (isset($secondPart['text'])) {
@@ -153,7 +195,12 @@ class ChatController extends Controller
                 }
             }
 
-            return response()->json(['reply' => $reply]);
+            return response()->json([
+                'reply'        => $reply,
+                'mealLogged'   => $funcName === 'logMeal'     && ($result['success'] ?? false),
+                'nameUpdated'  => $funcName === 'updateName'  && ($result['success'] ?? false),
+                'goalsUpdated' => $funcName === 'updateGoals' && ($result['success'] ?? false),
+            ]);
         }
 
         // No function call — regular text reply
@@ -211,6 +258,53 @@ class ChatController extends Controller
                 ]);
 
             return ['success' => true, 'message' => $args['name'] . ' has been logged successfully!'];
+
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+
+    private function updateName(string $name): array
+    {
+        $uid = session('firebase_uid');
+
+        try {
+            $this->auth->updateUser($uid, [
+                'displayName' => $name,
+            ]);
+
+            $this->database
+                ->getReference('users/' . $uid)
+                ->update(['fullname' => $name]);
+
+            session(['user_fullname' => $name]);
+
+            return ['success' => true, 'message' => 'Name updated to ' . $name . ' successfully!'];
+
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+
+    private function updateGoals(array $args): array
+    {
+        $uid = session('firebase_uid');
+
+        try {
+            $goals = [
+                'calories' => (float) $args['calories'],
+                'protein'  => (float) $args['protein'],
+                'carbs'    => (float) $args['carbs'],
+                'fat'      => (float) $args['fat'],
+            ];
+
+            $this->database
+                ->getReference('users/' . $uid . '/goals')
+                ->set($goals);
+
+            session(['goals' => $goals]);
+
+            return ['success' => true, 'message' => 'Daily goals updated successfully!', 'goals' => $goals];
 
         } catch (\Exception $e) {
             return ['success' => false, 'message' => $e->getMessage()];

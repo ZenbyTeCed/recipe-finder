@@ -77,6 +77,17 @@ async function sendMessage(message) {
 
     if (data.mealLogged) {
         window.showToast('Meal logged successfully!', 'success');
+        setTimeout(() => location.reload(), 2000);
+    }
+
+    if (data.nameUpdated) {
+        window.showToast('Name updated successfully!', 'success');
+        setTimeout(() => location.reload(), 2000);
+    }
+
+    if (data.goalsUpdated) {
+        window.showToast('Goals updated successfully!', 'success');
+        setTimeout(() => location.reload(), 2000);
     }
 }
 
