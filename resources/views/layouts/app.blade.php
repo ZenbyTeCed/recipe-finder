@@ -30,6 +30,8 @@
         @include('partials.header')
     </header>
 
+    <div id="top-loader"></div>
+
     <main>
         @yield('content')
     </main>
@@ -115,5 +117,98 @@
     @vite('resources/js/toast.js')
     <!-- @vite('resources/js/recipe.js') -->
     @stack('scripts')
+
+    <script>
+    const loader = document.getElementById("top-loader");
+    let isLoading = false;
+    let progressInterval;
+
+    // start loader
+    function startLoader() {
+    if (isLoading) return;
+
+    isLoading = true;
+    loader.style.opacity = "1";
+    loader.style.width = "10%";
+
+    let width = 10;
+
+    // fake smooth progress
+    progressInterval = setInterval(() => {
+        if (width < 90) {
+        width += Math.random() * 5; // random growth
+        loader.style.width = width + "%";
+        }
+    }, 200);
+    }
+
+    // finish loader
+    function finishLoader() {
+    if (!isLoading) return;
+
+    clearInterval(progressInterval);
+
+    setTimeout(() => {
+    loader.style.width = "100%";
+    }, 200);
+
+    // WAIT so user can actually SEE it finish
+    setTimeout(() => {
+        loader.style.opacity = "0";
+    }, 200); // delay before fade
+
+    setTimeout(() => {
+        loader.style.width = "0%";
+        isLoading = false;
+    }, 700);
+    }
+    </script>
+
+    </script>
+
+    <script>
+        document.querySelectorAll("a[href]").forEach(link => {
+        link.addEventListener("click", function (e) {
+            const url = this.getAttribute("href");
+
+            if (
+            !url ||
+            url.startsWith("#") ||
+            url.startsWith("javascript") ||
+            this.target === "_blank"
+            ) return;
+
+            e.preventDefault();
+
+            startLoader();
+
+            setTimeout(() => {
+            window.location.href = url;
+            }, 300);
+        });
+        });
+    </script>
+
+    <script>
+    window.addEventListener("DOMContentLoaded", () => {
+    const loader = document.getElementById("top-loader");
+
+    loader.style.opacity = "1";
+    loader.style.width = "85%";
+
+    // smoothly finish
+    setTimeout(() => {
+        loader.style.width = "100%";
+    }, 100);
+
+    setTimeout(() => {
+        loader.style.opacity = "0";
+    }, 300);
+
+    setTimeout(() => {
+        loader.style.width = "0%";
+    }, 600);
+    });
+    </script>
 </body>
 </html>

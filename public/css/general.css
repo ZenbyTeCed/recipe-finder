@@ -115,7 +115,7 @@ html, body {
 
 .nav-links a.active {
     background-color: #ffedd5;
-    color: #ea580c;
+    color: #c2410c;
 }
 
 .nav-links a.active svg {
@@ -208,6 +208,19 @@ html, body {
 
 .wellcook-footer p:nth-child(2) {
     font-size: 15px;
+}
+
+#top-loader {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(150deg, #ea580c, #e07b39);
+  z-index: 2000;
+
+  opacity: 0;
+  transition: width 0.4s ease-out, opacity 0.3s ease;
 }
 
 /* TOAST NOTIFICATION */
