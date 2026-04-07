@@ -35,7 +35,7 @@
             <circle cx="17" cy="18" r="3"/>
         </svg>
         <h3>Recipe Search</h3>
-        <p>Filter by ingredients, cuisine, and dietary needs</p>
+        <p>Find recipes by ingredients or cuisine</p>
     </div>
 
     <div class="lp-features-card">

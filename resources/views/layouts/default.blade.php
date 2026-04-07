@@ -37,7 +37,7 @@
 
     <main class="login-register-content">
         @yield('content')
-        <p class="login-register-footer">MMSU - College of Computing and Information Sciences</p>
+        <p class="login-register-footer">WellCook &copy; {{ date('Y') }}. All rights reserved.</p>
     </main>
 
     <!-- Toast Notification -->
