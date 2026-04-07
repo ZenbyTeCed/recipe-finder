@@ -65,6 +65,13 @@
     padding: 18px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     height: 150px;
+
+    transition: all 0.25s ease;
+}
+
+.lp-features-card:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 10px rgba(234, 88, 12, 0.3));
 }
 
 .lp-features-card .lp-fc-icon {

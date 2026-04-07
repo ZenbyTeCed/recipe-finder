@@ -19,31 +19,81 @@
             </p>
         </div>
 
-        <div class="lp-features">
-            <div class="lp-features-card">
-                <p class="lp-fc-icon">🔍</p>
-                <h3>Recipe Search</h3>
-                <p>Filter by ingredients, cuisine, and dietary needs</p>
-            </div>
+<div class="lp-features">
+    <div class="lp-features-card">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="url(#grad-recipe)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <defs>
+                <linearGradient id="grad-recipe" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ea580c"/>
+                    <stop offset="50%" stop-color="#e07b39"/>
+                    <stop offset="100%" stop-color="#fb923c"/>
+                </linearGradient>
+            </defs>
+            <path d="M11 22H5.5a1 1 0 0 1 0-5h4.501"/>
+            <path d="m21 22-1.879-1.878"/>
+            <path d="M3 19.5v-15A2.5 2.5 0 0 1 5.5 2H18a1 1 0 0 1 1 1v8"/>
+            <circle cx="17" cy="18" r="3"/>
+        </svg>
+        <h3>Recipe Search</h3>
+        <p>Filter by ingredients, cuisine, and dietary needs</p>
+    </div>
 
-            <div class="lp-features-card">
-                <p class="lp-fc-icon">📊</p>
-                <h3>Nutrition Tracking</h3>
-                <p>Detailed macros and calorie information</p>
-            </div>
-            
-            <div class="lp-features-card">
-                <p class="lp-fc-icon">🎯</p>
-                <h3>Goal Dashboard</h3>
-                <p>Track daily progress toward your targets</p>
-            </div>
+    <div class="lp-features-card">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+            fill="none" stroke="url(#grad-analytics)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <defs>
+                <linearGradient id="grad-analytics" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ea580c"/>
+                    <stop offset="50%" stop-color="#e07b39"/>
+                    <stop offset="100%" stop-color="#fb923c"/>
+                </linearGradient>
+            </defs>
+            <path d="M3 3v18h18"/>
+            <rect x="7" y="10" width="3" height="6"/>
+            <rect x="12" y="6" width="3" height="10"/>
+            <rect x="17" y="13" width="3" height="3"/>
+        </svg>
+        <h3>Nutrition Tracking</h3>
+        <p>Detailed macros and calorie information</p>
+    </div>
 
-            <div class="lp-features-card">
-                <p class="lp-fc-icon">📝</p>
-                <h3>Meal Logging</h3>
-                <p>Keep a history of everything you eat</p>
-            </div>
-        </div>
+    <div class="lp-features-card">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+            fill="none" stroke="url(#grad-goal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <defs>
+                <linearGradient id="grad-goal" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ea580c"/>
+                    <stop offset="50%" stop-color="#e07b39"/>
+                    <stop offset="100%" stop-color="#fb923c"/>
+                </linearGradient>
+            </defs>
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+        </svg>
+        <h3>Goal Dashboard</h3>
+        <p>Track daily progress toward your targets</p>
+    </div>
+
+    <div class="lp-features-card">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+            fill="none" stroke="url(#grad-meal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <defs>
+                <linearGradient id="grad-meal" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ea580c"/>
+                    <stop offset="50%" stop-color="#e07b39"/>
+                    <stop offset="100%" stop-color="#fb923c"/>
+                </linearGradient>
+            </defs>
+            <rect x="8" y="2" width="8" height="4" rx="1"/>
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+            <path d="M9 12h6"/>
+            <path d="M9 16h6"/>
+        </svg>
+        <h3>Meal Logging</h3>
+        <p>Keep a history of everything you eat</p>
+    </div>
+</div>
 
     </div>
 
