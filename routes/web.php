@@ -10,6 +10,13 @@ use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\RecipeDetailController;
 
+Route::get('/', function () {
+    if (session('firebase_uid')) {
+        return redirect('/home'); // already logged in
+    }
+    return redirect('/login'); // not logged in
+});
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 
