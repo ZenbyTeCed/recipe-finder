@@ -60,7 +60,7 @@ class RecipeDetailController extends Controller
                     str_contains(strtolower($r['title']), strtolower($meal['strMeal']))
                 ) ?? $searchData['results'][0];
 
-            $cookTime = $spoonacularData['readyInMinutes'] ?? rand(15, 45);
+            $cookTime = $spoonacularData['readyInMinutes'];
 
             if (!empty($spoonacularData['nutrition']['nutrients'])) {
                 $nutrientMap = [];
@@ -90,12 +90,14 @@ class RecipeDetailController extends Controller
 
         // Fallback
         if (!$nutrition) {
+            $seed = (int) $id;
+
             $nutrition = [
-                'calories' => rand(300, 600),
-                'protein'  => rand(10, 40),
-                'carbs'    => rand(20, 70),
-                'fat'      => rand(10, 30),
-                'fiber'    => rand(2, 10),
+                'calories' => 300 + ($seed % 301),
+                'protein'  => 10 + ($seed % 31),
+                'carbs'    => 20 + ($seed % 51),
+                'fat'      => 10 + ($seed % 21),
+                'fiber'    => 2 + ($seed % 9),
             ];
 
             $total =
