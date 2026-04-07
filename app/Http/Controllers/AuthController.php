@@ -68,6 +68,10 @@ class AuthController extends Controller
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
+        ], [
+            'email.required' => 'Email is required.',
+            'email.email'    => 'Invalid email format.',
+            'password.required' => 'Password is required.',
         ]);
 
         try {
@@ -101,7 +105,7 @@ class AuthController extends Controller
         } catch (InvalidPassword | UserNotFound $e) {
             return back()->withErrors(['email' => 'Invalid email or password.']);
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => $e->getMessage()]);
+            return back()->with('error', 'Invalid email or password');
         }
     }
 

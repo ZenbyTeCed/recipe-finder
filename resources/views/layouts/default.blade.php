@@ -13,6 +13,10 @@
         <meta name="flash-error" content="{{ session('error') }}">
     @endif
 
+    @if ($errors->any())
+        <meta name="flash-error" content="{{ $errors->first() }}">
+    @endif
+
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
