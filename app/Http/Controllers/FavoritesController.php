@@ -50,10 +50,9 @@ class FavoritesController extends Controller
                     'image'    => $request->image,
                 ]);
 
-            return response()->json(['success' => true, 'message' => 'Recipe added to favorites!']);
-
+            return back()->with('success', 'Recipe added to favorites!');
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -66,7 +65,7 @@ class FavoritesController extends Controller
             ->getReference('favorites/' . $uid . '/' . $recipeId)
             ->remove();
 
-        return redirect('/favorites')->with('success', 'Recipe removed from favorites!');
+        return back()->with('success', 'Recipe removed from favorites!');
     }
     
 }

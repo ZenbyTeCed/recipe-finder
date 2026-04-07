@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Kreait\Firebase\Contract\Database;
 
 class RecipeDetailController extends Controller
 {
+    public function __construct(protected Database $database) {}
+
     public function show($id)
     {
-        // ─── Get Meal from TheMealDB ───
+        $uid = session('firebase_uid');
+
+        // Get meal from TheMealDB
         $mealResponse = Http::get("https://www.themealdb.com/api/json/v1/1/lookup.php?i={$id}");
         $meal = $mealResponse->json()['meals'][0] ?? null;
 
@@ -17,7 +22,7 @@ class RecipeDetailController extends Controller
             return redirect('/home')->with('error', 'Recipe not found.');
         }
 
-        // ─── Ingredients ───
+        // Ingredients
         $ingredients = [];
         for ($i = 1; $i <= 20; $i++) {
             $ingredient = $meal["strIngredient{$i}"] ?? '';
@@ -28,7 +33,14 @@ class RecipeDetailController extends Controller
             }
         }
 
-        // ─── Spoonacular (FREE PLAN SAFE) ───
+        // Check if already favorited in Firebase
+        $favoriteData = $this->database
+            ->getReference('favorites/' . $uid . '/' . $id)
+            ->getValue();
+
+        $isFavorited = !empty($favoriteData);
+
+        // Spoonacular
         $nutrition = null;
         $cookTime = null;
         $tags = [];
@@ -42,10 +54,7 @@ class RecipeDetailController extends Controller
 
         $searchData = $searchResponse->json();
 
-        \Log::info('Spoonacular response:', $searchData);
-
         if (!empty($searchData['results'])) {
-
             $spoonacularData = collect($searchData['results'])
                 ->first(fn($r) =>
                     str_contains(strtolower($r['title']), strtolower($meal['strMeal']))
@@ -54,7 +63,6 @@ class RecipeDetailController extends Controller
             $cookTime = $spoonacularData['readyInMinutes'] ?? rand(15, 45);
 
             if (!empty($spoonacularData['nutrition']['nutrients'])) {
-
                 $nutrientMap = [];
 
                 foreach ($spoonacularData['nutrition']['nutrients'] as $n) {
@@ -80,7 +88,7 @@ class RecipeDetailController extends Controller
             }
         }
 
-        // ─── Fallback ───
+        // Fallback
         if (!$nutrition) {
             $nutrition = [
                 'calories' => rand(300, 600),
@@ -106,7 +114,8 @@ class RecipeDetailController extends Controller
             'nutrition',
             'cookTime',
             'tags',
-            'id'
+            'id',
+            'isFavorited'
         ));
     }
 }

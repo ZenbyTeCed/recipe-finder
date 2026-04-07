@@ -120,6 +120,23 @@ body {
     background-color: #c53030;
 }
 
+.rd-bookmark-btn {
+    background: #fff;
+    border: 1px solid #ddd;
+    transition: 0.2s;
+}
+
+/* ACTIVE (favorited) */
+.rd-bookmark-btn.active {
+    background: #fee2e2;
+    border-color: #f87171;
+}
+
+.rd-bookmark-btn.active svg {
+    fill: #ef4444;
+    stroke: #ef4444;
+}
+
 /* ─── Card Info ─────────────────────────────────────────── */
 .recipe-card-info {
     padding: 18px 18px 20px;

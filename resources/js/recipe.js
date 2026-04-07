@@ -82,27 +82,27 @@ document.getElementById('logMealForm').addEventListener('submit', async (e) => {
 });
 
 // Favorite form submit
-document.getElementById('favoriteForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+// document.getElementById('favoriteForm').addEventListener('submit', async (e) => {
+//     e.preventDefault();
 
-    const form = e.target;
-    const formData = new FormData(form);
+//     const form = e.target;
+//     const formData = new FormData(form);
 
-    const response = await fetch('/favorites/add', {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            'Accept': 'application/json',
-        },
-        body: formData,
-    });
+//     const response = await fetch('/favorites/add', {
+//         method: 'POST',
+//         headers: {
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+//             'Accept': 'application/json',
+//         },
+//         body: formData,
+//     });
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    if (data.success) {
-        showToast(data.message, 'success');
-        document.getElementById('favoriteBtn').classList.add('favorited');
-    } else {
-        showToast(data.message, 'error');
-    }
-});
+//     if (data.success) {
+//         showToast(data.message, 'success');
+//         document.getElementById('favoriteBtn').classList.add('favorited');
+//     } else {
+//         showToast(data.message, 'error');
+//     }
+// });

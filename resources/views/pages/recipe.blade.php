@@ -20,7 +20,7 @@
                         <h1>{{ $meal['strMeal'] }}</h1>
                         <p>{{ $meal['strArea'] ?? '' }} · {{ $meal['strCategory'] ?? '' }}</p>
                     </div>
-                    <form id="favoriteForm" action="/favorites/add" method="POST">
+                    <form id="favoriteForm" action="{{ $isFavorited ? '/favorites/remove' : '/favorites/add' }}" method="POST">
                         @csrf
                         <input type="hidden" name="recipe_id" value="{{ $id }}">
                         <input type="hidden" name="name" value="{{ $meal['strMeal'] }}">
@@ -32,8 +32,24 @@
                         <input type="hidden" name="carbs" value="{{ $nutrition['carbs'] ?? 0 }}">
                         <input type="hidden" name="fat" value="{{ $nutrition['fat'] ?? 0 }}">
                         <input type="hidden" name="image" value="{{ $meal['strMealThumb'] }}">
-                        <button type="submit" class="rd-bookmark-btn" id="favoriteBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg>
+
+                        <button
+                            type="submit"
+                            class="rd-bookmark-btn {{ $isFavorited ? 'active' : '' }}"
+                            id="favoriteBtn"
+                            title="{{ $isFavorited ? 'Remove from favorites' : 'Add to favorites' }}"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="{{ $isFavorited ? 'currentColor' : 'none' }}"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>
+                            </svg>
                         </button>
                     </form>
                 </div>
