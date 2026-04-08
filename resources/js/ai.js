@@ -67,7 +67,13 @@ function appendMessage(text, type) {
 function appendTyping() {
     const typing = document.createElement('div');
     typing.classList.add('chat-message', 'bot', 'typing-indicator');
-    typing.innerHTML = `<p>...</p>`;
+    typing.innerHTML = `
+        <p>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+        </p>
+    `;
     chatMessages.appendChild(typing);
     chatMessages.scrollTop = chatMessages.scrollHeight;
     return typing;
