@@ -60,7 +60,7 @@ class RecipeDetailController extends Controller
                     str_contains(strtolower($r['title']), strtolower($meal['strMeal']))
                 ) ?? $searchData['results'][0];
 
-            $cookTime = $spoonacularData['readyInMinutes'];
+            $cookTime = $spoonacularData['readyInMinutes'] ?? 0;
 
             if (!empty($spoonacularData['nutrition']['nutrients'])) {
                 $nutrientMap = [];

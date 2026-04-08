@@ -50,8 +50,24 @@ class FavoritesController extends Controller
                     'image'    => $request->image,
                 ]);
 
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Recipe added!',
+                    'favorited' => true,
+                ]);
+            }
+
             return back()->with('success', 'Recipe added to favorites!');
         } catch (\Exception $e) {
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ], 500);
+            }
+
             return back()->with('error', $e->getMessage());
         }
     }
@@ -61,11 +77,31 @@ class FavoritesController extends Controller
         $uid      = session('firebase_uid');
         $recipeId = $request->recipe_id;
 
-        $this->database
-            ->getReference('favorites/' . $uid . '/' . $recipeId)
-            ->remove();
+        try {
+            $this->database
+                ->getReference('favorites/' . $uid . '/' . $recipeId)
+                ->remove();
 
-        return back()->with('success', 'Recipe removed from favorites!');
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Removed from favorites!',
+                    'favorited' => false,
+                ]);
+            }
+
+            return back()->with('success', 'Recipe removed from favorites!');
+        } catch (\Exception $e) {
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ], 500);
+            }
+
+            return back()->with('error', $e->getMessage());
+        }
     }
     
 }
