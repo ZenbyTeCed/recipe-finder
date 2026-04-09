@@ -183,4 +183,32 @@ class MealLogController extends Controller
 
         return redirect('/meal-log')->with('success', 'Meal deleted successfully!');
     }
+
+    public function destroyMultiple(Request $request)
+    {
+        $request->validate([
+            'keys' => 'required|array',
+            'keys.*' => 'required|string',
+        ]);
+
+        $uid   = session('firebase_uid');
+        $today = now()->toDateString();
+        $keys  = $request->keys;
+
+        try {
+            foreach ($keys as $mealKey) {
+                $this->database
+                    ->getReference('meal_logs/' . $uid . '/' . $today . '/' . $mealKey)
+                    ->remove();
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => count($keys) . ' meal(s) deleted successfully!',
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
 }

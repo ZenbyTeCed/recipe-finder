@@ -122,6 +122,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
     margin-bottom: 16px;
 }
 
@@ -143,7 +144,101 @@
     color: #6b7280;
 }
 
+.ml-log-action-bar {
+    display: flex;
+}
+
+.ml-action-trigger {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.ml-select-mode-toggle,
+.ml-select-btn,
+.ml-cancel-btn  {
+    padding: 8px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.ml-delete-selected-btn {
+    padding: 8px 10px;
+    border: none;
+    color: white;
+    background-color: #e74c3c !important;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400 !important;
+    transition: all 0.2s ease;
+}
+
+.ml-delete-selected-btn:hover {
+    background-color: #ce4536 !important;
+    color: white !important;
+}
+
+.ml-select-mode-toggle:hover,
+.ml-select-btn:hover,
+.ml-cancel-btn:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.ml-select-mode-toggle:active,
+.ml-select-btn:active,
+.ml-cancel-btn:active,
+.ml-delete-selected-btn:active {
+    opacity: 0.7;
+}
+
 /* Log Entry */
+.ml-entry-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #fdba74;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    display: inline-grid;
+    place-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.ml-entry-checkbox:hover {
+    border-color: #ea580c;
+    background-color: #fff7ed;
+}
+
+.ml-entry-checkbox:checked {
+    background-color: #ea580c;
+    border-color: #ea580c;
+}
+
+.ml-entry-checkbox::after {
+    content: "";
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 0px 2px 0;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.05s ease;
+    margin-top: -1px;
+}
+
+.ml-entry-checkbox:checked::after {
+    transform: rotate(45deg) scale(1);
+}
+
 .ml-log-entry {
     display: flex;
     justify-content: space-between;
@@ -206,16 +301,16 @@
 }
 
 .ml-delete-btn {
-    background: none;
     border: none;
+    background-color: transparent;
+    color: #e74c3c;
     cursor: pointer;
-    color: #ef4444;
     padding: 4px;
     transition: color 0.2s ease;
 }
 
 .ml-delete-btn:hover {
-    color: #dc2626;
+    color: #b74033;
 }
 
 .modal-overlay {

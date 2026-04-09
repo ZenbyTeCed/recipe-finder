@@ -37,6 +37,7 @@ Route::middleware('firebase.auth')->group(function () {
     Route::post('/meal-log/store', [MealLogController::class, 'store']);
     Route::post('/meal-log/update', [MealLogController::class, 'update']);
     Route::post('/meal-log/delete', [MealLogController::class, 'destroy']);
+    Route::post('/meal-log/delete-multiple', [MealLogController::class, 'destroyMultiple']);
     Route::post('/favorites/add', [FavoritesController::class, 'store']);
     Route::post('/favorites/remove', [FavoritesController::class, 'destroy']);
 

@@ -54,13 +54,21 @@
                 <div class="ml-log-title">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
                     <h3>Today</h3>
+                    <span class="ml-log-total">{{ $totals['calories'] }} cal</span>
                 </div>
-                <span class="ml-log-total">{{ $totals['calories'] }} cal</span>
             </div>
 
-            <div class="ml-log-entries">
+            <div class="ml-action-bar" id="mlActionBar" style="display: none; gap: 10px; margin-bottom: 15px;">
+                <button class="ml-select-btn" id="mlSelectBtn">Select All</button>
+                <button class="ml-delete-selected-btn" id="mlDeleteSelectedBtn">Delete Selected</button>
+                <button class="ml-cancel-btn" id="mlCancelBtn">Cancel</button>
+                <span id="mlSelectedCount" style="margin-left: auto; padding-top: 8px; font-weight: 500;"></span>
+            </div>
+
+            <div class="ml-log-entries" id="mlLogEntries">
                 @forelse ($meals as $meal)
-                    <div class="ml-log-entry">
+                    <div class="ml-log-entry" data-meal-key="{{ $meal['key'] }}">
+                        <input type="checkbox" class="ml-entry-checkbox" style="display: none; margin-right: 10px;">
                         <div class="ml-entry-info">
                             <h4>{{ $meal['name'] ?? 'Unnamed'}}</h4>
                             <p>{{ $meal['serving'] ?? 'No Serving' }}</p>
