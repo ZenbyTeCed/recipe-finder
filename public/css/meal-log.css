@@ -193,6 +193,7 @@
 
 .ml-update-delete {
     display: flex;
+    align-items: flex-start;
     gap: 5px;
 }
 
@@ -376,7 +377,7 @@
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 2000;
@@ -386,6 +387,7 @@
 }
 
 .ml-modal-overlay.open {
+    display: flex;
     opacity: 1;
     pointer-events: all;
 }

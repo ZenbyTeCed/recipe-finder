@@ -83,11 +83,55 @@ html, body {
     align-items: center;
 }
 
+.wellcook-header .user-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.wellcook-header .user-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 40px;
+}
+
+.wellcook-header .user-actions form {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.wellcook-header .user-btn,
+.wellcook-header .logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wellcook-header .user-btn svg,
+.wellcook-header .logout-btn svg {
+    display: block;
+    align-self: center;
+    flex-shrink: 0;
+    margin: 0;
+}
+
 .user-actions {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-left: 40px;
+}
+
+.user-actions a,
+.user-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-actions svg {
+    display: block;
 }
 
 .nav-links a {
