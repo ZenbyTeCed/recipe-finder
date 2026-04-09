@@ -163,16 +163,26 @@ document.querySelectorAll('.ml-tab').forEach(tab => {
 });
 
 mlAddBtn.addEventListener('click', () => {
-    mlModalOverlay.classList.add('open');
+    mlModalOverlay.style.display = 'flex';
+    // Trigger animation with a small delay
+    requestAnimationFrame(() => {
+        mlModalOverlay.classList.add('open');
+    });
 });
 
 mlModalClose.addEventListener('click', () => {
     mlModalOverlay.classList.remove('open');
+    setTimeout(() => {
+        mlModalOverlay.style.display = 'none';
+    }, 300);
 });
 
 mlModalOverlay.addEventListener('click', (e) => {
     if (e.target === mlModalOverlay) {
         mlModalOverlay.classList.remove('open');
+        setTimeout(() => {
+            mlModalOverlay.style.display = 'none';
+        }, 300);
     }
 });
 
@@ -253,17 +263,26 @@ document.querySelectorAll('.meal-edit-btn').forEach(btn => {
         document.getElementById('ml-edit-carbs').value = btn.dataset.mealCarbs;
         document.getElementById('ml-edit-fat').value = btn.dataset.mealFat;
 
-        mlEditModalOverlay.classList.add('open');
+        mlEditModalOverlay.style.display = 'flex';
+        requestAnimationFrame(() => {
+            mlEditModalOverlay.classList.add('open');
+        });
     });
 });
 
 mlEditModalClose.addEventListener('click', () => {
     mlEditModalOverlay.classList.remove('open');
+    setTimeout(() => {
+        mlEditModalOverlay.style.display = 'none';
+    }, 300);
 });
 
 mlEditModalOverlay.addEventListener('click', (e) => {
     if (e.target === mlEditModalOverlay) {
         mlEditModalOverlay.classList.remove('open');
+        setTimeout(() => {
+            mlEditModalOverlay.style.display = 'none';
+        }, 300);
     }
 });
 
