@@ -15,15 +15,18 @@ const favoriteBtn = document.getElementById("favoriteBtn");
 
 logMealBtn.addEventListener('click', () => {
     logMealOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
 });
 
 modalCloseBtn.addEventListener('click', () => {
     logMealOverlay.classList.remove('open');
+    document.body.style.overflow = 'auto';
 });
 
 logMealOverlay.addEventListener('click', (e) => {
     if (e.target === logMealOverlay) {
         logMealOverlay.classList.remove('open');
+        document.body.style.overflow = 'auto';
     }
 });
 
@@ -63,6 +66,7 @@ document.getElementById('logMealForm').addEventListener('submit', async (e) => {
 
     if (data.success) {
         logMealOverlay.classList.remove('open');
+        document.body.style.overflow = 'auto';
         showToast(data.message, 'success');
 
         if (data.notifications && data.notifications.length > 0) {

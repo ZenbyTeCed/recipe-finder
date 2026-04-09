@@ -164,7 +164,7 @@ document.querySelectorAll('.ml-tab').forEach(tab => {
 
 mlAddBtn.addEventListener('click', () => {
     mlModalOverlay.style.display = 'flex';
-    // Trigger animation with a small delay
+    document.body.style.overflow = 'hidden';
     requestAnimationFrame(() => {
         mlModalOverlay.classList.add('open');
     });
@@ -174,6 +174,7 @@ mlModalClose.addEventListener('click', () => {
     mlModalOverlay.classList.remove('open');
     setTimeout(() => {
         mlModalOverlay.style.display = 'none';
+        document.body.style.overflow = 'auto';
     }, 300);
 });
 
@@ -182,6 +183,7 @@ mlModalOverlay.addEventListener('click', (e) => {
         mlModalOverlay.classList.remove('open');
         setTimeout(() => {
             mlModalOverlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }, 300);
     }
 });
@@ -204,6 +206,7 @@ mlModalForm.addEventListener('submit', async (e) => {
 
     if (data.success) {
         mlModalOverlay.classList.remove('open');
+        document.body.style.overflow = 'auto';
         mlModalForm.reset();
         showToast(data.message, 'success');
 
@@ -264,6 +267,7 @@ document.querySelectorAll('.meal-edit-btn').forEach(btn => {
         document.getElementById('ml-edit-fat').value = btn.dataset.mealFat;
 
         mlEditModalOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
         requestAnimationFrame(() => {
             mlEditModalOverlay.classList.add('open');
         });
@@ -274,6 +278,7 @@ mlEditModalClose.addEventListener('click', () => {
     mlEditModalOverlay.classList.remove('open');
     setTimeout(() => {
         mlEditModalOverlay.style.display = 'none';
+        document.body.style.overflow = 'auto';
     }, 300);
 });
 
@@ -282,6 +287,7 @@ mlEditModalOverlay.addEventListener('click', (e) => {
         mlEditModalOverlay.classList.remove('open');
         setTimeout(() => {
             mlEditModalOverlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }, 300);
     }
 });
@@ -304,6 +310,7 @@ mlEditModalForm.addEventListener('submit', async (e) => {
 
     if (data.success) {
         mlEditModalOverlay.classList.remove('open');
+        document.body.style.overflow = 'auto';
         mlEditModalForm.reset();
         showToast(data.message, 'success');
         setTimeout(() => location.reload(), 1000);
