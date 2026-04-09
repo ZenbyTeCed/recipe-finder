@@ -131,6 +131,46 @@ class MealLogController extends Controller
     }
     }
 
+    public function update(Request $request)
+    {
+        $request->validate([
+            'key'      => 'required|string',
+            'name'     => 'required|string',
+            'serving'  => 'required|string',
+            'calories' => 'required|numeric',
+            'protein'  => 'required|numeric',
+            'carbs'    => 'required|numeric',
+            'fat'      => 'required|numeric',
+        ]);
+
+        $uid     = session('firebase_uid');
+        $today   = now()->toDateString();
+        $mealKey = $request->key;
+
+        try {
+            $this->database
+                ->getReference('meal_logs/' . $uid . '/' . $today . '/' . $mealKey)
+                ->update([
+                    'name'      => $request->name,
+                    'serving'   => $request->serving,
+                    'meal_type' => $request->meal_type ?? 'Lunch',
+                    'calories'  => (float) $request->calories,
+                    'protein'   => (float) $request->protein,
+                    'carbs'     => (float) $request->carbs,
+                    'fat'       => (float) $request->fat,
+                    'updated_at' => now()->toDateTimeString(),
+                ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Meal updated successfully!',
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
     public function destroy(Request $request)
     {
         $uid     = session('firebase_uid');

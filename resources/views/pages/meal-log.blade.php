@@ -62,8 +62,8 @@
                 @forelse ($meals as $meal)
                     <div class="ml-log-entry">
                         <div class="ml-entry-info">
-                            <h4>{{ $meal['name'] }}</h4>
-                            <p>{{ $meal['serving'] }}</p>
+                            <h4>{{ $meal['name'] ?? 'Unnamed'}}</h4>
+                            <p>{{ $meal['serving'] ?? 'No Serving' }}</p>
                             <div class="ml-entry-macros">
                                 <div class="ml-entry-macro">
                                     <p>Calories</p>
@@ -83,13 +83,18 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="/meal-log/delete" method="POST">
-                            @csrf
-                            <input type="hidden" name="key" value="{{ $meal['key'] }}">
-                            <button type="submit" class="ml-delete-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                        <div class="ml-update-delete">
+                            <button class="ml-update-btn meal-edit-btn" data-meal-key="{{ $meal['key'] }}" data-meal-name="{{ $meal['name'] }}" data-meal-serving="{{ $meal['serving'] }}" data-meal-type="{{ $meal['meal_type'] ?? 'Lunch' }}" data-meal-calories="{{ $meal['calories'] }}" data-meal-protein="{{ $meal['protein'] }}" data-meal-carbs="{{ $meal['carbs'] }}" data-meal-fat="{{ $meal['fat'] }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                             </button>
-                        </form>
+                            <form action="/meal-log/delete" method="POST" style="display:inline;">
+                                @csrf
+                                <input type="hidden" name="key" value="{{ $meal['key'] }}">
+                                <button type="submit" class="ml-delete-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 @empty
                     <div class="ml-empty">
@@ -164,8 +169,65 @@
     </div>
 </div>
 
+<!-- Edit Meal Modal -->
+<div class="ml-modal-overlay" id="mlEditModalOverlay">
+    <div class="ml-modal">
+        <div class="ml-modal-header">
+            <div>
+                <h3>Edit Meal</h3>
+                <p>Update your meal details</p>
+            </div>
+            <button class="ml-modal-close" id="mlEditModalClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+
+        <form class="ml-modal-form" id="mlEditModalForm">
+            @csrf
+            <input type="hidden" id="ml-edit-key" name="key">
+            <div class="ml-modal-field">
+                <label for="ml-edit-name">Meal Name</label>
+                <input type="text" id="ml-edit-name" name="name" placeholder="e.g. Chicken Adobo" required>
+            </div>
+            <div class="ml-modal-field">
+                <label for="ml-edit-serving">Serving Size</label>
+                <input type="text" id="ml-edit-serving" name="serving" placeholder="e.g. 1 cup, 1 plate" required>
+            </div>
+            <div class="ml-modal-field">
+                <label for="ml-edit-mealtype">Meal Type</label>
+                <select id="ml-edit-mealtype" name="meal_type">
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                </select>
+            </div>
+            <div class="ml-modal-macros">
+                <div class="ml-modal-field">
+                    <label for="ml-edit-calories">Calories</label>
+                    <input type="number" id="ml-edit-calories" name="calories" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="ml-edit-protein">Protein (g)</label>
+                    <input type="number" id="ml-edit-protein" name="protein" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="ml-edit-carbs">Carbs (g)</label>
+                    <input type="number" id="ml-edit-carbs" name="carbs" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="ml-edit-fat">Fat (g)</label>
+                    <input type="number" id="ml-edit-fat" name="fat" placeholder="0" min="0" required>
+                </div>
+            </div>
+            <button type="submit" class="ml-modal-submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                Update Meal
+            </button>
+        </form>
+    </div>
+</div>
+
 @push('scripts')
     @vite('resources/js/meal-log.js')
 @endpush
-
-@endsection

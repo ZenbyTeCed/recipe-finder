@@ -93,3 +93,59 @@ document.getElementById('mlNutribotLink').addEventListener('click', () => {
         chatInput.focus();
     }
 });
+
+// Edit Meal Functionality
+const mlEditModalOverlay = document.getElementById('mlEditModalOverlay');
+const mlEditModalClose = document.getElementById('mlEditModalClose');
+const mlEditModalForm = document.getElementById('mlEditModalForm');
+
+document.querySelectorAll('.meal-edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.getElementById('ml-edit-key').value = btn.dataset.mealKey;
+        document.getElementById('ml-edit-name').value = btn.dataset.mealName;
+        document.getElementById('ml-edit-serving').value = btn.dataset.mealServing;
+        document.getElementById('ml-edit-mealtype').value = btn.dataset.mealType;
+        document.getElementById('ml-edit-calories').value = btn.dataset.mealCalories;
+        document.getElementById('ml-edit-protein').value = btn.dataset.mealProtein;
+        document.getElementById('ml-edit-carbs').value = btn.dataset.mealCarbs;
+        document.getElementById('ml-edit-fat').value = btn.dataset.mealFat;
+
+        mlEditModalOverlay.classList.add('open');
+    });
+});
+
+mlEditModalClose.addEventListener('click', () => {
+    mlEditModalOverlay.classList.remove('open');
+});
+
+mlEditModalOverlay.addEventListener('click', (e) => {
+    if (e.target === mlEditModalOverlay) {
+        mlEditModalOverlay.classList.remove('open');
+    }
+});
+
+mlEditModalForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(mlEditModalForm);
+
+    const response = await fetch('/meal-log/update', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
+        },
+        body: formData,
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        mlEditModalOverlay.classList.remove('open');
+        mlEditModalForm.reset();
+        showToast(data.message, 'success');
+        setTimeout(() => location.reload(), 1000);
+    } else {
+        showToast(data.message, 'error');
+    }
+});
