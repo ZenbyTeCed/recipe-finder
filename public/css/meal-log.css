@@ -162,20 +162,31 @@
     border-radius: 8px;
     background: white;
     cursor: pointer;
-    font-size: 14px;
     font-weight: 500;
     transition: all 0.2s ease;
 }
 
+.ml-select-btn,
+.ml-cancel-btn {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    height: 30px;
+    font-weight: 13px !important;
+    border-radius: 10px;
+}
+
 .ml-delete-selected-btn {
-    padding: 8px 10px;
+    height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
     border: none;
     color: white;
     background-color: #e74c3c !important;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 400 !important;
+    font-size: 13px;
+    font-weight: 450 !important;
     transition: all 0.2s ease;
 }
 
