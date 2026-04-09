@@ -232,6 +232,7 @@ mlModalForm.addEventListener('submit', async (e) => {
 
 document.getElementById('mlNutribotLink').addEventListener('click', () => {
     mlModalOverlay.classList.remove('open');
+    document.body.style.overflow = 'auto';
 
     // Open chat window
     const chatWindow = document.getElementById('chatWindow');
