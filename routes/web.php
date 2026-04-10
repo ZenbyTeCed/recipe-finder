@@ -29,6 +29,7 @@ Route::post('/auth/google', [AuthController::class, 'googleLogin']);
 Route::middleware('firebase.auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/meal-log', [MealLogController::class, 'index']);
+    Route::get('/meal-log/get-meals', [MealLogController::class, 'getMeals']);
     Route::get('/favorites', [FavoritesController::class, 'index']);
     Route::get('/profile', function () { return view('pages.profile'); });
 

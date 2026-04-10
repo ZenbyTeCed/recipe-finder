@@ -4,6 +4,12 @@ const summaryText = {
     'All Time': 'Total nutrition for all time',
 };
 
+const periodMap = {
+    'Today': 'today',
+    'This Week': 'week',
+    'All Time': 'alltime',
+};
+
 const mlAddBtn           = document.getElementById('mlAddBtn');
 const mlModalOverlay     = document.getElementById('mlModalOverlay');
 const mlModalClose       = document.getElementById('mlModalClose');
@@ -151,7 +157,83 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Fetch and render meals function
+async function fetchAndRenderMeals(period) {
+    try {
+        const response = await fetch(`/meal-log/get-meals?period=${period}`);
+        const data = await response.json();
 
+        if (!data.success) {
+            showToast('Error fetching meals', 'error');
+            return;
+        }
+
+        // Update summary cards
+        document.querySelector('.ml-calories span').textContent = data.totals.calories;
+        document.querySelector('.ml-protein span').textContent = data.totals.protein + 'g';
+        document.querySelector('.ml-carbs span').textContent = data.totals.carbs + 'g';
+        document.querySelector('.ml-fat span').textContent = data.totals.fat + 'g';
+
+        // Update log entries
+        const entriesContainer = document.getElementById('mlLogEntries');
+        entriesContainer.innerHTML = '';
+
+        if (data.meals.length === 0) {
+            entriesContainer.innerHTML = '<div class="ml-empty"><p>No meals logged for this period.</p></div>';
+            return;
+        }
+
+        data.meals.forEach(meal => {
+            const entryHTML = `
+                <div class="ml-log-entry" data-meal-key="${meal.key}">
+                    <input type="checkbox" class="ml-entry-checkbox" style="display: none; margin-right: 10px;">
+                    <div class="ml-entry-info">
+                        <h4>${meal.name ?? 'Unnamed'}</h4>
+                        <p>${meal.serving ?? 'No Serving'}</p>
+                        <div class="ml-entry-macros">
+                            <div class="ml-entry-macro">
+                                <p>Calories</p>
+                                <span>${meal.calories}</span>
+                            </div>
+                            <div class="ml-entry-macro">
+                                <p>Protein</p>
+                                <span>${meal.protein}g</span>
+                            </div>
+                            <div class="ml-entry-macro">
+                                <p>Carbs</p>
+                                <span>${meal.carbs}g</span>
+                            </div>
+                            <div class="ml-entry-macro">
+                                <p>Fat</p>
+                                <span>${meal.fat}g</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-update-delete">
+                        <button class="ml-update-btn meal-edit-btn" data-meal-key="${meal.key}" data-meal-name="${meal.name}" data-meal-serving="${meal.serving}" data-meal-type="${meal.meal_type ?? 'Lunch'}" data-meal-calories="${meal.calories}" data-meal-protein="${meal.protein}" data-meal-carbs="${meal.carbs}" data-meal-fat="${meal.fat}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                        </button>
+                        <form action="/meal-log/delete" method="POST" style="display:inline;">
+                            <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]').content}">
+                            <input type="hidden" name="key" value="${meal.key}">
+                            <button type="submit" class="ml-delete-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            entriesContainer.innerHTML += entryHTML;
+        });
+
+        // Re-attach edit button event listeners
+        attachEditButtonListeners();
+    } catch (error) {
+        showToast('Error fetching meals: ' + error.message, 'error');
+    }
+}
+
+// Tab switching
 document.querySelectorAll('.ml-tab').forEach(tab => {
     tab.addEventListener('click', () => {
         document.querySelectorAll('.ml-tab').forEach(t => t.classList.remove('active'));
@@ -159,6 +241,9 @@ document.querySelectorAll('.ml-tab').forEach(tab => {
 
         const tabText = tab.textContent.trim();
         document.querySelector('.ml-summary-header p').textContent = summaryText[tabText];
+
+        const period = periodMap[tabText];
+        fetchAndRenderMeals(period);
     });
 });
 
@@ -256,24 +341,26 @@ const mlEditModalOverlay = document.getElementById('mlEditModalOverlay');
 const mlEditModalClose = document.getElementById('mlEditModalClose');
 const mlEditModalForm = document.getElementById('mlEditModalForm');
 
-document.querySelectorAll('.meal-edit-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.getElementById('ml-edit-key').value = btn.dataset.mealKey;
-        document.getElementById('ml-edit-name').value = btn.dataset.mealName;
-        document.getElementById('ml-edit-serving').value = btn.dataset.mealServing;
-        document.getElementById('ml-edit-mealtype').value = btn.dataset.mealType;
-        document.getElementById('ml-edit-calories').value = btn.dataset.mealCalories;
-        document.getElementById('ml-edit-protein').value = btn.dataset.mealProtein;
-        document.getElementById('ml-edit-carbs').value = btn.dataset.mealCarbs;
-        document.getElementById('ml-edit-fat').value = btn.dataset.mealFat;
+function attachEditButtonListeners() {
+    document.querySelectorAll('.meal-edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('ml-edit-key').value = btn.dataset.mealKey;
+            document.getElementById('ml-edit-name').value = btn.dataset.mealName;
+            document.getElementById('ml-edit-serving').value = btn.dataset.mealServing;
+            document.getElementById('ml-edit-mealtype').value = btn.dataset.mealType;
+            document.getElementById('ml-edit-calories').value = btn.dataset.mealCalories;
+            document.getElementById('ml-edit-protein').value = btn.dataset.mealProtein;
+            document.getElementById('ml-edit-carbs').value = btn.dataset.mealCarbs;
+            document.getElementById('ml-edit-fat').value = btn.dataset.mealFat;
 
-        mlEditModalOverlay.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        requestAnimationFrame(() => {
-            mlEditModalOverlay.classList.add('open');
+            mlEditModalOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            requestAnimationFrame(() => {
+                mlEditModalOverlay.classList.add('open');
+            });
         });
     });
-});
+}
 
 mlEditModalClose.addEventListener('click', () => {
     mlEditModalOverlay.classList.remove('open');
@@ -319,3 +406,6 @@ mlEditModalForm.addEventListener('submit', async (e) => {
         showToast(data.message, 'error');
     }
 });
+
+// Attach initial edit listeners
+attachEditButtonListeners();

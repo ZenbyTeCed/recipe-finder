@@ -35,6 +35,75 @@ class MealLogController extends Controller
         return view('pages.meal-log', compact('meals', 'totals', 'today'));
     }
 
+    public function getMeals(Request $request)
+    {
+        $uid = session('firebase_uid');
+        $period = $request->query('period', 'today');
+        
+        $meals = [];
+        $totals = ['calories' => 0, 'protein' => 0, 'carbs' => 0, 'fat' => 0];
+
+        if ($period === 'today') {
+            $dates = [now()->toDateString()];
+        } elseif ($period === 'week') {
+            $dates = [];
+            for ($i = 6; $i >= 0; $i--) {
+                $dates[] = now()->subDays($i)->toDateString();
+            }
+        } elseif ($period === 'alltime') {
+            $allLogs = $this->database
+                ->getReference('meal_logs/' . $uid)
+                ->getValue();
+
+            if ($allLogs) {
+                foreach ($allLogs as $dateKey => $dayLogs) {
+                    if (is_array($dayLogs)) {
+                        foreach ($dayLogs as $mealKey => $meal) {
+                            $meal['key'] = $mealKey;
+                            $meal['date'] = $dateKey;
+                            $meals[] = $meal;
+                            $totals['calories'] += $meal['calories'] ?? 0;
+                            $totals['protein']  += $meal['protein']  ?? 0;
+                            $totals['carbs']    += $meal['carbs']    ?? 0;
+                            $totals['fat']      += $meal['fat']      ?? 0;
+                        }
+                    }
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'meals' => $meals,
+                'totals' => $totals,
+            ]);
+        }
+
+        // For today and week
+        foreach ($dates as $date) {
+            $logs = $this->database
+                ->getReference('meal_logs/' . $uid . '/' . $date)
+                ->getValue();
+
+            if ($logs) {
+                foreach ($logs as $key => $meal) {
+                    $meal['key'] = $key;
+                    $meal['date'] = $date;
+                    $meals[] = $meal;
+                    $totals['calories'] += $meal['calories'] ?? 0;
+                    $totals['protein']  += $meal['protein']  ?? 0;
+                    $totals['carbs']    += $meal['carbs']    ?? 0;
+                    $totals['fat']      += $meal['fat']      ?? 0;
+                }
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'meals' => $meals,
+            'totals' => $totals,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
