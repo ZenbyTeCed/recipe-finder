@@ -10,6 +10,27 @@ const periodMap = {
     'All Time': 'alltime',
 };
 
+// Format date to readable format (e.g., "April 10, 2026")
+function formatDateReadable(dateString) {
+    const date = new Date(dateString + 'T00:00:00');
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+// Get formatted date range for the week
+function getWeekRangeReadable() {
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
+    
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    
+    const startStr = startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const endStr = endOfWeek.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    
+    return `${startStr} - ${endStr}`;
+}
+
 const mlAddBtn           = document.getElementById('mlAddBtn');
 const mlModalOverlay     = document.getElementById('mlModalOverlay');
 const mlModalClose       = document.getElementById('mlModalClose');
@@ -190,6 +211,9 @@ async function fetchAndRenderMeals(period, date = null) {
         document.querySelector('.ml-carbs span').textContent = data.totals.carbs + 'g';
         document.querySelector('.ml-fat span').textContent = data.totals.fat + 'g';
 
+        // Update log total (in the log section header)
+        document.getElementById('mlLogTotal').textContent = data.totals.calories + ' cal';
+
         // Update log entries
         entriesContainer.innerHTML = '';
 
@@ -257,6 +281,7 @@ document.querySelectorAll('.ml-tab').forEach(tab => {
 
         const tabText = tab.textContent.trim();
         document.querySelector('.ml-summary-header p').textContent = summaryText[tabText];
+        document.getElementById('mlLogTitle').textContent = tabText;
 
         const period = periodMap[tabText];
         // Clear date input when clicking tabs
@@ -271,7 +296,8 @@ document.getElementById('mlDateInput').addEventListener('change', (e) => {
     if (selectedDate) {
         // Remove active state from tabs and use custom date
         document.querySelectorAll('.ml-tab').forEach(t => t.classList.remove('active'));
-        document.querySelector('.ml-summary-header p').textContent = 'Total nutrition for ' + selectedDate;
+        document.querySelector('.ml-summary-header p').textContent = 'Total nutrition for ' + formatDateReadable(selectedDate);
+        document.getElementById('mlLogTitle').textContent = formatDateReadable(selectedDate);
         
         // Fetch meals for the specific date
         fetchAndRenderMeals('today', selectedDate);
