@@ -97,10 +97,15 @@ class RecipeDetailController extends Controller
 
                                     if (!empty($nutritionData['nutrients'])) {
                                         $fiberNutrient = collect($nutritionData['nutrients'])->firstWhere('name', 'Fiber');
-                                        if ($fiberNutrient) {
-                                            $servings = $nutritionData['servings'] ?? 1;
-                                            $nutrition['fiber'] = (int) round(($fiberNutrient['amount'] ?? 0) / max($servings, 1));
+                                        if ($fiberNutrient && !empty($fiberNutrient['amount'])) {
+                                            // Fiber amount is already per serving in nutritionWidget
+                                            $nutrition['fiber'] = (int) round($fiberNutrient['amount']);
+                                        } else {
+                                            // Default to a reasonable estimate if fiber not found
+                                            $nutrition['fiber'] = null;
                                         }
+                                    } else {
+                                        $nutrition['fiber'] = null;
                                     }
 
                                     // Cache the real data
@@ -133,6 +138,8 @@ class RecipeDetailController extends Controller
         }
 
         // Step 3: Fallback values if no real data
+        $hasRealNutrition = $nutrition && !$nutritionMessage && $nutrition['calories'] > 0;
+        
         if (!$nutrition) {
             $nutrition = [
                 'calories' => 0,
@@ -161,7 +168,8 @@ class RecipeDetailController extends Controller
             'tags',
             'id',
             'isFavorited',
-            'nutritionMessage'
+            'nutritionMessage',
+            'hasRealNutrition'
         ));
     }
 

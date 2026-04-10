@@ -77,14 +77,24 @@
                     @endif
                 </div>
 
-                <button type="button" class="rd-log-btn" id="logMealBtn">
+                <button 
+                    type="button" 
+                    class="rd-log-btn" 
+                    id="logMealBtn"
+                    data-has-real-nutrition="{{ $hasRealNutrition ? '1' : '0' }}"
+                    title="{{ !$hasRealNutrition ? 'Nutrition data unavailable. You can log this meal manually.' : '' }}"
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg>
-                    Log This Meal
+                    @if($hasRealNutrition)
+                        Log This Meal
+                    @else
+                        Manually Log Meal
+                    @endif
                 </button>
             </div>
         </div>
 
-        @if ($nutrition)
+        @if ($hasRealNutrition)
         <div class="rd-nutrition-card">
             <div class="rd-card-header">
                 <h4>Nutritional Information</h4>
@@ -143,7 +153,12 @@
                 <h4>Nutritional Information</h4>
                 <p>Not available for this recipe</p>
             </div>
-            <p style="color: #6b7280; font-size: 14px;">Nutrition data could not be fetched from Spoonacular. Try asking NutriBot for an estimate!</p>
+            <p style="color: #6b7280; font-size: 14px;">
+                @if($nutritionMessage)
+                    {{ $nutritionMessage }}
+                @endif
+                <button type="button" id="rdLogMealButton" style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">Log this meal manually</button> or ask NutriBot for an estimate!
+            </p>
         </div>
         @endif
 
@@ -213,14 +228,120 @@
     </div>
 </div>
 
+<!-- Manual Meal Logging Modal (shown when Spoonacular fails) -->
+<div class="ml-modal-overlay" id="rdMealLogModalOverlay">
+    <div class="ml-modal">
+        <div class="ml-modal-header">
+            <div>
+                <h3>Log a Meal</h3>
+                <p>Add your meal details manually</p>
+            </div>
+            <button class="ml-modal-close" id="rdMealLogModalClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+
+        <form class="ml-modal-form" id="rdMealLogModalForm" action="/meal-log/store" method="POST">
+            @csrf
+            <div class="ml-modal-field">
+                <label for="rd-meal-name">Meal Name</label>
+                <input type="text" id="rd-meal-name" name="name" value="{{ $meal['strMeal'] }}" required readonly style="background-color: #f3f3f5; cursor: not-allowed;">
+            </div>
+            <div class="ml-modal-field">
+                <label for="rd-meal-serving">Serving Size</label>
+                <input type="text" id="rd-meal-serving" name="serving" placeholder="e.g. 1 cup, 1 plate" required>
+            </div>
+            <div class="ml-modal-field">
+                <label for="rd-meal-type">Meal Type</label>
+                <select id="rd-meal-type" name="meal_type">
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch" selected>Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                </select>
+            </div>
+            <div class="ml-modal-macros">
+                <div class="ml-modal-field">
+                    <label for="rd-meal-calories">Calories</label>
+                    <input type="number" id="rd-meal-calories" name="calories" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="rd-meal-protein">Protein (g)</label>
+                    <input type="number" id="rd-meal-protein" name="protein" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="rd-meal-carbs">Carbs (g)</label>
+                    <input type="number" id="rd-meal-carbs" name="carbs" placeholder="0" min="0" required>
+                </div>
+                <div class="ml-modal-field">
+                    <label for="rd-meal-fat">Fat (g)</label>
+                    <input type="number" id="rd-meal-fat" name="fat" placeholder="0" min="0" required>
+                </div>
+            </div>
+            <div class="ml-modal-nutribot-hint">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                <p>Not sure about the macros? Ask <button type="button" class="ml-nutribot-link" id="rdNutribotLink">NutriBot</button> — just tell it the meal name and serving size!</p>
+            </div>
+            <button type="submit" class="ml-modal-submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                Log Meal
+            </button>
+        </form>
+    </div>
+</div>
+
 @push('scripts')
 <script>
+    // Existing recipe.js variables
     const baseCalories = {{ $nutrition['calories'] ?? 0 }};
     const baseProtein  = {{ $nutrition['protein']  ?? 0 }};
     const baseCarbs    = {{ $nutrition['carbs']    ?? 0 }};
     const baseFat      = {{ $nutrition['fat']      ?? 0 }};
+    
+    // Handle manual meal logging modal
+    const rdMealLogBtn = document.getElementById('rdLogMealButton');
+    const rdMealLogModal = document.getElementById('rdMealLogModalOverlay');
+    const rdMealLogModalClose = document.getElementById('rdMealLogModalClose');
+    const rdNutribotLink = document.getElementById('rdNutribotLink');
+
+    if (rdMealLogBtn) {
+        rdMealLogBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            rdMealLogModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    if (rdMealLogModalClose) {
+        rdMealLogModalClose.addEventListener('click', () => {
+            rdMealLogModal.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        });
+    }
+
+    if (rdMealLogModal) {
+        rdMealLogModal.addEventListener('click', (e) => {
+            if (e.target === rdMealLogModal) {
+                rdMealLogModal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+
+    if (rdNutribotLink) {
+        rdNutribotLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Close this modal and open NutriBot
+            if (rdMealLogModal) {
+                rdMealLogModal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            }
+            // Navigate to home to access NutriBot
+            window.location.href = '/home';
+        });
+    }
 </script>
-    @vite('resources/js/recipe.js')
+@vite('resources/js/recipe.js')
 @endpush
 
 @endsection

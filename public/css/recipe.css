@@ -146,6 +146,12 @@
     background-color: #1f2937;
 }
 
+.rd-log-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: fill;
+}
+
 /* Cards */
 .rd-nutrition-card,
 .rd-ingredients-card,
