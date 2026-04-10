@@ -55,11 +55,34 @@ class RecipeDetailController extends Controller
         } else {
             // Step 2: Fetch from Spoonacular API
             try {
-                $searchResponse = Http::timeout(10)->get('https://api.spoonacular.com/recipes/complexSearch', [
-                    'apiKey' => env('SPOONACULAR_API_KEY'),
-                    'query' => $meal['strMeal'],
-                    'number' => 5,
-                ]);
+                // Build a short ingredient list from TheMealDB
+                $ingredientNames = [];
+                for ($i = 1; $i <= 20; $i++) {
+                    $ingredient = trim($meal["strIngredient{$i}"] ?? '');
+                    if (!empty($ingredient)) {
+                        $ingredientNames[] = strtolower($ingredient);
+                    }
+                }
+
+                // Keep only first 5 ingredients to save API quota
+                $ingredientNames = array_slice($ingredientNames, 0, 5);
+
+                // Fallback to recipe name if ingredients are empty
+                if (count($ingredientNames) > 0) {
+                    $searchResponse = Http::timeout(10)->get('https://api.spoonacular.com/recipes/findByIngredients', [
+                        'apiKey' => env('SPOONACULAR_API_KEY'),
+                        'ingredients' => implode(',', $ingredientNames),
+                        'number' => 1,
+                        'ranking' => 2,
+                        'ignorePantry' => true,
+                    ]);
+                } else {
+                    $searchResponse = Http::timeout(10)->get('https://api.spoonacular.com/recipes/complexSearch', [
+                        'apiKey' => env('SPOONACULAR_API_KEY'),
+                        'query' => $meal['strMeal'],
+                        'number' => 1,
+                    ]);
+                }
 
                 // Check if API limit is reached
                 if (in_array($searchResponse->status(), [402, 429])) {
@@ -67,60 +90,60 @@ class RecipeDetailController extends Controller
                 } elseif ($searchResponse->successful()) {
                     $searchData = $searchResponse->json();
 
-                    if (!empty($searchData['results'])) {
-                        foreach ($searchData['results'] as $result) {
-                            $recipeId = $result['id'];
+                    // findByIngredients returns a plain array, complexSearch returns results[]
+                    $results = isset($searchData['results']) ? $searchData['results'] : $searchData;
 
-                            $nutritionResponse = Http::timeout(10)->get("https://api.spoonacular.com/recipes/{$recipeId}/nutritionWidget.json", [
-                                'apiKey' => env('SPOONACULAR_API_KEY'),
-                            ]);
+                    if (!empty($results)) {
+                        $bestMatch = $results[0];
+                        $recipeId = $bestMatch['id'];
 
-                            // Check if API limit is reached while fetching nutrition
-                            if (in_array($nutritionResponse->status(), [402, 429])) {
-                                $nutritionMessage = 'Spoonacular API limit reached. Please try again later.';
-                                break;
-                            }
+                        // Optional: get cook time from full info endpoint
+                        $infoResponse = Http::timeout(10)->get("https://api.spoonacular.com/recipes/{$recipeId}/information", [
+                            'apiKey' => env('SPOONACULAR_API_KEY'),
+                            'includeNutrition' => false,
+                        ]);
 
-                            if ($nutritionResponse->successful()) {
-                                $nutritionData = $nutritionResponse->json();
-
-                                if (!empty($nutritionData['calories'])) {
-                                    $cookTime = $result['readyInMinutes'] ?? null;
-
-                                    $nutrition = [
-                                        'calories' => (int) ($nutritionData['calories'] ?? 0),
-                                        'protein'  => (int) preg_replace('/[^0-9]/', '', $nutritionData['protein'] ?? '0'),
-                                        'carbs'    => (int) preg_replace('/[^0-9]/', '', $nutritionData['carbs'] ?? '0'),
-                                        'fat'      => (int) preg_replace('/[^0-9]/', '', $nutritionData['fat'] ?? '0'),
-                                        'fiber'    => 0,
-                                    ];
-
-                                    if (!empty($nutritionData['nutrients'])) {
-                                        $fiberNutrient = collect($nutritionData['nutrients'])->firstWhere('name', 'Fiber');
-                                        if ($fiberNutrient && !empty($fiberNutrient['amount'])) {
-                                            // Fiber amount is already per serving in nutritionWidget
-                                            $nutrition['fiber'] = (int) round($fiberNutrient['amount']);
-                                        } else {
-                                            // Default to a reasonable estimate if fiber not found
-                                            $nutrition['fiber'] = null;
-                                        }
-                                    } else {
-                                        $nutrition['fiber'] = null;
-                                    }
-
-                                    // Cache the real data
-                                    RecipeNutritionCache::upsert($id, array_merge($nutrition, [
-                                        'recipe_name' => $meal['strMeal'],
-                                        'cook_time' => $cookTime,
-                                    ]));
-
-                                    break;
-                                }
-                            }
+                        if ($infoResponse->successful()) {
+                            $infoData = $infoResponse->json();
+                            $cookTime = $infoData['readyInMinutes'] ?? null;
                         }
 
-                        if (!$nutrition && !$nutritionMessage) {
-                            $nutritionMessage = 'Spoonacular could not find nutrition data for this recipe.';
+                        // Fetch nutrition for only ONE matched recipe
+                        $nutritionResponse = Http::timeout(10)->get("https://api.spoonacular.com/recipes/{$recipeId}/nutritionWidget.json", [
+                            'apiKey' => env('SPOONACULAR_API_KEY'),
+                        ]);
+
+                        if (in_array($nutritionResponse->status(), [402, 429])) {
+                            $nutritionMessage = 'Spoonacular API limit reached. Please try again later.';
+                        } elseif ($nutritionResponse->successful()) {
+                            $nutritionData = $nutritionResponse->json();
+
+                            if (!empty($nutritionData['calories'])) {
+                                $nutrition = [
+                                    'calories' => (int) ($nutritionData['calories'] ?? 0),
+                                    'protein'  => (int) preg_replace('/[^0-9]/', '', $nutritionData['protein'] ?? '0'),
+                                    'carbs'    => (int) preg_replace('/[^0-9]/', '', $nutritionData['carbs'] ?? '0'),
+                                    'fat'      => (int) preg_replace('/[^0-9]/', '', $nutritionData['fat'] ?? '0'),
+                                    'fiber'    => 0,
+                                ];
+
+                                // Safer rollback for fiber
+                                if (!empty($nutritionData['nutrients'])) {
+                                    $fiberNutrient = collect($nutritionData['nutrients'])->firstWhere('name', 'Fiber');
+                                    $nutrition['fiber'] = $fiberNutrient && !empty($fiberNutrient['amount'])
+                                        ? (int) round($fiberNutrient['amount'])
+                                        : 0;
+                                }
+
+                                RecipeNutritionCache::upsert($id, array_merge($nutrition, [
+                                    'recipe_name' => $meal['strMeal'],
+                                    'cook_time' => $cookTime,
+                                ]));
+                            } else {
+                                $nutritionMessage = 'Spoonacular could not find nutrition data for this recipe.';
+                            }
+                        } else {
+                            $nutritionMessage = 'Unable to fetch nutrition data right now.';
                         }
                     } else {
                         $nutritionMessage = 'Spoonacular could not find a matching recipe.';
