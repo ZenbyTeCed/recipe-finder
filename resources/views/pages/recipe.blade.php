@@ -69,11 +69,11 @@
                         <span>{{ $cookTime }} minutes</span>
                     </div>
                     @endif
-                    @if ($nutrition)
-                    <div class="rd-meta-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
-                        <span>{{ $nutrition['calories'] }} calories</span>
-                    </div>
+                    @if ($hasRealNutrition)
+                        <div class="rd-meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>
+                            <span>{{ $nutrition['calories'] }} calories</span>
+                        </div>
                     @endif
                 </div>
 
@@ -291,56 +291,6 @@
 </div>
 
 @push('scripts')
-<script>
-    // Existing recipe.js variables
-    const baseCalories = {{ $nutrition['calories'] ?? 0 }};
-    const baseProtein  = {{ $nutrition['protein']  ?? 0 }};
-    const baseCarbs    = {{ $nutrition['carbs']    ?? 0 }};
-    const baseFat      = {{ $nutrition['fat']      ?? 0 }};
-    
-    // Handle manual meal logging modal
-    const rdMealLogBtn = document.getElementById('rdLogMealButton');
-    const rdMealLogModal = document.getElementById('rdMealLogModalOverlay');
-    const rdMealLogModalClose = document.getElementById('rdMealLogModalClose');
-    const rdNutribotLink = document.getElementById('rdNutribotLink');
-
-    if (rdMealLogBtn) {
-        rdMealLogBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            rdMealLogModal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        });
-    }
-
-    if (rdMealLogModalClose) {
-        rdMealLogModalClose.addEventListener('click', () => {
-            rdMealLogModal.classList.remove('open');
-            document.body.style.overflow = 'auto';
-        });
-    }
-
-    if (rdMealLogModal) {
-        rdMealLogModal.addEventListener('click', (e) => {
-            if (e.target === rdMealLogModal) {
-                rdMealLogModal.classList.remove('open');
-                document.body.style.overflow = 'auto';
-            }
-        });
-    }
-
-    if (rdNutribotLink) {
-        rdNutribotLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            // Close this modal and open NutriBot
-            if (rdMealLogModal) {
-                rdMealLogModal.classList.remove('open');
-                document.body.style.overflow = 'auto';
-            }
-            // Navigate to home to access NutriBot
-            window.location.href = '/home';
-        });
-    }
-</script>
 @vite('resources/js/recipe.js')
 @endpush
 

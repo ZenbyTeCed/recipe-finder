@@ -86,7 +86,6 @@ if (rdNutribotLink) {
 
         // Pre-fill message using recipe name
         const chatInput = document.querySelector('.chat-input');
-        const mealName = "{{ $meal['strMeal'] }}";
 
         if (chatInput) {
             chatInput.value = `What are the approximate macros (calories, protein, carbs, fat) for `;
