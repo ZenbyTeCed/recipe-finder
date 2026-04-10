@@ -42,11 +42,16 @@
                 </div>
             </div>
         </div>
-
-        <div class="ml-tabs">
-            <button class="ml-tab active">Today</button>
-            <button class="ml-tab">This Week</button>
-            <button class="ml-tab">All Time</button>
+        
+        <div class="ml-tabs-filter">
+            <div class="ml-tabs">
+                <button class="ml-tab active">Today</button>
+                <button class="ml-tab">This Week</button>
+                <button class="ml-tab">All Time</button>
+            </div>
+            <div class="ml-filter">
+                <input type="date" id="mlDateInput">
+            </div>
         </div>
 
         <div class="ml-log-section">

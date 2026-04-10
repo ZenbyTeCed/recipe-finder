@@ -158,13 +158,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Fetch and render meals function
-async function fetchAndRenderMeals(period) {
+async function fetchAndRenderMeals(period, date = null) {
+    const entriesContainer = document.getElementById('mlLogEntries');
+    
     try {
-        const response = await fetch(`/meal-log/get-meals?period=${period}`);
+        // Show loading indicator
+        entriesContainer.innerHTML = `
+            <div class="ml-loading">
+                <div class="ml-spinner"></div>
+                <p>Loading meals...</p>
+            </div>
+        `;
+
+        let url = `/meal-log/get-meals?period=${period}`;
+        if (date) {
+            url += `&date=${date}`;
+        }
+
+        const response = await fetch(url);
         const data = await response.json();
 
         if (!data.success) {
             showToast('Error fetching meals', 'error');
+            entriesContainer.innerHTML = '<div class="ml-empty"><p>Failed to load meals. Please try again.</p></div>';
             return;
         }
 
@@ -175,7 +191,6 @@ async function fetchAndRenderMeals(period) {
         document.querySelector('.ml-fat span').textContent = data.totals.fat + 'g';
 
         // Update log entries
-        const entriesContainer = document.getElementById('mlLogEntries');
         entriesContainer.innerHTML = '';
 
         if (data.meals.length === 0) {
@@ -230,6 +245,7 @@ async function fetchAndRenderMeals(period) {
         attachEditButtonListeners();
     } catch (error) {
         showToast('Error fetching meals: ' + error.message, 'error');
+        entriesContainer.innerHTML = '<div class="ml-empty"><p>Failed to load meals. Please try again.</p></div>';
     }
 }
 
@@ -243,8 +259,23 @@ document.querySelectorAll('.ml-tab').forEach(tab => {
         document.querySelector('.ml-summary-header p').textContent = summaryText[tabText];
 
         const period = periodMap[tabText];
+        // Clear date input when clicking tabs
+        document.getElementById('mlDateInput').value = '';
         fetchAndRenderMeals(period);
     });
+});
+
+// Date input listener
+document.getElementById('mlDateInput').addEventListener('change', (e) => {
+    const selectedDate = e.target.value;
+    if (selectedDate) {
+        // Remove active state from tabs and use custom date
+        document.querySelectorAll('.ml-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector('.ml-summary-header p').textContent = 'Total nutrition for ' + selectedDate;
+        
+        // Fetch meals for the specific date
+        fetchAndRenderMeals('today', selectedDate);
+    }
 });
 
 mlAddBtn.addEventListener('click', () => {

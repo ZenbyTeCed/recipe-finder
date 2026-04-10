@@ -39,10 +39,37 @@ class MealLogController extends Controller
     {
         $uid = session('firebase_uid');
         $period = $request->query('period', 'today');
+        $specificDate = $request->query('date', null);
         
         $meals = [];
         $totals = ['calories' => 0, 'protein' => 0, 'carbs' => 0, 'fat' => 0];
 
+        // If a specific date is provided, fetch only that date's meals
+        if ($specificDate) {
+            $logs = $this->database
+                ->getReference('meal_logs/' . $uid . '/' . $specificDate)
+                ->getValue();
+
+            if ($logs) {
+                foreach ($logs as $key => $meal) {
+                    $meal['key'] = $key;
+                    $meal['date'] = $specificDate;
+                    $meals[] = $meal;
+                    $totals['calories'] += $meal['calories'] ?? 0;
+                    $totals['protein']  += $meal['protein']  ?? 0;
+                    $totals['carbs']    += $meal['carbs']    ?? 0;
+                    $totals['fat']      += $meal['fat']      ?? 0;
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'meals' => $meals,
+                'totals' => $totals,
+            ]);
+        }
+
+        // Otherwise, use period-based filtering
         if ($period === 'today') {
             $dates = [now()->toDateString()];
         } elseif ($period === 'week') {
