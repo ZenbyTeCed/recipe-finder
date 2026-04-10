@@ -48,6 +48,7 @@
 
     @vite('resources/js/toast.js')
     @vite('resources/js/auth.js')
+    @vite('resources/js/password-toggle.js')
 
     @stack('scripts')
 </body>
