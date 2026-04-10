@@ -115,6 +115,39 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        try {
+            $email = $request->email;
+
+            // Check if user exists
+            $user = $this->auth->getUserByEmail($email);
+
+            // Send password reset email using Firebase
+            $this->auth->sendPasswordResetLink($email);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Password reset link sent to your email. Check your inbox.',
+            ]);
+
+        } catch (UserNotFound $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No account found with this email address.',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error sending reset link. Please try again.',
+            ], 500);
+        }
+    }
+
     public function googleLogin(Request $request)
     {
         try {

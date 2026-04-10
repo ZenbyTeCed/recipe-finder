@@ -118,6 +118,7 @@
                     </svg>
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
+                <a href="#" class="lp-forgot" id="forgotPasswordBtn">Forgot Password?</a>
 
                 <button type="submit">Login</button>
             </form>
@@ -138,5 +139,42 @@
         </div>
     </div>
 </div>
+
+<!-- Forgot Password Modal -->
+<div class="forgot-password-overlay" id="forgotPasswordOverlay">
+    <div class="forgot-password-modal">
+        <div class="forgot-password-header">
+            <h3>Reset Password</h3>
+            <button class="forgot-password-close" id="forgotPasswordClose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+
+        <div class="forgot-password-body">
+            <p class="forgot-password-description">Enter your email address and we'll send you a link to reset your password.</p>
+            
+            <form id="forgotPasswordForm">
+                <label for="forgotPasswordEmail">Email Address</label>
+                <div class="forgot-password-input-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                    </svg>
+                    <input type="email" id="forgotPasswordEmail" name="email" placeholder="you@example.com" required>
+                </div>
+                <button type="submit" class="forgot-password-submit">Send Reset Link</button>
+            </form>
+
+            <div class="forgot-password-message" id="forgotPasswordMessage"></div>
+        </div>
+
+        <div class="forgot-password-footer">
+            <p>Remember your password? <a href="#" id="backToLoginBtn">Back to Login</a></p>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+    @vite('resources/js/forgot-password.js')
+@endpush
 
 @endsection
