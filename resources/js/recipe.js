@@ -13,7 +13,8 @@ const servingsInput = document.getElementById('servings');
 // Manual modal elements
 const rdMealLogModal = document.getElementById('rdMealLogModalOverlay');
 const rdMealLogModalClose = document.getElementById('rdMealLogModalClose');
-const rdNutribotLink = document.getElementById('rdNutribotLink');
+const rdNutribotLink = document.getElementById('mlNutribotLink');
+const rdMealLogModalForm = document.getElementById('rdMealLogModalForm');
 
 // Favorite
 const favoriteForm = document.getElementById('favoriteForm');
@@ -72,10 +73,24 @@ if (rdMealLogModal) {
 
 // NutriBot link
 if (rdNutribotLink) {
-    rdNutribotLink.addEventListener('click', (e) => {
-        e.preventDefault();
+    rdNutribotLink.addEventListener('click', () => {
+
+        // Close manual modal
         closeModal(rdMealLogModal);
-        window.location.href = '/home';
+
+        // Open NutriBot chat
+        const chatWindow = document.getElementById('chatWindow');
+        if (chatWindow) {
+            chatWindow.classList.add('open');
+        }
+
+        // Pre-fill message using recipe name
+        const chatInput = document.querySelector('.chat-input');
+        const mealName = "{{ $meal['strMeal'] }}";
+
+        if (chatInput) {
+            chatInput.value = `What are the approximate macros (calories, protein, carbs, fat) for `;
+        }
     });
 }
 
@@ -136,6 +151,51 @@ if (logMealForm) {
             }
         } else {
             showToast(data.message, 'error');
+        }
+    });
+}
+
+if (rdMealLogModalForm) {
+    rdMealLogModalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(rdMealLogModalForm);
+
+        try {
+            const response = await fetch('/meal-log/store', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                closeModal(rdMealLogModal);
+                rdMealLogModalForm.reset();
+                showToast(data.message, 'success');
+
+                if (data.notifications && data.notifications.length > 0) {
+                    data.notifications.forEach((msg, index) => {
+                        setTimeout(() => {
+                            showToast(msg, 'success');
+                        }, (index + 1) * 1500);
+                    });
+
+                    if (data.allGoalsHit) {
+                        setTimeout(() => {
+                            showGoalModal();
+                        }, data.notifications.length * 1500 + 1000);
+                    }
+                }
+            } else {
+                showToast(data.message || 'Failed to log meal.', 'error');
+            }
+        } catch (error) {
+            showToast('Error logging meal: ' + error.message, 'error');
         }
     });
 }
