@@ -90,6 +90,11 @@
                 <h4>Nutritional Information</h4>
                 <p>Per serving — powered by Spoonacular</p>
             </div>
+            @if($nutritionMessage)
+                <div style="background: #fef3c7; color: #92400e; padding: 10px; border-radius: 6px; margin-bottom: 10px; font-size: 14px;">
+                    {{ $nutritionMessage }}
+                </div>
+            @endif
             <div class="rd-nutrition-stats">
                 <div class="rd-nutrition-stat">
                     <p>Calories</p>
