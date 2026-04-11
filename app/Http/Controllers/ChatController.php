@@ -47,7 +47,8 @@ class ChatController extends Controller
         - When the user wants to search for a recipe, use the searchRecipe function.
         - When the user wants to log a meal, use the logMeal function. Always estimate nutrition if not provided.
         - When the user wants to change their name, use the updateName function.
-        - When the user wants to set or update their daily nutrition goals, use the updateGoals function.";
+        - When the user wants to set or update their daily nutrition goals, use the updateGoals function.
+        - When the user wants to see today's nutrition progress or asks for a daily summary, use the getDailySummary function.";
 
 
 $tools = [
@@ -112,6 +113,14 @@ $tools = [
                             'required' => ['calories', 'protein', 'carbs', 'fat'],
                         ],
                     ],
+                    [
+                        'name'        => 'getDailySummary',
+                        'description' => 'Get the user\'s total nutrition intake for today and compare it with daily goals',
+                        'parameters'  => [
+                            'type'       => 'object',
+                            'properties' => new \stdClass(),
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -160,6 +169,8 @@ $tools = [
                 $result = $this->updateName($args['name']);
             } elseif ($funcName === 'updateGoals') {
                 $result = $this->updateGoals($args);
+            } elseif ($funcName === 'getDailySummary') {
+                $result = $this->getDailySummary($message);
             } else {
                 continue;
             }
@@ -194,10 +205,11 @@ $tools = [
                 }
             }
             return response()->json([
-                'reply'        => $reply,
-                'mealLogged'   => $funcName === 'logMeal'     && ($result['success'] ?? false),
-                'nameUpdated'  => $funcName === 'updateName'  && ($result['success'] ?? false),
-                'goalsUpdated' => $funcName === 'updateGoals' && ($result['success'] ?? false),
+                'reply'         => $reply,
+                'mealLogged'    => $funcName === 'logMeal'         && ($result['success'] ?? false),
+                'nameUpdated'   => $funcName === 'updateName'      && ($result['success'] ?? false),
+                'goalsUpdated'  => $funcName === 'updateGoals'     && ($result['success'] ?? false),
+                'dailySummary'  => $funcName === 'getDailySummary' && ($result['success'] ?? false),
             ]);
         }
 
@@ -306,6 +318,94 @@ $tools = [
 
         } catch (\Exception $e) {
             return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+
+    private function getDailySummary(string $userMessage = ''): array
+    {
+        $uid   = session('firebase_uid');
+        $today = now()->toDateString();
+        $goals = session('goals', [
+            'calories' => 2000,
+            'protein'  => 150,
+            'carbs'    => 200,
+            'fat'      => 65,
+        ]);
+
+        try {
+            $snapshot = $this->database
+                ->getReference('meal_logs/' . $uid . '/' . $today)
+                ->getValue();
+
+            $meals = $snapshot ? array_values($snapshot) : [];
+
+            $totals = [
+                'calories' => 0,
+                'protein'  => 0,
+                'carbs'    => 0,
+                'fat'      => 0,
+            ];
+
+            foreach ($meals as $meal) {
+                $totals['calories'] += (float) ($meal['calories'] ?? 0);
+                $totals['protein']  += (float) ($meal['protein'] ?? 0);
+                $totals['carbs']    += (float) ($meal['carbs'] ?? 0);
+                $totals['fat']      += (float) ($meal['fat'] ?? 0);
+            }
+
+            $remaining = [
+                'calories' => round((float) $goals['calories'] - $totals['calories'], 1),
+                'protein'  => round((float) $goals['protein'] - $totals['protein'], 1),
+                'carbs'    => round((float) $goals['carbs'] - $totals['carbs'], 1),
+                'fat'      => round((float) $goals['fat'] - $totals['fat'], 1),
+            ];
+
+            $lowerMessage = strtolower($userMessage);
+
+            if (str_contains($lowerMessage, 'calories') && str_contains($lowerMessage, 'left')) {
+                $replyMessage = "You have {$remaining['calories']} kcal left for today 🔥";
+            } elseif (str_contains($lowerMessage, 'protein') && str_contains($lowerMessage, 'left')) {
+                $replyMessage = "You have {$remaining['protein']}g of protein left for today 💪";
+            } elseif (str_contains($lowerMessage, 'carbs') && str_contains($lowerMessage, 'left')) {
+                $replyMessage = "You have {$remaining['carbs']}g of carbs left for today 🌾";
+            } elseif (str_contains($lowerMessage, 'fat') && str_contains($lowerMessage, 'left')) {
+                $replyMessage = "You have {$remaining['fat']}g of fat left for today 💧";
+            } elseif (str_contains($lowerMessage, 'calories')) {
+                $replyMessage = "You’ve consumed " . round($totals['calories'], 1) . " kcal today out of {$goals['calories']} kcal 🔥";
+            } else {
+                $replyMessage = "Here’s your progress for today:\n" .
+                    "🔥 Calories: " . round($totals['calories'], 1) . " / " . (float) $goals['calories'] . " kcal\n" .
+                    "💪 Protein: " . round($totals['protein'], 1) . " / " . (float) $goals['protein'] . " g\n" .
+                    "🌾 Carbs: " . round($totals['carbs'], 1) . " / " . (float) $goals['carbs'] . " g\n" .
+                    "💧 Fat: " . round($totals['fat'], 1) . " / " . (float) $goals['fat'] . " g\n" .
+                    "🍽️ Meals logged: " . count($meals);
+            }
+
+            return [
+                'success' => true,
+                'date'    => $today,
+                'meals'   => count($meals),
+                'totals'  => [
+                    'calories' => round($totals['calories'], 1),
+                    'protein'  => round($totals['protein'], 1),
+                    'carbs'    => round($totals['carbs'], 1),
+                    'fat'      => round($totals['fat'], 1),
+                ],
+                'goals'   => [
+                    'calories' => (float) $goals['calories'],
+                    'protein'  => (float) $goals['protein'],
+                    'carbs'    => (float) $goals['carbs'],
+                    'fat'      => (float) $goals['fat'],
+                ],
+                'remaining' => $remaining,
+                'message'   => $replyMessage,
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
         }
     }
 }
