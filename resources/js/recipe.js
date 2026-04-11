@@ -46,6 +46,14 @@ if (logMealBtn) {
     });
 }
 
+const manualLogBtn = document.getElementById('mlLogMealButton');
+
+if (manualLogBtn) {
+    manualLogBtn.addEventListener('click', () => {
+        openModal(rdMealLogModal);
+    });
+}
+
 // Close normal modal
 if (modalCloseBtn) {
     modalCloseBtn.addEventListener('click', () => closeModal(logMealOverlay));
