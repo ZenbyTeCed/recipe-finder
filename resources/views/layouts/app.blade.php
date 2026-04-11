@@ -62,14 +62,17 @@
                 
             </div>
             <div class="chat-header-clear">
-                <button class="chat-clear-btn" id="chatClearBtn">Clear</button>
+                <button class="chat-clear-btn" id="chatClearBtn">New Chat</button>
             </div>
         </div>
 
         <div class="chat-messages" id="chatMessages">
             <div class="chat-message bot">
-                <p>Hi! I'm NutriBot your Recipe & Nutrition AI Assistant! 🔍 I can help you with recipe suggestions, cooking tips, nutrition advice, and meal planning. What would you like to know?</p>
-                <span class="chat-time">12:53 PM</span>
+                <p>
+                    Hey there! 👋 I'm <strong>NutriBot</strong> 🍽️<br>
+                    Ask me about recipes, calories, or meal ideas — I got you! 💪
+                </p>
+                <span class="chat-time"></span>
             </div>
         </div>
 

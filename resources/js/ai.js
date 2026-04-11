@@ -14,6 +14,39 @@ function getCurrentTime() {
     return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+function scrollToBottom() {
+    if (chatMessages) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+}
+
+function hideQuickQuestions() {
+    if (chatQuickQuestions) {
+        chatQuickQuestions.style.display = 'none';
+    }
+}
+
+function showQuickQuestionsIfDefault() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved || JSON.parse(saved).length <= 1) {
+        if (chatQuickQuestions) {
+            chatQuickQuestions.style.display = 'block';
+        }
+    }
+}
+
+function getDefaultWelcomeMessage() {
+    return `
+        <div class="chat-message bot">
+            <p>
+                Hey there! 👋 I'm <strong>NutriBot</strong> 🍽️<br>
+                Ask me about recipes, calories, or meal ideas — I got you! 💪
+            </p>
+            <span class="chat-time">${getCurrentTime()}</span>
+        </div>
+    `;
+}
+
 function saveMessages() {
     const messages = [];
     document.querySelectorAll('.chat-message:not(.typing-indicator)').forEach(msg => {
@@ -28,10 +61,16 @@ function saveMessages() {
 
 function loadMessages() {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return;
+    if (!saved) {
+        scrollToBottom();
+        return;
+    }
 
     const messages = JSON.parse(saved);
-    if (messages.length === 0) return;
+    if (messages.length === 0) {
+        scrollToBottom();
+        return;
+    }
 
     chatMessages.innerHTML = '';
     messages.forEach(msg => {
@@ -41,7 +80,13 @@ function loadMessages() {
         chatMessages.appendChild(div);
     });
 
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    if (messages.length > 1) {
+        hideQuickQuestions();
+    } else {
+        showQuickQuestionsIfDefault();
+    }
+
+    scrollToBottom();
 }
 
 function formatMessage(text) {
@@ -60,7 +105,7 @@ function appendMessage(text, type) {
     const formatted = type === 'bot' ? formatMessage(text) : text;
     msg.innerHTML = `<p>${formatted}</p><span class="chat-time">${getCurrentTime()}</span>`;
     chatMessages.appendChild(msg);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    scrollToBottom();
     saveMessages();
 }
 
@@ -75,13 +120,14 @@ function appendTyping() {
         </p>
     `;
     chatMessages.appendChild(typing);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    scrollToBottom();
     return typing;
 }
 
 async function sendMessage(message) {
     if (!message.trim()) return;
 
+    hideQuickQuestions();
     appendMessage(message, 'user');
     chatInput.value = '';
 
@@ -119,6 +165,11 @@ async function sendMessage(message) {
 chatBtn.addEventListener('click', () => {
     chatWindow.classList.toggle('open');
     chatBtn.classList.toggle('hidden');
+
+    if (chatWindow.classList.contains('open')) {
+        chatInput.focus();
+        scrollToBottom();
+    }
 });
 
 chatCloseBtn.addEventListener('click', () => {
@@ -129,12 +180,9 @@ chatQuickClose.addEventListener('click', () => chatQuickQuestions.style.display 
 
 chatClearBtn.addEventListener('click', () => {
     localStorage.removeItem(STORAGE_KEY);
-    chatMessages.innerHTML = `
-        <div class="chat-message bot">
-            <p>Hi! I'm NutriBot your Recipe & Nutrition AI Assistant! 🔍 I can help you with recipe suggestions, cooking tips, nutrition advice, and meal planning. What would you like to know?</p>
-            <span class="chat-time">${getCurrentTime()}</span>
-        </div>
-    `;
+    chatMessages.innerHTML = getDefaultWelcomeMessage();
+    showQuickQuestionsIfDefault();
+    scrollToBottom();
     saveMessages();
 });
 
