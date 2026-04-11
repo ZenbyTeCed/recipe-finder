@@ -347,8 +347,12 @@ mlModalForm.addEventListener('submit', async (e) => {
     const data = await response.json();
 
     if (data.success) {
+        // Close modal with animation, then hide
         mlModalOverlay.classList.remove('open');
-        document.body.style.overflow = 'auto';
+        setTimeout(() => {
+            mlModalOverlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
         mlModalForm.reset();
         showToast(data.message, 'success');
 
@@ -359,14 +363,30 @@ mlModalForm.addEventListener('submit', async (e) => {
                 }, (index + 1) * 1500);
             });
 
+            const totalDelay = data.notifications.length * 1500 + 1000;
+
             if (data.allGoalsHit) {
+                // show goal modal after notifications; wait for user to click "Let's Go"
                 setTimeout(() => {
-                    showGoalModal();
-                }, data.notifications.length * 1500 + 1000);
+                    window._shouldReloadOnGoalClose = true;
+                    if (typeof showGoalModal === 'function') showGoalModal();
+                }, totalDelay);
+                // do NOT auto-reload — wait for user action
+            } else {
+                // reload after notifications finished
+                setTimeout(() => location.reload(), totalDelay + 1000);
+            }
+        } else {
+            // no notifications
+            if (data.allGoalsHit) {
+                // show goal modal immediately and wait for user
+                window._shouldReloadOnGoalClose = true;
+                if (typeof showGoalModal === 'function') showGoalModal();
+            } else {
+                // quick reload
+                setTimeout(() => location.reload(), 1000);
             }
         }
-
-        setTimeout(() => location.reload(), 1000);
     } else {
         showToast(data.message, 'error');
     }

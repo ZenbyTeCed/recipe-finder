@@ -2,9 +2,14 @@ function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
 
-    toastMessage.textContent = message;
+    // set class (resets previous)
     toast.className = 'toast ' + type;
 
+    const cleanMessage = message.replace(/<svg[\s\S]*?<\/svg>/gi, '');
+    toastMessage.textContent = cleanMessage;
+
+    // show and auto-hide
+    toast.classList.remove('show');
     setTimeout(() => toast.classList.add('show'), 10);
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
@@ -40,6 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
             overlay.classList.remove('open');
+            // If page should reload when user closes the goal modal, do so
+            if (window._shouldReloadOnGoalClose) {
+                setTimeout(() => location.reload(), 300);
+            }
         });
     }
 
