@@ -13,8 +13,9 @@ const servingsInput = document.getElementById('servings');
 // Manual modal elements
 const rdMealLogModal = document.getElementById('rdMealLogModalOverlay');
 const rdMealLogModalClose = document.getElementById('rdMealLogModalClose');
-const rdNutribotLink = document.getElementById('mlNutribotLink');
+const rdNutribotLink = document.getElementById('rdNutribotLink');
 const rdMealLogModalForm = document.getElementById('rdMealLogModalForm');
+const mealNameElement = document.getElementById('rd-meal-name');
 
 // Favorite
 const favoriteForm = document.getElementById('favoriteForm');
@@ -74,7 +75,6 @@ if (rdMealLogModal) {
 // NutriBot link
 if (rdNutribotLink) {
     rdNutribotLink.addEventListener('click', () => {
-
         // Close manual modal
         closeModal(rdMealLogModal);
 
@@ -86,9 +86,11 @@ if (rdNutribotLink) {
 
         // Pre-fill message using recipe name
         const chatInput = document.querySelector('.chat-input');
+        const mealName = mealNameElement?.value || 'this meal';
 
         if (chatInput) {
-            chatInput.value = `What are the approximate macros (calories, protein, carbs, fat) for `;
+            chatInput.value = `What are the approximate macros (calories, protein, carbs, fat) for ${mealName}?`;
+            chatInput.focus();
         }
     });
 }

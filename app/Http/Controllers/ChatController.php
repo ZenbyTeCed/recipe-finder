@@ -9,7 +9,7 @@ use Kreait\Firebase\Contract\Auth;
 
 class ChatController extends Controller
 {
-    protected string $model = 'gemini-2.5-flash-lite';
+    protected string $model = 'gemini-2.5-flash';
     protected string $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
     public function __construct(protected Database $database, protected Auth $auth) {}
@@ -186,14 +186,13 @@ $tools = [
             $secondData  = $secondResponse->json();
             $secondParts = $secondData['candidates'][0]['content']['parts'] ?? [];
 
-            $reply = '😅 Sorry, I could not process your request.';
+            $reply = $result['message'] ?? '✅ Done successfully!';
             foreach ($secondParts as $secondPart) {
                 if (isset($secondPart['text'])) {
                     $reply = $secondPart['text'];
                     break;
                 }
             }
-
             return response()->json([
                 'reply'        => $reply,
                 'mealLogged'   => $funcName === 'logMeal'     && ($result['success'] ?? false),

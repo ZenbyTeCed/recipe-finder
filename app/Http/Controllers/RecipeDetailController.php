@@ -183,7 +183,7 @@ class RecipeDetailController extends Controller
         }
 
         // Step 3: Fallback values if no real data
-        $hasRealNutrition = $nutrition && !$nutritionMessage && $nutrition['calories'] > 0;
+        $hasRealNutrition = $nutrition && $nutrition['calories'] > 0;
         
         if (!$nutrition) {
             $nutrition = [

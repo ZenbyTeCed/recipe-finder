@@ -157,7 +157,7 @@
                 @if($nutritionMessage)
                     {{ $nutritionMessage }}
                 @endif
-                <button type="button" id="rdLogMealButton" style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">Log this meal manually</button> or ask NutriBot for an estimate!
+                <button type="button" id="mlLogMealButton" style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">Log this meal manually</button> or ask NutriBot for an estimate!
             </p>
         </div>
         @endif
@@ -280,7 +280,7 @@
             </div>
             <div class="ml-modal-nutribot-hint">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-                <p>Not sure about the macros? Ask <button type="button" class="ml-nutribot-link" id="mlNutribotLink">NutriBot</button> — just tell it the meal name and serving size!</p>
+                <p>Not sure about the macros? Ask <button type="button" class="ml-nutribot-link" id="rdNutribotLink">NutriBot</button> — just tell it the meal name and serving size!</p>
             </div>
             <button type="submit" class="ml-modal-submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
