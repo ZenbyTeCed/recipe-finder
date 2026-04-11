@@ -17,6 +17,7 @@ class ChatController extends Controller
 
     public function send(Request $request)
     {
+        $rateKey = 'gemini:' . (session('firebase_uid') ?: $request->ip());
         $message  = $request->input('message');
         $userName = session('user_fullname', 'there');
         $goals    = session('goals', [ // ← ADDED
@@ -127,11 +128,13 @@ $tools = [
         ];
 
         // First Gemini call (rate-limited)
-        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts('gemini', 5)) {
+        if (RateLimiter::tooManyAttempts($rateKey, 10)) {
             return response()->json([
-                'reply' => '⏳ Oops! NutriBot is taking a quick breather — I\'ve hit my rate limit. Please wait a moment and try again! 🙏'
-            ]);
+                'reply' => '⏳ Slow down a bit! You’re sending messages too fast 😅 Try again in a moment.'
+            ], 429);
         }
+
+        RateLimiter::hit($rateKey, 60);
         \Illuminate\Support\Facades\RateLimiter::hit('gemini', 60);
         $response = Http::post(
             $this->apiUrl . $this->model . ':generateContent?key=' . env('GEMINI_API_KEY'),
@@ -183,12 +186,13 @@ $tools = [
             }
 
             // Send result back to Gemini — same model
-            if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts('gemini', 5)) {
+            if (RateLimiter::tooManyAttempts($rateKey, 10)) {
                 return response()->json([
-                    'reply' => '⏳ Oops! NutriBot is taking a quick breather — I\'ve hit my rate limit. Please wait a moment and try again! 🙏'
-                ]);
+                    'reply' => '⏳ Slow down a bit! You’re sending messages too fast 😅 Try again in a moment.'
+                ], 429);
             }
-            \Illuminate\Support\Facades\RateLimiter::hit('gemini', 60);
+
+            RateLimiter::hit($rateKey, 60);
             $secondResponse = Http::post(
                 $this->apiUrl . $this->model . ':generateContent?key=' . env('GEMINI_API_KEY'),
                 [
