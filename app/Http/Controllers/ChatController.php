@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Kreait\Firebase\Contract\Database;
 use Kreait\Firebase\Contract\Auth;
 
@@ -125,7 +126,13 @@ $tools = [
             ],
         ];
 
-        // First Gemini call
+        // First Gemini call (rate-limited)
+        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts('gemini', 5)) {
+            return response()->json([
+                'reply' => '⏳ Oops! NutriBot is taking a quick breather — I\'ve hit my rate limit. Please wait a moment and try again! 🙏'
+            ]);
+        }
+        \Illuminate\Support\Facades\RateLimiter::hit('gemini', 60);
         $response = Http::post(
             $this->apiUrl . $this->model . ':generateContent?key=' . env('GEMINI_API_KEY'),
             [
@@ -176,6 +183,12 @@ $tools = [
             }
 
             // Send result back to Gemini — same model
+            if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts('gemini', 5)) {
+                return response()->json([
+                    'reply' => '⏳ Oops! NutriBot is taking a quick breather — I\'ve hit my rate limit. Please wait a moment and try again! 🙏'
+                ]);
+            }
+            \Illuminate\Support\Facades\RateLimiter::hit('gemini', 60);
             $secondResponse = Http::post(
                 $this->apiUrl . $this->model . ':generateContent?key=' . env('GEMINI_API_KEY'),
                 [

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RecipeNutritionCache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Kreait\Firebase\Contract\Database;
 
 class RecipeDetailController extends Controller
@@ -81,23 +82,35 @@ class RecipeDetailController extends Controller
 
                 // Fallback to recipe name if ingredients are empty
                 if (count($ingredientNames) > 0) {
-                    $searchResponse = Http::timeout(10)->get('https://api.spoonacular.com/recipes/findByIngredients', [
-                        'apiKey' => env('SPOONACULAR_API_KEY'),
-                        'ingredients' => implode(',', $ingredientNames),
-                        'number' => 1,
-                        'ranking' => 2,
-                        'ignorePantry' => true,
-                    ]);
+                    if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts('spoonacular', 15)) {
+                        $searchResponse = null;
+                    } else {
+                        \Illuminate\Support\Facades\RateLimiter::hit('spoonacular', 60);
+                        $searchResponse = Http::timeout(10)->get('https://api.spoonacular.com/recipes/findByIngredients', [
+                            'apiKey' => env('SPOONACULAR_API_KEY'),
+                            'ingredients' => implode(',', $ingredientNames),
+                            'number' => 1,
+                            'ranking' => 2,
+                            'ignorePantry' => true,
+                        ]);
+                    }
                 } else {
-                    $searchResponse = Http::timeout(10)->get('https://api.spoonacular.com/recipes/complexSearch', [
-                        'apiKey' => env('SPOONACULAR_API_KEY'),
-                        'query' => $meal['strMeal'],
-                        'number' => 1,
-                    ]);
+                    if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts('spoonacular', 15)) {
+                        $searchResponse = null;
+                    } else {
+                        \Illuminate\Support\Facades\RateLimiter::hit('spoonacular', 60);
+                        $searchResponse = Http::timeout(10)->get('https://api.spoonacular.com/recipes/complexSearch', [
+                            'apiKey' => env('SPOONACULAR_API_KEY'),
+                            'query' => $meal['strMeal'],
+                            'number' => 1,
+                        ]);
+                    }
                 }
 
-                // Check if API limit is reached
-                if (in_array($searchResponse->status(), [402, 429])) {
+                // Check if API limit is reached or we skipped due to rate limiter
+                if (!$searchResponse) {
+                    $nutritionMessage = 'Spoonacular API limit reached. Please try again later.';
+                } elseif (in_array($searchResponse->status(), [402, 429])) {
                     $nutritionMessage = 'Spoonacular API limit reached. Please try again later.';
                 } elseif ($searchResponse->successful()) {
                     $searchData = $searchResponse->json();
@@ -119,10 +132,15 @@ class RecipeDetailController extends Controller
                             $nutrition = null;
                         } else {
                             // Optional: get cook time from full info endpoint
-                            $infoResponse = Http::timeout(10)->get("https://api.spoonacular.com/recipes/{$recipeId}/information", [
-                                'apiKey' => env('SPOONACULAR_API_KEY'),
-                                'includeNutrition' => false,
-                            ]);
+                            if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts('spoonacular', 15)) {
+                                $infoResponse = null;
+                            } else {
+                                \Illuminate\Support\Facades\RateLimiter::hit('spoonacular', 60);
+                                $infoResponse = Http::timeout(10)->get("https://api.spoonacular.com/recipes/{$recipeId}/information", [
+                                    'apiKey' => env('SPOONACULAR_API_KEY'),
+                                    'includeNutrition' => false,
+                                ]);
+                            }
 
                             if ($infoResponse->successful()) {
                                 $infoData = $infoResponse->json();
@@ -130,11 +148,16 @@ class RecipeDetailController extends Controller
                             }
 
                             // Fetch nutrition for only ONE matched recipe
-                            $nutritionResponse = Http::timeout(10)->get("https://api.spoonacular.com/recipes/{$recipeId}/nutritionWidget.json", [
-                                'apiKey' => env('SPOONACULAR_API_KEY'),
-                            ]);
+                            if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts('spoonacular', 15)) {
+                                $nutritionResponse = null;
+                            } else {
+                                \Illuminate\Support\Facades\RateLimiter::hit('spoonacular', 60);
+                                $nutritionResponse = Http::timeout(10)->get("https://api.spoonacular.com/recipes/{$recipeId}/nutritionWidget.json", [
+                                    'apiKey' => env('SPOONACULAR_API_KEY'),
+                                ]);
+                            }
 
-                            if (in_array($nutritionResponse->status(), [402, 429])) {
+                            if (!$nutritionResponse || in_array($nutritionResponse->status(), [402, 429])) {
                                 $nutritionMessage = 'Spoonacular API limit reached. Please try again later.';
                             } elseif ($nutritionResponse->successful()) {
                                 $nutritionData = $nutritionResponse->json();
