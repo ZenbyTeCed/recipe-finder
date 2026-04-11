@@ -114,7 +114,7 @@ class RecipeDetailController extends Controller
                         $spoonName = strtolower($bestMatch['title'] ?? '');
                         similar_text($mealName, $spoonName, $percent);
 
-                        if ($matchedIngredients < 2 || $percent < 40) {
+                        if ($matchedIngredients < 2 || $percent < 20) {
                             $nutritionMessage = 'Spoonacular match too weak. Try NutriBot for better estimate.';
                             $nutrition = null;
                         } else {
