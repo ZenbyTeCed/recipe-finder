@@ -46,7 +46,8 @@ class ChatController extends Controller
         🌾 Carbs: ~XXg
         💧 Fat: ~XXg
         Always remind them these are estimates and can vary based on cooking method and portion size.
-        - When the user wants to search for a recipe, use the searchRecipe function.
+        - Only use the searchRecipe function when the user gives a specific recipe name or ingredient.
+        - If the user asks for broad suggestions like healthy breakfast, low-calorie lunch, or high-protein recipes, respond normally with helpful suggestions instead of calling searchRecipe.
         - When the user wants to log a meal, use the logMeal function. Always estimate nutrition if not provided.
         - When the user wants to change their name, use the updateName function.
         - When the user wants to set or update their daily nutrition goals, use the updateGoals function.
@@ -58,7 +59,7 @@ $tools = [
                 'functionDeclarations' => [
                     [
                         'name'        => 'searchRecipe',
-                        'description' => 'Search for recipes by name or ingredient from TheMealDB',
+                        'description' => 'Search for specific recipe names or ingredients from TheMealDB. Do not use for broad requests like healthy breakfast or low-calorie lunch.',
                         'parameters'  => [
                             'type'       => 'object',
                             'properties' => [
