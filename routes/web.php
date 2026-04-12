@@ -36,6 +36,7 @@ Route::middleware('firebase.auth')->group(function () {
 
     Route::post('/chat', [ChatController::class, 'send']);
     Route::post('/profile/update', [ProfileController::class, 'update']);
+    Route::delete('/profile/delete', [ProfileController::class, 'delete']);
     Route::post('/meal-log/store', [MealLogController::class, 'store']);
     Route::post('/meal-log/update', [MealLogController::class, 'update']);
     Route::post('/meal-log/delete', [MealLogController::class, 'destroy']);

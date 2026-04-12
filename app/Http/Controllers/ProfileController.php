@@ -58,4 +58,30 @@ class ProfileController extends Controller
             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
+    public function delete(Request $request)
+    {
+        try {
+            $uid = session('firebase_uid');
+
+            if (!$uid) {
+                return redirect('/login')->with('error', 'User session not found.');
+            }
+
+            // Delete user-related data from Realtime Database
+            $this->database->getReference('users/' . $uid)->remove();
+            $this->database->getReference('meal_logs/' . $uid)->remove();
+            $this->database->getReference('favorites/' . $uid)->remove();
+
+            // Delete user from Firebase Auth
+            $this->auth->deleteUser($uid);
+
+            // Clear session
+            session()->flush();
+
+            return redirect('/')->with('success', 'Account deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
 }

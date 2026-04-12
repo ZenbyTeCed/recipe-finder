@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <form class="profile-form" action="/profile/update" method="POST">
+        <form id="profileUpdateForm" class="profile-form" action="/profile/update" method="POST">
             @csrf
 
             <div class="profile-card">
@@ -63,15 +63,100 @@
                     <span>(150 × 4) + (200 × 4) + (65 × 9) = 1985 calories</span></p>
                 </div>
             </div>
+        </form>
 
-            <div class="profile-actions">
-                <a href="/home" class="profile-cancel-btn">Cancel</a>
-                <button type="submit" class="profile-save-btn">Save Changes</button>
+        <div class="profile-card">
+            <div class="profile-card-header">
+                <h4>Manage Account</h4>
+                <p>Permanently remove your account and data</p>
             </div>
 
-        </form>
+            <div class="profile-delete-section">
+                <div class="profile-delete-text">
+                    <p>Deleting your account will permanently remove your profile, goals, and saved data.</p>
+                    <span>This action cannot be undone.</span>
+                </div>
+
+                <button type="button" class="profile-delete-btn" id="openDeleteModal">
+                    Delete Account
+                </button>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="/home" class="profile-cancel-btn">Cancel</a>
+            <button type="submit" form="profileUpdateForm" class="profile-save-btn">Save Changes</button>
+        </div>
 
     </div>
 </div>
+
+<div class="delete-modal-overlay" id="deleteModalOverlay">
+    <div class="delete-modal">
+
+        <div class="delete-modal-header">
+            <div>
+                <h3>Delete Account</h3>
+                <p>This action cannot be undone</p>
+            </div>
+
+            <button type="button" class="delete-modal-close" id="deleteModalClose">
+                ✕
+            </button>
+        </div>
+
+        <div class="delete-modal-body">
+            <p>Are you sure you want to delete your account?</p>
+            <span>Your profile, goals, and all saved data will be permanently removed.</span>
+        </div>
+
+        <div class="delete-modal-actions">
+            <button type="button" class="delete-cancel-btn" id="deleteCancelBtn">
+                Cancel
+            </button>
+
+            <form action="/profile/delete" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="delete-confirm-btn">
+                    Delete Account
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteModalOverlay = document.getElementById('deleteModalOverlay');
+    const openDeleteModal = document.getElementById('openDeleteModal');
+    const deleteModalClose = document.getElementById('deleteModalClose');
+    const deleteCancelBtn = document.getElementById('deleteCancelBtn');
+
+    openDeleteModal.addEventListener('click', function () {
+        deleteModalOverlay.classList.add('open');
+        document.body.style.overflow = "hidden";
+    });
+
+    deleteModalClose.addEventListener('click', function () {
+        deleteModalOverlay.classList.remove('open');
+        document.body.style.overflow = "visible";
+    });
+
+    deleteCancelBtn.addEventListener('click', function () {
+        deleteModalOverlay.classList.remove('open');
+        document.body.style.overflow = "visible";
+    });
+
+    deleteModalOverlay.addEventListener('click', function (e) {
+        if (e.target === deleteModalOverlay) {
+            deleteModalOverlay.classList.remove('open');
+            document.body.style.overflow = "visible";
+        }
+    });
+});
+</script>
+
 
 @endsection
