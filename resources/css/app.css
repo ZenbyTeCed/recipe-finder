@@ -9,3 +9,45 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* ========================================
+   GLOBAL RESPONSIVE STYLES
+   ======================================== */
+
+/* Ensure images are responsive */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Responsive container classes */
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    body {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 834px) {
+    body {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 835px) and (max-width: 1024px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 1025px) {
+    body {
+        font-size: 16px;
+    }
+}

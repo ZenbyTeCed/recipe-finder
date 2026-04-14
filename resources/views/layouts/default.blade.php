@@ -28,9 +28,9 @@
         };
     </script>
 
-    @vite('public/css/login.css')
-    @vite('public/css/register.css')
-    @vite('public/css/general.css')
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/register.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/general.css') }}?v={{ time() }}">
 
 </head>
 <body>

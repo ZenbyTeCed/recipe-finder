@@ -13,16 +13,14 @@
         <meta name="flash-error" content="{{ session('error') }}">
     @endif
     
-    @vite('public/css/general.css')
-    @vite('public/css/footer.css')
-    @vite('public/css/header.css')
-    @vite('public/css/homepage.css')
-    @vite('public/css/dashboard.css')    
-    @vite('public/css/meal-log.css')
-    @vite('public/css/favorites.css')
-    @vite('public/css/profile.css')
-    @vite('public/css/recipe.css')
-    @vite('public/css/chat-bubble.css')
+    <link rel="stylesheet" href="{{ asset('css/general.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}?v={{ time() }}">    
+    <link rel="stylesheet" href="{{ asset('css/meal-log.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/favorites.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/recipe.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/chat-bubble.css') }}?v={{ time() }}">
 
 </head>
 <body class="wellcook-body">

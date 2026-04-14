@@ -2,12 +2,15 @@
     background-color: #f8fafc;
     min-height: 100vh;
     padding: 90px 0;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .dashboard-container {
     max-width: 1150px;
     width: 100%;
     margin: 0 auto;
+    padding: 0 12px;
 }
 
 /* Header */
@@ -20,12 +23,16 @@
     font-weight: 500;
     color: #111827;
     margin: 0 0 6px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .dashboard-header p {
     font-size: 15px;
     color: #6b7280;
     margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Top 4 goal cards */
@@ -344,4 +351,249 @@
 .dts-consumed span:last-child {
     font-weight: 600;
     color: #111827;
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES - DASHBOARD
+   ======================================== */
+
+/* Mobile: 320px to 480px */
+@media (max-width: 480px) {
+    .dashboard-page {
+        padding: 70px 0 40px 0;
+    }
+
+    .dashboard-container {
+        padding: 0 12px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 20px;
+    }
+
+    .dashboard-header p {
+        font-size: 13px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .dashboard-goals-1,
+    .dashboard-goals-2,
+    .dashboard-goals-3,
+    .dashboard-goals-4 {
+        padding: 12px;
+    }
+
+    .dashboard-goals-1 h4,
+    .dashboard-goals-2 h4,
+    .dashboard-goals-3 h4,
+    .dashboard-goals-4 h4 {
+        font-size: 12px;
+    }
+
+    .dashboard-goals-1 > span,
+    .dashboard-goals-2 > span,
+    .dashboard-goals-3 > span,
+    .dashboard-goals-4 > span {
+        font-size: 22px;
+    }
+
+    .dashboard-goals-summary {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .ddg-3 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .dashboard-daily-goals,
+    .dashboard-today-summary {
+        padding: 16px;
+    }
+
+    .ddg-1 h4,
+    .dts-header h4 {
+        font-size: 15px;
+    }
+
+    .ddg-1 p,
+    .dts-header p {
+        font-size: 12px;
+    }
+
+    .dts-content {
+        padding: 16px;
+    }
+
+    .dts-content p:nth-child(2) {
+        font-size: 28px;
+    }
+
+    .dts-consumed {
+        padding: 10px 0;
+        font-size: 12px;
+    }
+}
+
+/* Mobile Landscape: 481px to 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+    .dashboard-page {
+        padding: 75px 0 40px 0;
+    }
+
+    .dashboard-container {
+        padding: 0 16px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 24px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .dashboard-goals-1,
+    .dashboard-goals-2,
+    .dashboard-goals-3,
+    .dashboard-goals-4 {
+        padding: 16px;
+    }
+
+    .dashboard-goals-1 > span,
+    .dashboard-goals-2 > span,
+    .dashboard-goals-3 > span,
+    .dashboard-goals-4 > span {
+        font-size: 24px;
+    }
+
+    .dashboard-goals-summary {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .ddg-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dashboard-daily-goals,
+    .dashboard-today-summary {
+        padding: 20px;
+    }
+
+    .ddg-1 h4,
+    .dts-header h4 {
+        font-size: 16px;
+    }
+}
+
+/* Tablet: 769px to 834px */
+@media (min-width: 769px) and (max-width: 834px) {
+    .dashboard-page {
+        padding: 80px 0 40px 0;
+    }
+
+    .dashboard-container {
+        padding: 0 18px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 26px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .dashboard-goals-summary {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .ddg-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tablet Landscape: 835px to 1024px */
+@media (min-width: 835px) and (max-width: 1024px) {
+    .dashboard-page {
+        padding: 85px 0 40px 0;
+    }
+
+    .dashboard-container {
+        padding: 0 20px;
+        max-width: 100%;
+    }
+
+    .dashboard-header h1 {
+        font-size: 28px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .dashboard-goals-summary {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .ddg-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Laptop: 1025px to 1440px */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .dashboard-container {
+        padding: 0 24px;
+        max-width: 1250px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .dashboard-goals-summary {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .ddg-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Desktop: 1441px and above */
+@media (min-width: 1441px) {
+    .dashboard-container {
+        max-width: 1400px;
+        padding: 0 32px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .dashboard-goals-summary {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .ddg-3 {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
 }

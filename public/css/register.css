@@ -225,3 +225,316 @@
     color: #ea580c;
     text-decoration: underline;
 }
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES - REGISTER
+   ======================================== */
+
+/* Mobile: 320px to 480px */
+@media (max-width: 480px) {
+    .register-page {
+        flex-direction: column;
+        max-width: 100%;
+        gap: 25px;
+        padding: 40px 16px;
+        min-height: auto;
+    }
+
+    .rp-input-icon,
+    .lp-input-icon {
+        display: none;
+    }
+
+    .rp-section1,
+    .rp-section2 {
+        width: 100%;
+    }
+
+    .rp-description p:nth-child(1) {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .rp-description p:nth-child(2) {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .rp-features {
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .rp-features-card {
+        padding: 12px 14px;
+        gap: 12px;
+        flex-direction: row;
+    }
+
+    .rp-features-card-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .rp-features-card-text h3 {
+        font-size: 13px;
+        margin-bottom: 2px;
+    }
+
+    .rp-features-card-text p {
+        font-size: 12px;
+    }
+
+    .rp-register-form {
+        max-width: 100%;
+        width: 100%;
+        padding: 18px 20px;
+        border-radius: 10px;
+    }
+
+    .rp-register-form h3 {
+        font-size: 20px;
+        margin-bottom: 6px;
+    }
+
+    .rp-register-form > p {
+        font-size: 13px;
+        margin-bottom: 14px;
+    }
+
+    .rp-register-form-fields label {
+        font-size: 13px;
+        margin-top: 8px;
+    }
+
+    .rp-register-form-fields input {
+        padding: 10px 36px 10px 12px;
+        font-size: 13px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+    }
+
+    .rp-input-icon {
+        left: 10px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .rp-register-form-fields button {
+        margin-top: 4px;
+        padding: 10px;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    .rp-register-create {
+        margin-top: 8px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rp-register-create p {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .rp-register-create a {
+        font-size: 13px;
+        margin-left: 0;
+        margin-top: 2px;
+    }
+}
+
+/* Mobile Landscape: 481px to 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+    .rp-input-icon,
+    .lp-input-icon {
+        display: none;
+    }
+    .register-page {
+        flex-direction: column;
+        max-width: 100%;
+        gap: 30px;
+        padding: 45px 18px;
+        min-height: auto;
+    }
+
+    .rp-section1,
+    .rp-section2 {
+        width: 100%;
+    }
+
+    .rp-description p:nth-child(1) {
+        font-size: 22px;
+        margin-bottom: 14px;
+    }
+
+    .rp-description p:nth-child(2) {
+        font-size: 15px;
+        margin-bottom: 18px;
+    }
+
+    .rp-features {
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .rp-features-card {
+        padding: 14px 16px;
+        gap: 14px;
+    }
+
+    .rp-features-card-text h3 {
+        font-size: 14px;
+    }
+
+    .rp-features-card-text p {
+        font-size: 13px;
+    }
+
+    .rp-register-form {
+        max-width: 100%;
+        width: 100%;
+        padding: 20px 22px;
+    }
+
+    .rp-register-form h3 {
+        font-size: 22px;
+    }
+
+    .rp-register-form > p {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .rp-register-form-fields label {
+        font-size: 13px;
+        margin-top: 10px;
+    }
+
+    .rp-register-form-fields input {
+        padding: 11px 38px 11px 14px;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .rp-register-form-fields button {
+        margin-top: 8px;
+        padding: 11px;
+        font-size: 14px;
+    }
+
+    .rp-register-create {
+        margin-top: 10px;
+    }
+
+    .rp-register-create p,
+    .rp-register-create a {
+        font-size: 13px;
+    }
+}
+
+/* Tablet: 769px to 834px */
+@media (min-width: 769px) and (max-width: 834px) {
+    .register-page {
+        flex-direction: column;
+        max-width: 85%;
+        gap: 35px;
+        padding: 50px 0;
+    }
+
+    .rp-description p:nth-child(1) {
+        font-size: 24px;
+    }
+
+    .rp-register-form {
+        max-width: 100%;
+    }
+
+    .rp-features-card {
+        padding: 16px 16px;
+    }
+
+    .rp-features-card-text h3 {
+        font-size: 15px;
+    }
+}
+
+/* Tablet Landscape: 835px to 1024px */
+@media (min-width: 835px) and (max-width: 1024px) {
+    .register-page {
+        max-width: 90%;
+        gap: 40px;
+        padding: 50px 0;
+    }
+
+    .rp-description p:nth-child(1) {
+        font-size: 26px;
+    }
+
+    .rp-description p:nth-child(2) {
+        font-size: 16px;
+    }
+
+    .rp-features {
+        gap: 12px;
+    }
+
+    .rp-features-card {
+        padding: 16px 18px;
+    }
+
+    .rp-register-form {
+        max-width: 380px;
+    }
+}
+
+/* Laptop: 1025px to 1440px */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .register-page {
+        max-width: 75%;
+        gap: 50px;
+        padding: 50px 0;
+    }
+
+    .rp-description p:nth-child(1) {
+        font-size: 30px;
+    }
+
+    .rp-register-form {
+        max-width: 400px;
+    }
+
+    .rp-features-card {
+        padding: 16px 18px;
+        gap: 15px;
+    }
+}
+
+/* Desktop: 1441px and above */
+@media (min-width: 1441px) {
+    .register-page {
+        max-width: 70%;
+        gap: 60px;
+        padding: 50px 0;
+    }
+
+    .rp-description p:nth-child(1) {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    .rp-register-form {
+        max-width: 400px;
+        padding: 28px 30px;
+    }
+
+    .rp-features {
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .rp-features-card {
+        padding: 16px 18px;
+    }
+}

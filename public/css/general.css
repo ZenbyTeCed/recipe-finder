@@ -5,6 +5,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    overflow-x: hidden;
 }
 
 .login-register-content {
@@ -106,6 +107,10 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .wellcook-header .user-btn svg,
@@ -196,6 +201,511 @@ html, body {
 
 .user-btn svg {
     color: #000000;
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES
+   ======================================== */
+
+/* Base: Reset image sizing */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Mobile: 320px to 480px */
+@media (max-width: 480px) {
+    .wellcook-header {
+        padding: 4px 0;
+        padding-bottom: 4px;
+        height: auto;
+        overflow-x: hidden;
+    }
+
+    .wellcook-header-inner {
+        padding: 0 6px;
+        width: 100%;
+        gap: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        gap: 2px;
+        flex-shrink: 0;
+        min-width: auto;
+    }
+
+    .logo img {
+        height: 22px;
+    }
+
+    .logo span {
+        display: none;
+    }
+
+    .nav-links {
+        gap: 4px;
+        overflow: visible;
+        flex-shrink: 1;
+        min-width: 0;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    /* Show ONLY icons on mobile for nav items */
+    .nav-links > a {
+        font-size: 0;
+        padding: 4px;
+        height: 32px;
+        width: 32px;
+        white-space: nowrap;
+        min-width: 32px;
+        flex-shrink: 0;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+    }
+
+    .nav-links > a svg {
+        display: block;
+        width: 20px;
+        height: 20px;
+    }
+
+    .nav-links > a span {
+        display: none;
+    }
+
+    .user-wrapper {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: auto;
+    }
+
+    .user-actions-divider {
+        display: none;
+    }
+
+    .user-actions {
+        margin-left: 0;
+        gap: 4px;
+        flex-shrink: 0;
+        padding-right: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .wellcook-header .user-btn,
+    .user-btn {
+        width: 32px !important;
+        height: 32px !important;
+        padding: 0 !important;
+        gap: 0;
+        border-radius: 50%;
+        font-size: 0;
+        flex-shrink: 0;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .user-btn span {
+        display: none;
+    }
+
+    .wellcook-header .user-btn:hover,
+    .user-btn:hover {
+        background-color: #f3f4f6;
+        border-radius: 50%;
+    }
+
+    .wellcook-header .user-actions svg,
+    .user-actions svg {
+        width: 20px !important;
+        height: 20px !important;
+        display: block;
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    .wellcook-header .logout-btn,
+    .logout-btn {
+        width: 32px !important;
+        height: 32px !important;
+        padding: 0 !important;
+        gap: 0;
+        border-radius: 50%;
+        font-size: 0;
+        flex-shrink: 0;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logout-btn span {
+        display: none;
+    }
+
+    .wellcook-header .logout-btn:hover,
+    .logout-btn:hover {
+        background-color: #f3f4f6;
+        border-radius: 50%;
+    }
+
+    .wellcook-header .logout-btn svg,
+    .logout-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+        display: block;
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    .login-register-footer {
+        font-size: 10px;
+        padding: 0 8px;
+    }
+}
+
+/* Mobile Landscape: 481px to 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+    .wellcook-header {
+        padding: 6px 0;
+        padding-bottom: 6px;
+        overflow-x: hidden;
+    }
+
+    .wellcook-header-inner {
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        flex-shrink: 0;
+    }
+
+    .logo img {
+        height: 28px;
+    }
+
+    .logo span {
+        font-size: 16px;
+        display: none;
+    }
+
+    .nav-links {
+        gap: 6px;
+        overflow: visible;
+        flex-shrink: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Show ONLY icons on tablet */
+    .nav-links > a {
+        font-size: 0;
+        padding: 6px;
+        height: 36px;
+        width: 36px;
+        min-width: 36px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+
+    .nav-links > a svg {
+        display: block;
+        width: 22px;
+        height: 22px;
+    }
+
+    .nav-links > a span {
+        display: none;
+    }
+
+    .user-wrapper {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+    }
+
+    .user-actions-divider {
+        display: none;
+    }
+
+    .user-actions {
+        margin-left: 0;
+        gap: 6px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .wellcook-header .user-btn,
+    .user-btn {
+        width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
+        gap: 0;
+        border-radius: 50%;
+        font-size: 0;
+        flex-shrink: 0;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .user-btn span {
+        display: none;
+    }
+
+    .wellcook-header .user-btn:hover,
+    .user-btn:hover {
+        background-color: #f3f4f6;
+        border-radius: 50%;
+    }
+
+    .wellcook-header .user-btn svg,
+    .user-btn svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .wellcook-header .logout-btn,
+    .logout-btn {
+        width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
+        gap: 0;
+        border-radius: 50%;
+        font-size: 0;
+        flex-shrink: 0;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logout-btn span {
+        display: none;
+    }
+
+    .wellcook-header .logout-btn:hover,
+    .logout-btn:hover {
+        background-color: #f3f4f6;
+        border-radius: 50%;
+    }
+
+    .wellcook-header .logout-btn svg,
+    .logout-btn svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .login-register-footer {
+        font-size: 12px;
+        padding: 0 15px;
+    }
+}
+
+/* Tablet: 769px to 834px */
+@media (min-width: 769px) and (max-width: 834px) {
+    .wellcook-header {
+        overflow-x: hidden;
+    }
+
+    .wellcook-header-inner {
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        flex-shrink: 0;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .logo span {
+        font-size: 18px;
+        display: none;
+    }
+
+    .nav-links {
+        gap: 8px;
+        overflow: visible;
+        flex-shrink: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Show ONLY icons on tablet */
+    .nav-links > a {
+        font-size: 0;
+        padding: 7px;
+        height: 38px;
+        width: 38px;
+        min-width: 38px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+
+    .nav-links > a svg {
+        display: block;
+        width: 24px;
+        height: 24px;
+    }
+
+    .nav-links > a span {
+        display: none;
+    }
+
+    .user-wrapper {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+    }
+
+    .user-actions-divider {
+        display: none;
+    }
+
+    .user-actions {
+        margin-left: 0;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .wellcook-header .user-btn,
+    .user-btn {
+        width: 38px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        border-radius: 50%;
+        font-size: 0;
+        flex-shrink: 0;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .user-btn span {
+        display: none;
+    }
+
+    .wellcook-header .user-btn:hover,
+    .user-btn:hover {
+        background-color: #f3f4f6;
+        border-radius: 50%;
+    }
+
+    .wellcook-header .user-btn svg,
+    .user-btn svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    .wellcook-header .logout-btn,
+    .logout-btn {
+        width: 38px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        border-radius: 50%;
+        font-size: 0;
+        flex-shrink: 0;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logout-btn span {
+        display: none;
+    }
+
+    .wellcook-header .logout-btn:hover,
+    .logout-btn:hover {
+        background-color: #f3f4f6;
+        border-radius: 50%;
+    }
+
+    .wellcook-header .logout-btn svg,
+    .logout-btn svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+}
+
+/* Tablet Landscape: 835px to 1024px */
+@media (min-width: 835px) and (max-width: 1024px) {
+    .wellcook-header-inner {
+        padding: 0 20px;
+        max-width: 1200px;
+    }
+
+    .nav-links {
+        gap: 18px;
+    }
+
+    .user-actions {
+        margin-left: 25px;
+    }
+}
+
+/* Laptop: 1025px to 1440px */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .wellcook-header-inner {
+        max-width: 1400px;
+        padding: 0 30px;
+    }
+
+    .nav-links {
+        gap: 20px;
+    }
+}
+
+/* Desktop: 1441px and above */
+@media (min-width: 1441px) {
+    .wellcook-header-inner {
+        padding: 0 40px;
+        max-width: 1500px;
+    }
+
+    .nav-links {
+        gap: 25px;
+    }
 }
 
 .user-btn span,

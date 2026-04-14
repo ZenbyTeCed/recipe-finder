@@ -2,6 +2,8 @@
     background-color: #f8fafc;
     min-height: 100vh;
     padding: 90px 0;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .profile-container {
@@ -11,6 +13,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 0 12px;
+    box-sizing: border-box;
 }
 
 /* Header */
@@ -372,4 +376,331 @@
 
 .delete-confirm-btn:hover {
     background-color: #b91c1c;
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES - PROFILE
+   ======================================== */
+
+/* Mobile: 320px to 480px */
+@media (max-width: 480px) {
+    .profile-page {
+        padding: 70px 0 40px 0;
+    }
+
+    .profile-container {
+        padding: 0 12px;
+        gap: 16px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .profile-header h1 {
+        font-size: 22px;
+        margin-bottom: 2px;
+    }
+
+    .profile-header p {
+        font-size: 12px;
+    }
+
+    .profile-form {
+        gap: 16px;
+    }
+
+    .profile-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .profile-card-header h4 {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+
+    .profile-card-header p {
+        font-size: 12px;
+    }
+
+    .profile-field {
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+
+    .profile-field label {
+        font-size: 13px;
+    }
+
+    .profile-field input {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .profile-field-hint {
+        font-size: 11px;
+    }
+
+    .profile-macros {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .profile-macro-hint {
+        padding: 12px 14px;
+    }
+
+    .profile-macro-hint p {
+        font-size: 12px;
+    }
+
+    .profile-delete-section {
+        flex-direction: column;
+        padding: 12px;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .profile-delete-text p {
+        font-size: 13px;
+    }
+
+    .profile-delete-text span {
+        font-size: 11px;
+    }
+
+    .profile-delete-btn {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+        gap: 8px;
+        padding-bottom: 20px;
+    }
+
+    .profile-cancel-btn,
+    .profile-save-btn {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .delete-modal {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .delete-modal-header h3 {
+        font-size: 18px;
+    }
+
+    .delete-modal-header p {
+        font-size: 12px;
+    }
+
+    .delete-modal-body p {
+        font-size: 13px;
+    }
+
+    .delete-modal-body span {
+        font-size: 12px;
+    }
+
+    .delete-cancel-btn,
+    .delete-confirm-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* Mobile Landscape: 481px to 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+    .profile-page {
+        padding: 75px 0 40px 0;
+    }
+
+    .profile-container {
+        padding: 0 15px;
+        gap: 18px;
+        max-width: 750px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .profile-header h1 {
+        font-size: 24px;
+    }
+
+    .profile-form {
+        gap: 18px;
+    }
+
+    .profile-card {
+        padding: 18px;
+        gap: 14px;
+    }
+
+    .profile-field {
+        gap: 5px;
+        margin-bottom: 12px;
+    }
+
+    .profile-field input {
+        padding: 9px 13px;
+        font-size: 14px;
+    }
+
+    .profile-macros {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .profile-actions {
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .profile-cancel-btn,
+    .profile-save-btn {
+        width: auto;
+        padding: 9px 16px;
+        font-size: 14px;
+    }
+
+    .delete-modal {
+        padding: 24px;
+        max-width: 420px;
+    }
+}
+
+/* Tablet: 769px to 834px */
+@media (min-width: 769px) and (max-width: 834px) {
+    .profile-page {
+        padding: 80px 0 40px 0;
+    }
+
+    .profile-container {
+        max-width: 800px;
+        padding: 0 16px;
+    }
+
+    .profile-header h1 {
+        font-size: 26px;
+    }
+
+    .profile-form {
+        gap: 18px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-macros {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+}
+
+/* Tablet Landscape: 835px to 1024px */
+@media (min-width: 835px) and (max-width: 1024px) {
+    .profile-page {
+        padding: 85px 0 40px 0;
+    }
+
+    .profile-container {
+        max-width: 850px;
+        padding: 0 18px;
+    }
+
+    .profile-header h1 {
+        font-size: 28px;
+    }
+
+    .profile-form {
+        gap: 20px;
+    }
+
+    .profile-card {
+        padding: 22px;
+        gap: 16px;
+    }
+
+    .profile-macros {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+}
+
+/* Laptop: 1025px to 1440px */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .profile-page {
+        padding: 85px 0 40px 0;
+    }
+
+    .profile-container {
+        max-width: 950px;
+        padding: 0 20px;
+    }
+
+    .profile-form {
+        gap: 24px;
+    }
+
+    .profile-card {
+        padding: 24px;
+    }
+
+    .profile-macros {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+}
+
+/* Desktop: 1441px and above */
+@media (min-width: 1441px) {
+    .profile-page {
+        padding: 90px 0 40px 0;
+    }
+
+    .profile-container {
+        max-width: 1000px;
+        padding: 0 32px;
+    }
+
+    .profile-header h1 {
+        font-size: 30px;
+    }
+
+    .profile-form {
+        gap: 30px;
+    }
+
+    .profile-card {
+        padding: 24px;
+        gap: 18px;
+    }
+
+    .profile-macros {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .profile-actions {
+        padding-bottom: 40px;
+    }
+
+    .delete-modal {
+        max-width: 420px;
+    }
 }

@@ -138,7 +138,7 @@
             </form>
 
             <div class="rp-register-create">
-                <p>Already have an account? <a href="/login">Login</a></p>
+                <p>Already have an account? <a href="{{ route('login') }}">Login</a></p>
             </div>
         </div>
     </div>

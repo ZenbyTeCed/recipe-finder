@@ -100,11 +100,12 @@
     display: flex;
     flex-direction: column;
     max-width: 400px;
+    width: 100%;
     margin: 0 auto;
-    height: 515px;
+    height: auto;
 
     background-color: white;
-    padding: 20px 25px;
+    padding: 30px 28px;
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.138);
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
@@ -142,10 +143,10 @@
     width: 100%;
     box-sizing: border-box;
     background-color: #f3f3f5 ;
-    padding: 12px 40px 12px 12px;
+    padding: 12px 12px 12px 45px;
     border: none;
-    border-radius: 4px;
-
+    border-radius: 6px;
+    font-size: 14px;
     transition: all 0.2s ease;
 }
 
@@ -192,14 +193,16 @@
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
+    width: 100%;
+    overflow: visible;
 }
 
 .lp-password-toggle {
     position: absolute;
     right: 0px;
     top: 50%;
-    transform: translateY(-60%);
+    transform: translateY(-50%);
     border: none;
     background: transparent !important;
     cursor: pointer;
@@ -209,6 +212,7 @@
     padding: 4px;
     color: rgba(0, 0, 0, 0.814) !important;
     transition: all 0.2s ease;
+    z-index: 10;
 }
 
 .lp-password-toggle:hover {
@@ -217,9 +221,11 @@
 }
 
 .lp-password-toggle svg {
-    width: 18px;
-    height: 18px;
+    width: 18px !important;
+    height: 18px !important;
     stroke: currentColor;
+    display: block;
+    flex-shrink: 0;
 }
 
 .lucide-eye-closed-icon {
@@ -228,11 +234,12 @@
 
 .lp-input-icon {
     position: absolute;
-    left: 12px;
-    width: 20px;
-    height: 20px;
-    opacity: 0.4;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    opacity: 0.5;
     pointer-events: none;
+    flex-shrink: 0;
 }
 
 .lp-login-form-fields input {
@@ -498,6 +505,594 @@
     transition: all 0.2s ease;
 }
 
+/* ========================================
+   RESPONSIVE MEDIA QUERIES - LOGIN
+   ======================================== */
+
+/* Mobile: 320px to 480px */
+@media (max-width: 480px) {
+    .login-page {
+        flex-direction: column;
+        max-width: 100%;
+        gap: 30px;
+        min-height: auto;
+        padding: 30px 12px;
+        margin: 0;
+    }
+
+    .lp-section1,
+    .lp-section2 {
+        flex: 1;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .lp-description p:nth-child(2) {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .lp-logo img {
+        width: 48px;
+        height: 48px;
+        margin-right: 8px;
+    }
+
+    .lp-logo h1 {
+        font-size: 24px;
+    }
+
+    .lp-features {
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .lp-features > div {
+        flex: 1 1 calc(50% - 5px);
+    }
+
+    .lp-features-card {
+        padding: 12px;
+        height: auto;
+        min-height: 110px;
+    }
+
+    .lp-features-card .lp-fc-icon {
+        font-size: 22px;
+    }
+
+    .lp-features-card h3 {
+        font-size: 14px;
+        margin-top: 6px;
+    }
+
+    .lp-features-card p {
+        font-size: 12px;
+    }
+
+    .lp-login-form {
+        max-width: calc(100% - 24px);
+        width: 100%;
+        padding: 24px 18px;
+        height: auto;
+        border-radius: 10px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .lp-login-form h3 {
+        font-size: 20px;
+        margin-bottom: 6px;
+    }
+
+    .lp-login-form p {
+        font-size: 13px;
+        margin-bottom: 16px;
+    }
+
+    .lp-login-form-fields label {
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .lp-login-form-fields input {
+        padding: 11px 12px 11px 42px;
+        font-size: 13px;
+        border-radius: 6px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .lp-input-wrapper {
+        margin-bottom: 14px;
+        overflow: visible;
+    }
+
+    .lp-input-icon {
+        left: 12px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .lp-password-toggle {
+        right: 0px;
+        padding: 4px;
+    }
+
+    .lp-login-form-fields button {
+        margin-top: 8px;
+        padding: 11px 12px;
+        font-size: 13px;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .lp-forgot {
+        font-size: 12px;
+        margin-bottom: 8px;
+        margin-top: -3px;
+    }
+
+    .lp-lf-divider {
+        margin: 20px 0;
+        gap: 8px;
+    }
+
+    .lp-lf-divider hr {
+        opacity: 0.3;
+    }
+
+    .lp-lf-divider p {
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .lp-login-with-google {
+        gap: 8px;
+        font-size: 13px;
+        padding: 10px;
+        border-radius: 6px;
+    }
+
+    .lp-login-create {
+        margin-top: 8px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .lp-login-create p {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .lp-login-create a {
+        font-size: 13px;
+        margin-left: 0;
+        margin-top: 2px;
+    }
+
+    .forgot-password-modal {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .forgot-password-header h3 {
+        font-size: 18px;
+    }
+
+    .forgot-password-description {
+        font-size: 12px;
+        margin-bottom: 16px;
+    }
+
+    #forgotPasswordEmail {
+        padding: 8px 12px 8px 36px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+
+    .forgot-password-submit {
+        padding: 8px 12px;
+        font-size: 13px;
+        margin-top: 6px;
+    }
+}
+
+/* Mobile Landscape: 481px to 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+    .login-page {
+        flex-direction: column;
+        max-width: 100%;
+        gap: 35px;
+        min-height: auto;
+        padding: 35px 16px;
+        margin: 0;
+    }
+
+    .lp-section1,
+    .lp-section2 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 22px;
+        margin-bottom: 14px;
+    }
+
+    .lp-description p:nth-child(2) {
+        font-size: 15px;
+        margin-bottom: 18px;
+    }
+
+    .lp-features {
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .lp-features > div {
+        flex: 1 1 calc(50% - 6px);
+    }
+
+    .lp-features-card {
+        padding: 14px;
+        height: auto;
+        min-height: 120px;
+    }
+
+    .lp-features-card .lp-fc-icon {
+        font-size: 24px;
+    }
+
+    .lp-features-card h3 {
+        font-size: 15px;
+        margin-top: 7px;
+    }
+
+    .lp-features-card p {
+        font-size: 13px;
+    }
+
+    .lp-login-form {
+        max-width: calc(100% - 32px);
+        width: 100%;
+        padding: 26px 20px;
+        height: auto;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .lp-login-form h3 {
+        font-size: 22px;
+    }
+
+    .lp-login-form p {
+        font-size: 14px;
+        margin-bottom: 18px;
+    }
+
+    .lp-login-form-fields input {
+        padding: 11px 12px 11px 44px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }}
+
+    .lp-input-wrapper {
+        margin-bottom: 16px;
+        overflow: visible;
+    }
+
+    .lp-input-icon {
+        left: 14px;
+        width: 17px;
+        height: 17px;
+    }
+
+    .lp-password-toggle {
+        right: 0px;
+        padding: 4px;
+    }
+
+    .lp-login-form-fields button {
+        padding: 11px 12px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .lp-lf-divider {
+        margin: 24px 0;
+    }
+
+    .lp-login-with-google {
+        gap: 9px;
+        font-size: 14px;
+        padding: 11px;
+    }
+
+    .lp-login-create {
+        margin-top: 10px;
+    }
+
+    .lp-login-create p,
+    .lp-login-create a {
+        font-size: 13px;
+    }
+
+    .forgot-password-modal {
+        padding: 22px;
+        max-width: 420px;
+    }
+
+    .forgot-password-header h3 {
+        font-size: 19px;
+    }
+
+    #forgotPasswordEmail {
+        padding: 9px 12px 9px 38px;
+        font-size: 14px;
+    }
+}
+
+/* Tablet: 769px to 834px */
+@media (min-width: 769px) and (max-width: 834px) {
+    .login-page {
+        max-width: 85%;
+        gap: 40px;
+        padding: 50px 0;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 26px;
+    }
+
+    .lp-description p:nth-child(2) {
+        font-size: 16px;
+    }
+
+    .lp-features {
+        gap: 14px;
+        margin-top: 28px;
+    }
+
+    .lp-features > div {
+        flex: 1 1 calc(50% - 7px);
+    }
+
+    .lp-features-card {
+        padding: 16px;
+        height: auto;
+        min-height: 130px;
+    }
+
+    .lp-login-form {
+        max-width: 380px;
+    }
+
+    .forgot-password-modal {
+        max-width: 400px;
+    }
+}
+
+/* Tablet Landscape: 835px to 1024px */
+@media (min-width: 835px) and (max-width: 1024px) {
+    .login-page {
+        max-width: 80%;
+        gap: 45px;
+        padding: 50px 0;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 28px;
+    }
+
+    .lp-login-form {
+        max-width: 400px;
+    }
+
+    .lp-features-card {
+        padding: 18px;
+        height: 160px;
+    }
+}
+
+/* Laptop: 1025px to 1440px */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .login-page {
+        max-width: 75%;
+        gap: 50px;
+        padding: 50px 0;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 30px;
+    }
+
+    .lp-features > div {
+        flex: 1 1 calc(50% - 7.5px);
+    }
+
+    .lp-login-form {
+        max-width: 400px;
+    }
+}
+
+/* Desktop: 1441px and above */
+@media (min-width: 1441px) {
+    .login-page {
+        max-width: 70%;
+        gap: 60px;
+        padding: 50px 0;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    .lp-login-form {
+        max-width: 400px;
+        padding: 20px 25px;
+    }
+}
+
 .forgot-password-footer a:hover {
     text-decoration: underline;
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES - LOGIN
+   ======================================== */
+
+/* Mobile: 480px and below */
+@media (max-width: 480px) {
+    .login-page {
+        flex-direction: column;
+        max-width: 100%;
+        gap: 20px;
+        min-height: auto;
+        padding: 60px 12px 40px 12px;
+    }
+
+    .lp-section1,
+    .lp-section2 {
+        width: 100%;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+
+    .lp-description p:nth-child(2) {
+        font-size: 13px;
+        margin-bottom: 15px;
+    }
+
+    .lp-logo {
+        margin-bottom: 15px;
+    }
+
+    .lp-logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .lp-logo span {
+        font-size: 14px;
+    }
+
+    .lp-features {
+        gap: 10px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    form label {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    form input,
+    form select {
+        font-size: 13px;
+        padding: 10px 12px;
+        height: auto;
+        border-radius: 6px;
+    }
+
+    form button {
+        font-size: 13px;
+        padding: 10px;
+        margin-top: 8px;
+    }
+
+    .checkbox-container {
+        gap: 8px;
+    }
+
+    .checkbox-container label {
+        font-size: 12px;
+    }
+}
+
+/* Mobile Landscape: 481px to 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+    .login-page {
+        flex-direction: column;
+        max-width: 100%;
+        gap: 40px;
+        padding: 60px 20px;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 24px;
+    }
+
+    .lp-description p:nth-child(2) {
+        font-size: 15px;
+    }
+
+    .lp-logo img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Tablet: 769px to 834px */
+@media (min-width: 769px) and (max-width: 834px) {
+    .login-page {
+        max-width: 85%;
+        gap: 50px;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 26px;
+    }
+}
+
+/* Tablet Landscape: 835px to 1024px */
+@media (min-width: 835px) and (max-width: 1024px) {
+    .login-page {
+        max-width: 90%;
+        gap: 55px;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 28px;
+    }
+}
+
+/* Laptop: 1025px to 1440px */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .login-page {
+        max-width: 80%;
+        gap: 60px;
+    }
+}
+
+/* Desktop: 1441px and above */
+@media (min-width: 1441px) {
+    .login-page {
+        max-width: 75%;
+    }
 }
