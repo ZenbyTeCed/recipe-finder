@@ -81,15 +81,11 @@
                     type="button" 
                     class="rd-log-btn" 
                     id="logMealBtn"
-                    data-has-real-nutrition="{{ $hasRealNutrition ? '1' : '0' }}"
-                    title="{{ !$hasRealNutrition ? 'Nutrition data unavailable. You can log this meal manually.' : '' }}"
+                    data-has-real-nutrition="{{ ($shouldForceManualLog ?? false) ? '0' : '1' }}"
+                    title="{{ ($shouldForceManualLog ?? false) ? 'Nutrition data unavailable. You can log this meal manually.' : '' }}"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg>
-                    @if($hasRealNutrition)
                         Log This Meal
-                    @else
-                        Manually Log Meal
-                    @endif
                 </button>
             </div>
         </div>
@@ -98,11 +94,27 @@
         <div class="rd-nutrition-card">
             <div class="rd-card-header">
                 <h4>Nutritional Information</h4>
-                <p>Per serving — powered by Spoonacular</p>
+                <p>
+                    @if(!empty($isEstimatedNutrition))
+                        Estimated per serving
+                    @else
+                        Per serving — powered by Spoonacular
+                    @endif
+                </p>
             </div>
             @if($nutritionMessage)
                 <div style="background: #fef3c7; color: #92400e; padding: 10px; border-radius: 6px; margin-bottom: 10px; font-size: 14px;">
                     {{ $nutritionMessage }}
+
+                    @if(!empty($isEstimatedNutrition))
+                        <br><br>
+                        <button 
+                            type="button" 
+                            id="mlLogMealButton"
+                            style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">
+                            Log this meal manually instead
+                        </button>
+                    @endif
                 </div>
             @endif
             <div class="rd-nutrition-stats">
@@ -151,13 +163,16 @@
         <div class="rd-nutrition-card">
             <div class="rd-card-header">
                 <h4>Nutritional Information</h4>
-                <p>Not available for this recipe</p>
+                <p>{{ !empty($isEstimatedNutrition) ? 'Estimated values available' : 'Not available for this recipe' }}</p>
             </div>
             <p style="color: #6b7280; font-size: 14px;">
                 @if($nutritionMessage)
                     {{ $nutritionMessage }}
                 @endif
-                <button type="button" id="mlLogMealButton" style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">Log this meal manually</button> or ask NutriBot for an estimate!
+                <button type="button" id="mlLogMealButton" style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">Log this meal manually</button>
+                @if(empty($isEstimatedNutrition))
+                    or ask NutriBot for an estimate!
+                @endif
             </p>
         </div>
         @endif

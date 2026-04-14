@@ -171,13 +171,20 @@ class RecipeDetailController extends Controller
                                 continue;
                             }
 
-                            $nutrition = [
+                            $nutritionCandidate = [
                                 'calories' => (int) ($nutritionData['calories'] ?? 0),
                                 'protein'  => (int) preg_replace('/[^0-9]/', '', $nutritionData['protein'] ?? '0'),
                                 'carbs'    => (int) preg_replace('/[^0-9]/', '', $nutritionData['carbs'] ?? '0'),
                                 'fat'      => (int) preg_replace('/[^0-9]/', '', $nutritionData['fat'] ?? '0'),
                                 'fiber'    => 0,
                             ];
+
+                            // Reject suspicious data
+                            if ($this->isNutritionSuspicious($nutritionCandidate)) {
+                                continue; // try next candidate
+                            }
+
+                            $nutrition = $nutritionCandidate;
 
                             if (!empty($nutritionData['nutrients'])) {
                                 $fiberNutrient = collect($nutritionData['nutrients'])->firstWhere('name', 'Fiber');
@@ -213,18 +220,29 @@ class RecipeDetailController extends Controller
             }
         }
 
+        $isEstimatedNutrition = false;
+
         // Step 3: Fallback values if no real data
-        $hasRealNutrition = $nutrition && $nutrition['calories'] > 0;
-        
         if (!$nutrition) {
-            $nutrition = [
-                'calories' => 0,
-                'protein'  => 0,
-                'carbs'    => 0,
-                'fat'      => 0,
-                'fiber'    => 0,
-            ];
+            $estimatedNutrition = $this->getIngredientFallbackNutrition($ingredientNames ?? []);
+
+            if ($estimatedNutrition) {
+                $nutrition = $estimatedNutrition;
+                $nutritionMessage = 'Estimated nutrition based on main ingredients. Spoonacular could not find exact data for this recipe, so values may vary.';
+                $isEstimatedNutrition = true;
+            } else {
+                $nutrition = [
+                    'calories' => 0,
+                    'protein'  => 0,
+                    'carbs'    => 0,
+                    'fat'      => 0,
+                    'fiber'    => 0,
+                ];
+            }
         }
+
+        $hasRealNutrition = $nutrition && $nutrition['calories'] > 0;
+        $shouldForceManualLog = !$hasRealNutrition;
 
         // Calculate macro percentages
         $total =
@@ -245,8 +263,73 @@ class RecipeDetailController extends Controller
             'id',
             'isFavorited',
             'nutritionMessage',
-            'hasRealNutrition'
+            'hasRealNutrition',
+            'isEstimatedNutrition',
+            'shouldForceManualLog'
         ));
+    }
+
+    private function isNutritionSuspicious(array $nutrition): bool
+    {
+        return
+            $nutrition['calories'] > 1200 ||   // too high per serving
+            $nutrition['calories'] < 50 ||     // too low (probably wrong)
+            $nutrition['protein'] > 80 ||
+            $nutrition['carbs'] > 150 ||
+            $nutrition['fat'] > 70;
+    }
+
+    private function getIngredientFallbackNutrition(array $ingredientNames): ?array
+    {
+        $joined = strtolower(implode(' ', $ingredientNames));
+
+        if (str_contains($joined, 'chicken')) {
+            return [
+                'calories' => 280,
+                'protein'  => 24,
+                'carbs'    => 10,
+                'fat'      => 15,
+                'fiber'    => 1,
+            ];
+        }
+
+        if (str_contains($joined, 'beef')) {
+            return [
+                'calories' => 320,
+                'protein'  => 23,
+                'carbs'    => 9,
+                'fat'      => 20,
+                'fiber'    => 1,
+            ];
+        }
+
+        if (str_contains($joined, 'pork')) {
+            return [
+                'calories' => 340,
+                'protein'  => 22,
+                'carbs'    => 8,
+                'fat'      => 24,
+                'fiber'    => 1,
+            ];
+        }
+
+        if (
+            str_contains($joined, 'fish') ||
+            str_contains($joined, 'tuna') ||
+            str_contains($joined, 'salmon') ||
+            str_contains($joined, 'bangus') ||
+            str_contains($joined, 'tilapia')
+        ) {
+            return [
+                'calories' => 240,
+                'protein'  => 22,
+                'carbs'    => 6,
+                'fat'      => 12,
+                'fiber'    => 1,
+            ];
+        }
+
+        return null;
     }
 
     private function buildNutritionArray($cachedData): array
