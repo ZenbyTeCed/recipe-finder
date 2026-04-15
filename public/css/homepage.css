@@ -399,10 +399,11 @@
     }
 
     .results-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: 0 15px 15px 15px;
-        flex-direction: column;
         gap: 10px;
-        align-items: flex-start;
     }
 
     .results-info p {
@@ -410,8 +411,11 @@
     }
 
     .results-actions {
-        width: 100%;
+        display: flex;
+        align-items: center;
         gap: 8px;
+        width: auto;
+        flex-shrink: 0;
     }
 
     .results-section {
@@ -515,11 +519,13 @@
     .filter-option {
         width: 100%;
     }
-
+    
     .results-info {
-        padding: 0 18px 18px 18px;
-        flex-direction: column;
-        gap: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 15px 15px 15px;
+        gap: 10px;
     }
 
     .results-section {
