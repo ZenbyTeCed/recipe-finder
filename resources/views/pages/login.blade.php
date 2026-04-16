@@ -117,6 +117,13 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                     </svg>
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <button type="button" class="lp-password-toggle" data-target="password">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-eye">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-closed-icon lucide-eye-closed"><path d="m15 18-.722-3.25"/><path d="M2 8a10.645 10.645 0 0 0 20 0"/><path d="m20 15-1.726-2.05"/><path d="m4 15 1.726-2.05"/><path d="m9 18 .722-3.25"/></svg>
+                    </button>
                 </div>
                 <a href="#" class="lp-forgot" id="forgotPasswordBtn">Forgot Password?</a>
 
@@ -130,6 +137,17 @@
             </div>
 
             <button class="lp-login-with-google" id="google-login-btn" type="button">
+                <svg width="20" height="20" viewBox="0 0 48 48" style="margin-right: 8px;">
+                    <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.1 29.3 35 24 35c-6.6 0-12-5.4-12-12s5.4-12 
+                    12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34.1 5.5 29.3 3.5 24 3.5 12.4 3.5 3.5 12.4 3.5 
+                    24S12.4 44.5 24 44.5 44.5 35.6 44.5 24c0-1.2-.1-2.4-.4-3.5z"/>
+                    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16.1 19 13 24 13c3 0 5.7 1.1 
+                    7.8 2.9l5.7-5.7C34.1 5.5 29.3 3.5 24 3.5c-7.7 0-14.3 4.4-17.7 10.8z"/>
+                    <path fill="#4CAF50" d="M24 44.5c5.2 0 9.9-2 13.5-5.3l-6.2-5.1c-2 1.4-4.5 
+                    2.4-7.3 2.4-5.3 0-9.8-3-11.5-7.4l-6.5 5C9.5 40.3 16.2 44.5 24 44.5z"/>
+                    <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-1.1 3.1-3.4 
+                    5.6-6.2 7.1l6.2 5.1c3.6-3.3 5.9-8.2 5.9-14.2 0-1.2-.1-2.4-.4-3.5z"/>
+                </svg>
                 Login with Google
             </button>
 

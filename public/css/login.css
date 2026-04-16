@@ -191,7 +191,7 @@
 
 .lp-input-wrapper {
     position: relative;
-    display: flex;
+    display: flex !important;
     align-items: center;
     margin-bottom: 18px;
     width: 100%;
@@ -200,9 +200,10 @@
 
 .lp-password-toggle {
     position: absolute;
-    right: 0px;
+    width: auto !important;
+    right: 0 !important;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-60%);
     border: none;
     background: transparent !important;
     cursor: pointer;
