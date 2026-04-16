@@ -191,12 +191,14 @@
 
 .results-section {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(360px, auto)) !important;
+    justify-content: space-between;
+    gap: 30px !important;
     margin-top: 30px;
 }
 
 .recipe-card {
+    /* height: 370px; */
     background-color: white;
     border-radius: 12px;
     overflow: hidden;
