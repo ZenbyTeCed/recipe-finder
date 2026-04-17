@@ -115,7 +115,9 @@ document.addEventListener('DOMContentLoaded', function () {
         menuToggle.innerHTML = burgerIcon;
     }
 
-    if (menuToggle) menuToggle.addEventListener('click', function () {
+    if (menuToggle) menuToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+
         if (navLinks.classList.contains('open')) {
             closeMenu();
         } else {
@@ -125,5 +127,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (overlay) overlay.addEventListener('click', closeMenu);
     if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+
+    document.addEventListener('click', function (e) {
+        if (!navLinks || !menuToggle || !navLinks.classList.contains('open')) {
+            return;
+        }
+
+        if (navLinks.contains(e.target) || menuToggle.contains(e.target)) {
+            return;
+        }
+
+        closeMenu();
+    });
 });
 </script>
