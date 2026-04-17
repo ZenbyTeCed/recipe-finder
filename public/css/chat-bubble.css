@@ -388,12 +388,24 @@
 /* Mobile: 480px and below */
 @media (max-width: 480px) {
     .chat-window {
-        width: calc(100vw - 24px);
-        max-width: 320px;
-        max-height: 450px;
-        min-height: 450px;
-        right: 12px;
-        bottom: 75px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        max-width: 100%;
+        max-height: 100%;
+
+        border-radius: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        z-index: 9999;
     }
 
     .chat-bubble-btn {
@@ -405,6 +417,7 @@
 
     .chat-header-wrapper {
         padding: 12px;
+        flex-shrink: 0;
     }
 
     .chat-header-icon {
@@ -423,6 +436,8 @@
     .chat-messages {
         padding: 12px;
         gap: 10px;
+        flex: 1;
+        overflow-y: auto;
     }
 
     .chat-message p {
@@ -447,6 +462,7 @@
     .chat-input-area {
         gap: 6px;
         padding: 10px 12px;
+        flex-shrink: 0;
     }
 
     .chat-input {
@@ -461,7 +477,7 @@
 
     .chat-bubble-container {
         padding: 8px;
-        max-height: calc(100vh - 100px);
+        max-height: none;
     }
 
     .chat-message {
@@ -500,11 +516,24 @@
 /* Mobile Landscape: 481px to 768px */
 @media (min-width: 481px) and (max-width: 768px) {
     .chat-window {
-        width: 340px;
-        max-height: 500px;
-        min-height: 500px;
-        right: 20px;
-        bottom: 85px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        max-width: 100%;
+        max-height: 100%;
+
+        border-radius: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        z-index: 9999;
     }
 
     .chat-bubble-btn {
@@ -516,10 +545,13 @@
 
     .chat-header-wrapper {
         padding: 14px;
+        flex-shrink: 0;
     }
 
     .chat-messages {
         padding: 14px;
+        flex: 1;
+        overflow-y: auto;
     }
 
     .chat-message p {
@@ -528,6 +560,7 @@
 
     .chat-input-area {
         padding: 12px 14px;
+        flex-shrink: 0;
     }
 
     .chat-send-btn {

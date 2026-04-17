@@ -191,7 +191,7 @@
 
 .results-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, auto)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(360px, auto));
     justify-content: space-between;
     gap: 30px !important;
     margin-top: 30px;
@@ -421,14 +421,15 @@
     }
 
     .results-section {
+        display: grid;
         grid-template-columns: 1fr;
         gap: 12px;
         padding: 0 0 20px 0;
     }
 
-    .recipe-card {
+    /* .recipe-card {
         width: 100%;
-    }
+    } */
 
     .recipe-card-image {
         height: 160px;

@@ -330,7 +330,7 @@
 /* Mobile: 320px to 480px */
 @media (max-width: 480px) {
     .recipe-detail-page {
-        padding: 70px 0 40px 0;
+        padding: 80px 0 40px 0;
     }
 
     .recipe-detail-container {
@@ -411,9 +411,17 @@
     }
 
     .rd-nutrition-stats {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 20px;
+        margin-top: 25px;
+
+        border-top: 1px solid #11182736;
+        padding-top: 20px;
+    }
+
+    .rd-nutrition-stat {
+        gap: 5px;
     }
 
     .rd-nutrition-stat p:first-child {
@@ -430,6 +438,7 @@
 
     .rd-nutrition-bars {
         gap: 10px;
+        margin-bottom: 5px;
     }
 
     .rd-bar-label {
@@ -465,6 +474,32 @@
         left: 10px;
         top: 10px;
         font-size: 10px;
+    }
+
+    .modal {
+        width: 280px;
+        padding: 15px;
+    }
+
+    .modal-header {
+        margin-bottom: 10px;
+    }
+
+    .modal-header h3{
+        font-size: 18px;
+    }
+
+    .modal-body label{
+        font-size: 13px;
+    }
+
+    .modal-nutrition p {
+        font-size: 13px;
+    }
+
+    .modal-log-btn {
+        padding: 10px;
+        font-size: 13px;
     }
 }
 

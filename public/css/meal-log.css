@@ -736,7 +736,7 @@
 /* Mobile: 320px to 480px */
 @media (max-width: 480px) {
     .meal-log-page {
-        padding: 70px 0 40px 0;
+        padding: 70px 0px 40px 10px;
     }
 
     .meal-log-container {
@@ -744,9 +744,18 @@
     }
 
     .ml-header {
-        flex-direction: column;
-        gap: 12px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 7px;
         margin-bottom: 18px;
+    }
+
+    .ml-add-btn {
+        height: 40px;
+        font-size: 12px !important;
+        gap: 2px;
+        padding: 5px !important;
     }
 
     .ml-header h1 {
@@ -766,7 +775,8 @@
 
     .ml-summary {
         padding: 15px;
-        margin-bottom: 16px;
+        margin-top: 10px;
+        margin-bottom: 5px;
     }
 
     .ml-summary-header h4 {
@@ -801,8 +811,8 @@
 
     .ml-tabs-filter {
         flex-direction: column;
-        gap: 12px;
-        margin: 16px 0;
+        gap: 5px;
+        margin: 10px 0;
     }
 
     .ml-filter {
@@ -821,6 +831,8 @@
         border-radius: 10px;
         padding: 3px;
         gap: 3px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     .ml-tab {
@@ -851,6 +863,35 @@
         margin-bottom: 12px;
     }
 
+    .ml-action-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .ml-action-row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .ml-action-row button {
+        flex: 1;
+        min-height: 35px;
+    }
+
+    .ml-delete-selected-btn {
+        width: 100%;
+        min-height: 35px;
+    }
+
+    #mlSelectedCount {
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
     .ml-select-mode-toggle,
     .ml-select-btn,
     .ml-cancel-btn,
@@ -864,11 +905,11 @@
         flex-direction: column;
         padding: 12px 14px;
         margin-bottom: 10px;
-        gap: 10px;
+        /* gap: 10px; */
     }
 
     .ml-entry-info h4 {
-        font-size: 13px;
+        font-size: 15px;
     }
 
     .ml-entry-info > p {
@@ -891,8 +932,13 @@
     }
 
     .ml-update-delete {
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+
         width: 100%;
-        gap: 8px;
+        margin-bottom: -10px;
+
         order: -1;
     }
 
@@ -904,8 +950,30 @@
     }
 
     .ml-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        width: 90%;
+        height: 100vh;
+
+        max-width: 100%;
+        max-height: 100%;
+
         padding: 18px;
-        max-width: 90%;
+
+        border-radius: 0; /* remove rounded corners for full screen */
+        margin: 0;
+
+        display: flex;
+        flex-direction: column;
+        padding-top: 50px;
+    }
+
+    .ml-modal-form {
+        margin-top: 10px;
     }
 
     .ml-modal-header h3 {

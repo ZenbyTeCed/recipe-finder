@@ -63,11 +63,19 @@
                 </div>
             </div>
 
-            <div class="ml-action-bar" id="mlActionBar" style="display: none; gap: 10px; margin-bottom: 15px;">
-                <button class="ml-select-btn" id="mlSelectBtn">Select All</button>
-                <button class="ml-delete-selected-btn" id="mlDeleteSelectedBtn">Delete Selected</button>
-                <button class="ml-cancel-btn" id="mlCancelBtn">Cancel</button>
-                <span id="mlSelectedCount" style="margin-left: auto; padding-top: 8px; font-weight: 500;"></span>
+            <div class="ml-action-bar" id="mlActionBar" style="display: none;">
+                
+                <div class="ml-action-row">
+                    <button class="ml-select-btn" id="mlSelectBtn">Select All</button>
+                    <button class="ml-cancel-btn" id="mlCancelBtn">Cancel</button>
+                </div>
+
+                <button class="ml-delete-selected-btn" id="mlDeleteSelectedBtn">
+                    Delete Selected
+                </button>
+
+                <span id="mlSelectedCount" style="margin-left: auto;"></span>
+
             </div>
 
             <div class="ml-log-entries" id="mlLogEntries">

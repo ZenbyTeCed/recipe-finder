@@ -360,15 +360,15 @@
 /* Mobile: 320px to 480px */
 @media (max-width: 480px) {
     .dashboard-page {
-        padding: 70px 0 40px 0;
+        padding: 70px 25px 40px 10px;
     }
 
     .dashboard-container {
-        padding: 0 12px;
+        padding: 0 10px;
     }
 
     .dashboard-header h1 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .dashboard-header p {
@@ -377,7 +377,7 @@
 
     .dashboard-content {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 5px;
         margin-bottom: 16px;
     }
 
@@ -386,6 +386,9 @@
     .dashboard-goals-3,
     .dashboard-goals-4 {
         padding: 12px;
+        gap: 3px;
+        border-radius: 5px;
+        width: auto;
     }
 
     .dashboard-goals-1 h4,
@@ -399,7 +402,9 @@
     .dashboard-goals-2 > span,
     .dashboard-goals-3 > span,
     .dashboard-goals-4 > span {
-        font-size: 22px;
+        font-size: 18px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     .dashboard-goals-summary {
@@ -417,9 +422,13 @@
         padding: 16px;
     }
 
+    .ddg-1 {
+        gap: 2px;
+    }
+
     .ddg-1 h4,
     .dts-header h4 {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .ddg-1 p,

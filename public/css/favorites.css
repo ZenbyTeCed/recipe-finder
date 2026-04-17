@@ -310,8 +310,8 @@ body {
     }
 
     .favorites-header {
-        padding: 0 0 20px 0;
-        margin-bottom: 20px;
+        padding: 10px 0 5px 0;
+        margin-bottom: 5px;
     }
 
     .favorites-header h1 {
@@ -325,7 +325,7 @@ body {
 
     .results-section {
         grid-template-columns: 1fr;
-        gap: 14px;
+        gap: 8px !important;
     }
 
     .recipe-card {

@@ -6,6 +6,7 @@ html, body {
     height: 100%;
     margin: 0;
     overflow-x: hidden;
+    width: 101%;
 }
 
 .login-register-content {
@@ -390,6 +391,38 @@ img {
         width: 100% !important;
         display: block !important;
     }
+
+    /* FOOTER */
+    .wellcook-footer p {
+        font-size: 12px;
+    }
+
+    .wellcook-footer p:nth-child(2) {
+        font-size: 12px !important;
+    }
+
+    /* GOAL MODAL */
+    .goal-modal {
+        padding: 5px !important;
+    }
+
+    .goal-modal h2 {
+        font-size: 20px !important;
+    }
+
+    .goal-modal-msg {
+        width: 80% !important;
+        font-size: 13px !important;
+        margin-bottom: 10px !important;
+        padding: 20px !important;
+        margin: 0 auto 5px auto !important;
+    }
+
+    .goal-modal-btn {
+        padding: 10px !important;
+        width: 90% !important;
+        margin-bottom: 15px !important;
+    }
 }
 
 /* Mobile Landscape: 481px to 768px */
@@ -547,6 +580,17 @@ img {
         flex-shrink: 0 !important;
         margin: 0 !important;
     }
+
+    /* FOOTER */
+    .wellcook-footer p {
+        font-size: 12px !important;
+    }
+
+    .wellcook-footer p:nth-child(2) {
+        font-size: 12px !important;
+    }
+
+
 }
 
 @media (max-width: 768px) {
@@ -985,6 +1029,8 @@ img {
 .wellcook-footer p:nth-child(2) {
     font-size: 15px;
 }
+
+
 
 #top-loader {
   position: fixed;
