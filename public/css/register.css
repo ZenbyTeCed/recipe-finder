@@ -151,9 +151,12 @@
     align-items: center;
 }
 
-.rp-input-icon {
+.rp-input-icon,
+.lp-input-icon {
     position: absolute;
     left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 20px;
     height: 20px;
     opacity: 0.4;
@@ -536,5 +539,227 @@
 
     .rp-features-card {
         padding: 16px 18px;
+    }
+}
+
+/* Final mobile auth layout overrides */
+@media (max-width: 480px) {
+    .register-page {
+        box-sizing: border-box;
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 100%;
+        width: 100%;
+        gap: 100px;
+        min-height: auto;
+        padding: 28px 14px 36px;
+        overflow-x: hidden;
+    }
+
+    .rp-section1,
+    .rp-section2 {
+        box-sizing: border-box;
+        width: 100%;
+        flex: none;
+    }
+
+    .lp-logo {
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+
+    .lp-logo img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .lp-logo h1 {
+        font-size: 24px;
+    }
+
+    .rp-description {
+        text-align: center;
+    }
+
+    .rp-description p:nth-child(1) {
+        font-size: 20px;
+        line-height: 1.25;
+        margin-bottom: 10px;
+    }
+
+    .rp-description p:nth-child(2) {
+        font-size: 13px;
+        line-height: 1.45;
+        margin-bottom: 0;
+    }
+
+    .rp-features {
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .rp-features-card {
+        box-sizing: border-box;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .rp-features-card-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .rp-features-card-text {
+        min-width: 0;
+    }
+
+    .rp-features-card-text h3 {
+        font-size: 14px;
+        line-height: 1.25;
+    }
+
+    .rp-features-card-text p {
+        font-size: 12px;
+        line-height: 1.35;
+    }
+
+    .rp-register-form {
+        box-sizing: border-box;
+        max-width: 100%;
+        width: 100%;
+        padding: 22px 16px;
+    }
+
+    .rp-register-form h3 {
+        font-size: 21px;
+    }
+
+    .rp-register-form > p {
+        font-size: 13px;
+        line-height: 1.4;
+        margin-top: 0;
+    }
+
+    .rp-register-form-fields {
+        gap: 0;
+    }
+
+    .rp-register-form-fields input {
+        box-sizing: border-box;
+        padding: 11px 40px 11px 40px;
+        font-size: 14px;
+    }
+
+    .rp-register-form-fields button {
+        margin-top: 20px;
+    }
+
+    .rp-input-icon,
+    .lp-input-icon {
+        display: block;
+        left: 12px;
+        top: 40%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+    }
+
+    .rp-register-form-fields > button[type="submit"] {
+        box-sizing: border-box;
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    .rp-password-toggle {
+        width: auto !important;
+        right: 2px;
+        top: 10%;
+        transform: translateY(-60%) !important;
+        margin-top: 0;
+        padding: 4px;
+    }
+
+    .rp-register-create p {
+        text-align: center;
+        line-height: 1.4;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .register-page {
+        box-sizing: border-box;
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 100%;
+        width: 100%;
+        gap: 28px;
+        min-height: auto;
+        padding: 36px 24px 44px;
+        overflow-x: hidden;
+    }
+
+    .rp-section1,
+    .rp-section2 {
+        box-sizing: border-box;
+        width: 100%;
+        flex: none;
+    }
+
+    .lp-logo {
+        justify-content: center;
+    }
+
+    .rp-description {
+        max-width: 620px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .rp-description p:nth-child(1) {
+        font-size: 24px;
+    }
+
+    .rp-description p:nth-child(2) {
+        font-size: 15px;
+    }
+
+    .rp-features {
+        max-width: 620px;
+        margin: 22px auto 0;
+    }
+
+    .rp-features-card {
+        box-sizing: border-box;
+    }
+
+    .rp-register-form {
+        box-sizing: border-box;
+        max-width: 460px;
+        width: 100%;
+        padding: 26px 22px;
+    }
+
+    .rp-register-form-fields input {
+        box-sizing: border-box;
+        padding: 12px 42px 12px 40px;
+    }
+
+    .rp-input-icon,
+    .lp-input-icon {
+        display: block;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+    }
+
+    .rp-password-toggle {
+        width: auto !important;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%) !important;
+        margin-top: 0;
     }
 }

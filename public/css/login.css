@@ -791,7 +791,7 @@
         font-size: 14px;
         width: 100%;
         box-sizing: border-box;
-    }}
+    }
 
     .lp-input-wrapper {
         margin-bottom: 16px;
@@ -965,7 +965,7 @@
     .login-page {
         flex-direction: column;
         max-width: 100%;
-        gap: 20px;
+        gap: 100px !important;
         min-height: auto;
         padding: 60px 12px 40px 12px;
     }
@@ -1095,5 +1095,237 @@
 @media (min-width: 1441px) {
     .login-page {
         max-width: 75%;
+    }
+}
+
+/* Final mobile auth layout overrides */
+@media (max-width: 480px) {
+    .login-page {
+        box-sizing: border-box;
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 100%;
+        width: 100%;
+        gap: 22px;
+        min-height: auto;
+        padding: 28px 14px 36px;
+        overflow-x: hidden;
+    }
+
+    .lp-section1,
+    .lp-section2 {
+        box-sizing: border-box;
+        width: 100%;
+        flex: none;
+        align-items: stretch;
+    }
+
+    .lp-logo {
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+
+    .lp-logo img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .lp-logo h1 {
+        font-size: 24px;
+    }
+
+    .lp-description {
+        text-align: center;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 20px;
+        line-height: 1.25;
+        margin-bottom: 10px;
+    }
+
+    .lp-description p:nth-child(2) {
+        font-size: 13px;
+        line-height: 1.45;
+        margin-bottom: 0;
+    }
+
+    .lp-features {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .lp-features > div {
+        min-width: 0;
+    }
+
+    .lp-features-card {
+        box-sizing: border-box;
+        min-height: auto;
+        height: auto;
+        padding: 12px;
+    }
+
+    .lp-features-card svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .lp-features-card h3 {
+        font-size: 14px;
+    }
+
+    .lp-features-card p {
+        font-size: 12px;
+        line-height: 1.35;
+    }
+
+    .lp-login-form {
+        box-sizing: border-box;
+        max-width: 100%;
+        width: 100%;
+        padding: 22px 16px;
+    }
+
+    .lp-login-form h3 {
+        font-size: 21px;
+    }
+
+    .lp-login-form p {
+        font-size: 13px;
+        line-height: 1.4;
+        margin-top: 0;
+    }
+
+    .lp-login-form-fields {
+        gap: 0;
+    }
+
+    .lp-login-form-fields input {
+        padding: 11px 40px 11px 38px;
+        font-size: 14px;
+    }
+
+    .lp-input-wrapper {
+        margin-bottom: 14px;
+    }
+
+    .lp-input-icon {
+        display: block;
+        top: 50% !important;
+        transform: translateY(-50%);
+        left: 12px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .lp-password-toggle {
+        right: 0px !important;
+        top: 30%;
+        transform: translateY(-50%);
+        margin-top: 0;
+    }
+
+    .lp-login-form-fields button,
+    .lp-login-with-google {
+        box-sizing: border-box;
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    .lp-login-create p {
+        text-align: center;
+        line-height: 1.4;
+    }
+
+    .forgot-password-overlay {
+        padding: 16px;
+        box-sizing: border-box;
+    }
+
+    .forgot-password-modal {
+        box-sizing: border-box;
+        max-width: 100%;
+        padding: 20px 16px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .login-page {
+        box-sizing: border-box;
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 100%;
+        width: 100%;
+        gap: 28px;
+        min-height: auto;
+        padding: 36px 24px 44px;
+        overflow-x: hidden;
+    }
+
+    .lp-section1,
+    .lp-section2 {
+        box-sizing: border-box;
+        width: 100%;
+        flex: none;
+        align-items: stretch;
+    }
+
+    .lp-logo {
+        justify-content: center;
+    }
+
+    .lp-description {
+        max-width: 620px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .lp-description p:nth-child(1) {
+        font-size: 24px;
+    }
+
+    .lp-description p:nth-child(2) {
+        font-size: 15px;
+    }
+
+    .lp-features {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        max-width: 620px;
+        margin: 22px auto 0;
+    }
+
+    .lp-features-card {
+        box-sizing: border-box;
+        min-height: 124px;
+        height: auto;
+        padding: 14px;
+    }
+
+    .lp-login-form {
+        box-sizing: border-box;
+        max-width: 460px;
+        width: 100%;
+        padding: 26px 22px;
+    }
+
+    .lp-login-form-fields input {
+        padding: 12px 42px 12px 42px;
+    }
+
+    .lp-password-toggle {
+        right: 8px !important;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-top: 0;
+    }
+
+    .forgot-password-overlay {
+        padding: 20px;
+        box-sizing: border-box;
     }
 }
