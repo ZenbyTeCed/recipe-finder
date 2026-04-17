@@ -4,6 +4,8 @@
     <title>WellCook</title>
     <link rel="icon" type="image/png" href="{{ asset('images/WellCook.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     @if (session('success'))
         <meta name="flash-success" content="{{ session('success') }}">
