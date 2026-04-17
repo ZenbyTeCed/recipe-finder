@@ -20,38 +20,40 @@
                         <h1>{{ $meal['strMeal'] }}</h1>
                         <p>{{ $meal['strArea'] ?? '' }} · {{ $meal['strCategory'] ?? '' }}</p>
                     </div>
-                    <form id="favoriteForm" action="{{ $isFavorited ? '/favorites/remove' : '/favorites/add' }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="recipe_id" value="{{ $id }}">
-                        <input type="hidden" name="name" value="{{ $meal['strMeal'] }}">
-                        <input type="hidden" name="cuisine" value="{{ $meal['strArea'] ?? '' }} Cuisine">
-                        <input type="hidden" name="category" value="{{ $meal['strCategory'] ?? '' }}">
-                        <input type="hidden" name="time" value="{{ $cookTime ?? 0 }}">
-                        <input type="hidden" name="calories" value="{{ $nutrition['calories'] ?? 0 }}">
-                        <input type="hidden" name="protein" value="{{ $nutrition['protein'] ?? 0 }}">
-                        <input type="hidden" name="carbs" value="{{ $nutrition['carbs'] ?? 0 }}">
-                        <input type="hidden" name="fat" value="{{ $nutrition['fat'] ?? 0 }}">
-                        <input type="hidden" name="image" value="{{ $meal['strMealThumb'] }}">
+                    @if (session()->has('firebase_uid'))
+                        <form id="favoriteForm" action="{{ $isFavorited ? '/favorites/remove' : '/favorites/add' }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="recipe_id" value="{{ $id }}">
+                            <input type="hidden" name="name" value="{{ $meal['strMeal'] }}">
+                            <input type="hidden" name="cuisine" value="{{ $meal['strArea'] ?? '' }} Cuisine">
+                            <input type="hidden" name="category" value="{{ $meal['strCategory'] ?? '' }}">
+                            <input type="hidden" name="time" value="{{ $cookTime ?? 0 }}">
+                            <input type="hidden" name="calories" value="{{ $nutrition['calories'] ?? 0 }}">
+                            <input type="hidden" name="protein" value="{{ $nutrition['protein'] ?? 0 }}">
+                            <input type="hidden" name="carbs" value="{{ $nutrition['carbs'] ?? 0 }}">
+                            <input type="hidden" name="fat" value="{{ $nutrition['fat'] ?? 0 }}">
+                            <input type="hidden" name="image" value="{{ $meal['strMealThumb'] }}">
 
-                        <button
-                            type="submit"
-                            class="rd-bookmark-btn {{ $isFavorited ? 'active' : '' }}"
-                            id="favoriteBtn"
-                            title="{{ $isFavorited ? 'Remove from favorites' : 'Add to favorites' }}"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="{{ $isFavorited ? 'currentColor' : 'none' }}"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>
-                            </svg>
-                        </button>
-                    </form>
+                            <button
+                                type="submit"
+                                class="rd-bookmark-btn {{ $isFavorited ? 'active' : '' }}"
+                                id="favoriteBtn"
+                                title="{{ $isFavorited ? 'Remove from favorites' : 'Add to favorites' }}"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="{{ $isFavorited ? 'currentColor' : 'none' }}"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>
+                                </svg>
+                            </button>
+                        </form>
+                    @endif
                 </div>
 
                 @if (!empty($tags))
@@ -77,16 +79,23 @@
                     @endif
                 </div>
 
-                <button 
-                    type="button" 
-                    class="rd-log-btn" 
-                    id="logMealBtn"
-                    data-has-real-nutrition="{{ ($shouldForceManualLog ?? false) ? '0' : '1' }}"
-                    title="{{ ($shouldForceManualLog ?? false) ? 'Nutrition data unavailable. You can log this meal manually.' : '' }}"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg>
+                @if (session()->has('firebase_uid'))
+                    <button
+                        type="button"
+                        class="rd-log-btn"
+                        id="logMealBtn"
+                        data-has-real-nutrition="{{ ($shouldForceManualLog ?? false) ? '0' : '1' }}"
+                        title="{{ ($shouldForceManualLog ?? false) ? 'Nutrition data unavailable. You can log this meal manually.' : '' }}"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg>
+                            Log This Meal
+                    </button>
+                @else
+                    <a href="/meal-log" class="rd-log-btn" style="text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg>
                         Log This Meal
-                </button>
+                    </a>
+                @endif
             </div>
         </div>
 
@@ -108,12 +117,16 @@
 
                     @if(!empty($isEstimatedNutrition))
                         <br><br>
-                        <button 
-                            type="button" 
-                            id="mlLogMealButton"
-                            style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">
-                            Log this meal manually instead
-                        </button>
+                        @if (session()->has('firebase_uid'))
+                            <button
+                                type="button"
+                                id="mlLogMealButton"
+                                style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">
+                                Log this meal manually instead
+                            </button>
+                        @else
+                            <a href="/meal-log" style="color: #ea580c; font-weight: 600;">Log in to track this meal</a>
+                        @endif
                     @endif
                 </div>
             @endif
@@ -169,8 +182,12 @@
                 @if($nutritionMessage)
                     {{ $nutritionMessage }}
                 @endif
-                <button type="button" id="mlLogMealButton" style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">Log this meal manually</button>
-                @if(empty($isEstimatedNutrition))
+                @if (session()->has('firebase_uid'))
+                    <button type="button" id="mlLogMealButton" style="background: none; border: none; color: #ea580c; cursor: pointer; font-weight: 600; text-decoration: underline;">Log this meal manually</button>
+                @else
+                    <a href="/meal-log" style="color: #ea580c; font-weight: 600;">Log in to track this meal</a>
+                @endif
+                @if(empty($isEstimatedNutrition) && session()->has('firebase_uid'))
                     or ask NutriBot for an estimate!
                 @endif
             </p>
@@ -208,6 +225,7 @@
     </div>
 </div>
 
+@if (session()->has('firebase_uid'))
 <!-- Log Meal Modal -->
 <div class="modal-overlay" id="logMealOverlay">
     <div class="modal">
@@ -308,5 +326,6 @@
 @push('scripts')
 @vite('resources/js/recipe.js')
 @endpush
+@endif
 
 @endsection

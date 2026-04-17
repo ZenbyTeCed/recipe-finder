@@ -38,6 +38,7 @@
         @include('partials.footer')
     </footer>
 
+    @if (session()->has('firebase_uid'))
     <!-- Chat Bubble Button -->
     <button class="chat-bubble-btn" id="chatBubbleBtn">
        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot-icon lucide-bot"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
@@ -96,6 +97,7 @@
             </button>
         </div>
     </div>
+    @endif
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">
@@ -103,6 +105,7 @@
         <span id="toastMessage"></span>
     </div>
 
+    @if (session()->has('firebase_uid'))
     <!-- Goal Achieved Modal -->
     <div class="goal-modal-overlay" id="goalModalOverlay">
         <div class="goal-modal">
@@ -113,8 +116,11 @@
             <button class="goal-modal-btn" id="goalModalClose">Let's Go! 🚀</button>
         </div>
     </div>
+    @endif
 
-    @vite('resources/js/ai.js')
+    @if (session()->has('firebase_uid'))
+        @vite('resources/js/ai.js')
+    @endif
     @vite('resources/js/toast.js')
     <!-- @vite('resources/js/recipe.js') -->
     @stack('scripts')

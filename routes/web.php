@@ -17,10 +17,12 @@ Route::get('/', function () {
     return redirect('/login'); // not logged in
 });
 
-Route::middleware('firebase.guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-});
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+
+Route::get('/home', [RecipeController::class, 'index'])->name('home');
+Route::get('/recipe', fn () => redirect()->route('home'))->name('recipe.index');
+Route::get('/recipe/{id}', [RecipeDetailController::class, 'show'])->name('recipe.show');
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -45,7 +47,4 @@ Route::middleware('firebase.auth')->group(function () {
     Route::post('/meal-log/delete-multiple', [MealLogController::class, 'destroyMultiple']);
     Route::post('/favorites/add', [FavoritesController::class, 'store']);
     Route::post('/favorites/remove', [FavoritesController::class, 'destroy']);
-
-    Route::get('/home', [RecipeController::class, 'index'])->name('home');
-    Route::get('/recipe/{id}', [RecipeDetailController::class, 'show'])->name('recipe.show');
 });

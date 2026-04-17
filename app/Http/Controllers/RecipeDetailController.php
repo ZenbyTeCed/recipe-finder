@@ -35,12 +35,16 @@ class RecipeDetailController extends Controller
             }
         }
 
-        // Check if already favorited in Firebase
-        $favoriteData = $this->database
-            ->getReference('favorites/' . $uid . '/' . $id)
-            ->getValue();
+        $isFavorited = false;
 
-        $isFavorited = !empty($favoriteData);
+        if ($uid) {
+            // Check if already favorited in Firebase
+            $favoriteData = $this->database
+                ->getReference('favorites/' . $uid . '/' . $id)
+                ->getValue();
+
+            $isFavorited = !empty($favoriteData);
+        }
 
         // Nutrition handling
         $nutrition = null;

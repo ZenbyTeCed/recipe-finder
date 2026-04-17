@@ -133,26 +133,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const openDeleteModal = document.getElementById('openDeleteModal');
     const deleteModalClose = document.getElementById('deleteModalClose');
     const deleteCancelBtn = document.getElementById('deleteCancelBtn');
+    let deleteModalScrollY = 0;
+
+    function openModal() {
+        deleteModalScrollY = window.scrollY;
+        deleteModalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        deleteModalOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+        window.scrollTo(0, deleteModalScrollY);
+    }
 
     openDeleteModal.addEventListener('click', function () {
-        deleteModalOverlay.classList.add('open');
-        document.body.style.overflow = "hidden";
+        openModal();
     });
 
     deleteModalClose.addEventListener('click', function () {
-        deleteModalOverlay.classList.remove('open');
-        document.body.style.overflow = "visible";
+        closeModal();
     });
 
     deleteCancelBtn.addEventListener('click', function () {
-        deleteModalOverlay.classList.remove('open');
-        document.body.style.overflow = "visible";
+        closeModal();
     });
 
     deleteModalOverlay.addEventListener('click', function (e) {
         if (e.target === deleteModalOverlay) {
-            deleteModalOverlay.classList.remove('open');
-            document.body.style.overflow = "visible";
+            closeModal();
         }
     });
 });

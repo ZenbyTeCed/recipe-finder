@@ -33,7 +33,10 @@
     <link rel="stylesheet" href="{{ asset('css/general.css') }}?v={{ time() }}">
 
 </head>
-<body>
+<body class="wellcook-body">
+    <header>
+        @include('partials.header')
+    </header>
 
     <main class="login-register-content">
         @yield('content')
