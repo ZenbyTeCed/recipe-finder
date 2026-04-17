@@ -302,7 +302,7 @@ body {
 /* Mobile: 320px to 480px */
 @media (max-width: 480px) {
     .favorites-page {
-        padding: 70px 0 40px 0;
+        padding: 70px 22px 40px 12px;
     }
 
     .favorites-page-container {

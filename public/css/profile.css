@@ -385,11 +385,12 @@
 /* Mobile: 320px to 480px */
 @media (max-width: 480px) {
     .profile-page {
-        padding: 70px 0 40px 0;
+        padding: 70px 22px 40px 12px;
     }
 
     .profile-container {
-        padding: 0 12px;
+        padding: 0;
+        width: 95%;
         gap: 20px;
     }
 

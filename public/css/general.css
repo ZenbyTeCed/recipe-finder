@@ -258,6 +258,11 @@ img {
 
     /* Show ONLY icons on mobile for nav items */
 
+    .nav-links {
+        padding: 14px !important;
+        padding-left: 6px !important;
+    }
+
     .nav-links > a svg {
         display: block;
         width: 20px;

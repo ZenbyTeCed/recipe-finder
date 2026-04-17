@@ -335,13 +335,13 @@
 /* Mobile: 320px to 480px */
 @media (max-width: 480px) {
     .home-page {
-        padding: 60px 12px 40px 12px;
+        padding: 60px 22px 40px 12px;
         min-height: calc(100vh - 50px);
     }
 
     .home-page-container {
         max-width: 100%;
-        width: 100%;
+        width: 95%;
     }
 
     .hero-section h1 {
@@ -355,7 +355,7 @@
     }
 
     .search-section {
-        gap: 8px;
+        gap: 3px;
         border-radius: 12px;
     }
 
@@ -374,7 +374,7 @@
     }
 
     .search-filters {
-        padding: 0 15px 15px 15px;
+        padding: 0 15px 10px 15px;
         gap: 12px;
     }
 

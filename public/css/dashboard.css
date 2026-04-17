@@ -360,11 +360,13 @@
 /* Mobile: 320px to 480px */
 @media (max-width: 480px) {
     .dashboard-page {
-        padding: 70px 25px 40px 10px;
+        padding: 70px 22px 40px 12px;
     }
 
     .dashboard-container {
-        padding: 0 10px;
+        padding: 0;
+        padding-top: 20px;
+        width: 95%;
     }
 
     .dashboard-header h1 {
@@ -387,7 +389,7 @@
     .dashboard-goals-4 {
         padding: 12px;
         gap: 3px;
-        border-radius: 5px;
+        border-radius: 10px;
         width: auto;
     }
 

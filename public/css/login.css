@@ -518,6 +518,7 @@
         gap: 30px;
         min-height: auto;
         padding: 30px 12px;
+        padding-left: 5px !important;
     }
 
     .lp-section1,
