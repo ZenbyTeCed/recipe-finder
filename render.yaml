@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: wellcook
+    env: php
+    buildCommand: "composer install --optimize-autoloader --no-dev && npm install && npm run build"
+    startCommand: "php artisan serve --host=0.0.0.0 --port=10000"
