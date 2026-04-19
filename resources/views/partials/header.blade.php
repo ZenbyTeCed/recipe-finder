@@ -7,7 +7,7 @@
     <div class="wellcook-header-inner">
         <div>
             <a href="/home" class="logo">
-                <img src="{{ asset('images/WellCook-logo2.png') }}" alt="WellCook Logo">
+                <img src="{{ asset('images/WellCook-Logo2.png') }}" alt="WellCook Logo">
                 <span>WellCook</span>
             </a>
         </div>
@@ -21,7 +21,7 @@
         <div class="nav-links" id="mobileNav">
             <div class="mobile-nav-top">
                 <div class="mobile-brand">
-                    <img src="{{ asset('images/WellCook-logo2.png') }}" alt="WellCook Logo">
+                    <img src="{{ asset('images/WellCook-Logo2.png') }}" alt="WellCook Logo">
                     <span>WellCook</span>
                 </div>
 
