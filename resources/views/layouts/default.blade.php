@@ -28,11 +28,6 @@
             authDomain: "{{ env('FIREBASE_AUTH_DOMAIN') }}",
             projectId: "{{ env('FIREBASE_PROJECT_ID') }}",
         };
-
-        // Initialize Firebase immediately
-        if (window.firebaseConfig && typeof firebase !== 'undefined') {
-            firebase.initializeApp(window.firebaseConfig);
-        }
     </script>
 
     <link rel="stylesheet" href="{{ asset('css/login.css') }}?v={{ time() }}">

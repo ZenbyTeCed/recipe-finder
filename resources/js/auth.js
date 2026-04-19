@@ -1,4 +1,7 @@
-// Firebase is now initialized in the layout, no need to initialize here
+// Initialize Firebase with the config from the layout
+if (window.firebaseConfig && firebase) {
+    firebase.initializeApp(window.firebaseConfig);
+}
 
 // Google Login Button
 const googleLoginBtn = document.getElementById('google-login-btn');
