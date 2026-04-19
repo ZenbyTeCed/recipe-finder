@@ -39,4 +39,10 @@ return [
         'key' => env('SPOONACULAR_API_KEY'),
     ],
 
+    'firebase' => [
+        'api_key' => env('FIREBASE_API_KEY'),
+        'auth_domain' => env('FIREBASE_AUTH_DOMAIN'),
+        'project_id' => env('FIREBASE_PROJECT_ID'),
+    ],
+
 ];

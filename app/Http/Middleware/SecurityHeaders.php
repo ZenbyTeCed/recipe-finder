@@ -15,10 +15,11 @@ class SecurityHeaders
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $response = $next($request);
-
         // Generate CSP nonce for inline scripts
         $nonce = base64_encode(random_bytes(16));
+        $request->attributes->set('csp_nonce', $nonce);
+
+        $response = $next($request);
 
         // Security headers
         $response->headers->set('X-Content-Type-Options', 'nosniff');

@@ -22,11 +22,11 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
-    <script nonce="{{ request()->header('X-CSP-Nonce') }}">
+    <script nonce="{{ request()->attributes->get('csp_nonce') }}">
         window.firebaseConfig = {
-            apiKey: "{{ env('FIREBASE_API_KEY') }}",
-            authDomain: "{{ env('FIREBASE_AUTH_DOMAIN') }}",
-            projectId: "{{ env('FIREBASE_PROJECT_ID') }}",
+            apiKey: @json(config('services.firebase.api_key')),
+            authDomain: @json(config('services.firebase.auth_domain')),
+            projectId: @json(config('services.firebase.project_id')),
         };
     </script>
 

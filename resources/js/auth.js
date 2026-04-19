@@ -1,15 +1,27 @@
-// Initialize Firebase with the config from the layout
-if (window.firebaseConfig && firebase) {
-    firebase.initializeApp(window.firebaseConfig);
-}
+const getFirebaseAuth = () => {
+    if (!window.firebase) {
+        throw new Error('Firebase SDK failed to load. Please refresh the page and try again.');
+    }
+
+    if (!window.firebaseConfig?.apiKey || !window.firebaseConfig?.authDomain || !window.firebaseConfig?.projectId) {
+        throw new Error('Firebase configuration is missing. Check FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, and FIREBASE_PROJECT_ID.');
+    }
+
+    if (!window.firebase.apps.length) {
+        window.firebase.initializeApp(window.firebaseConfig);
+    }
+
+    return window.firebase.auth();
+};
 
 // Google Login Button
 const googleLoginBtn = document.getElementById('google-login-btn');
 if (googleLoginBtn) {
     googleLoginBtn.addEventListener('click', async () => {
         try {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            const result = await firebase.auth().signInWithPopup(provider);
+            const auth = getFirebaseAuth();
+            const provider = new window.firebase.auth.GoogleAuthProvider();
+            const result = await auth.signInWithPopup(provider);
             const idToken = await result.user.getIdToken();
 
             // Send token to Laravel
