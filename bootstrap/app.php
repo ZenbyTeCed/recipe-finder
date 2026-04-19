@@ -11,6 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->use([
+            \App\Http\Middleware\SecurityHeaders::class,
+        ]);
+
         $middleware->alias([
             'firebase.auth' => \App\Http\Middleware\FirebaseAuth::class,
             'firebase.guest' => \App\Http\Middleware\FirebaseGuest::class,
