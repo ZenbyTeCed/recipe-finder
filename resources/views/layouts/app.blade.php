@@ -127,7 +127,7 @@
     <!-- @vite('resources/js/recipe.js') -->
     @stack('scripts')
 
-    <script>
+    <script nonce="{{ request()->header('X-CSP-Nonce') }}">
     const loader = document.getElementById("top-loader");
     let isLoading = false;
     let progressInterval;
@@ -175,7 +175,7 @@
 
     </script>
 
-    <script>
+    <script nonce="{{ request()->header('X-CSP-Nonce') }}">
         document.querySelectorAll("a[href]").forEach(link => {
         link.addEventListener("click", function (e) {
             const url = this.getAttribute("href");
@@ -198,7 +198,7 @@
         });
     </script>
 
-    <script>
+    <script nonce="{{ request()->header('X-CSP-Nonce') }}">
     window.addEventListener("DOMContentLoaded", () => {
     const loader = document.getElementById("top-loader");
 

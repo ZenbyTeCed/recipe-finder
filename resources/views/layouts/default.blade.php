@@ -22,7 +22,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
-    <script>
+    <script nonce="{{ request()->header('X-CSP-Nonce') }}">
         window.firebaseConfig = {
             apiKey: "{{ env('FIREBASE_API_KEY') }}",
             authDomain: "{{ env('FIREBASE_AUTH_DOMAIN') }}",

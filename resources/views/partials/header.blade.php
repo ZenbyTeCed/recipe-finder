@@ -84,7 +84,7 @@
 
 <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
 
-<script>
+<script nonce="{{ request()->header('X-CSP-Nonce') }}">
 document.addEventListener('DOMContentLoaded', function () {
     const menuToggle = document.getElementById('mobileMenuToggle');
     const navLinks = document.getElementById('mobileNav');

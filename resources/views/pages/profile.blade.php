@@ -127,7 +127,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ request()->header('X-CSP-Nonce') }}">
 document.addEventListener('DOMContentLoaded', function () {
     const deleteModalOverlay = document.getElementById('deleteModalOverlay');
     const openDeleteModal = document.getElementById('openDeleteModal');
