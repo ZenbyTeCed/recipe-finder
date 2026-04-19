@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$firebaseCredentialsJson = env('FIREBASE_CREDENTIALS_JSON');
+
 return [
     /*
      * ------------------------------------------------------------------------
@@ -50,7 +52,9 @@ return [
              *
              */
 
-            'credentials' => env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
+            'credentials' => $firebaseCredentialsJson
+                ? json_decode($firebaseCredentialsJson, true)
+                : env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
 
             /*
              * ------------------------------------------------------------------------
