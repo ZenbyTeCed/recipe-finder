@@ -25,7 +25,7 @@ class RecipeController extends Controller
 
         $validCategories = [
             'Breakfast', 'Seafood', 'Dessert', 'Vegetarian',
-            'Chicken', 'Beef', 'Pasta', 'Lamb', 'Miscellaneous',
+            'Chicken', 'Beef', 'Pork', 'Pasta', 'Lamb', 'Miscellaneous',
         ];
 
         // Dynamically fetched from TheMealDB — always up to date

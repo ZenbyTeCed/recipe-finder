@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileBottomNav = document.querySelector('.mobile-bottom-nav');
     const mobileAccountSheet = document.getElementById('mobileAccountSheet');
     const mobileAccountToggle = document.getElementById('mobileAccountToggle');
+    const chatBubbleBtn = document.getElementById('chatBubbleBtn');
     const scrollingElement = document.scrollingElement || document.documentElement || document.body;
 
     if (!mobileBottomNav) {
@@ -25,6 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
         navHidden = !isVisible;
         mobileBottomNav.style.transform = isVisible ? 'translateY(0)' : 'translateY(calc(100% + 20px))';
         mobileBottomNav.style.opacity = isVisible ? '1' : '0';
+
+        if (chatBubbleBtn && !chatBubbleBtn.classList.contains('hidden')) {
+            document.body.classList.toggle('mobile-nav-hidden', !isVisible);
+        } else {
+            document.body.classList.remove('mobile-nav-hidden');
+        }
 
         if (!isVisible && mobileAccountSheet && mobileAccountToggle) {
             mobileAccountSheet.classList.remove('open');
