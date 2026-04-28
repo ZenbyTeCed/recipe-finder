@@ -54,6 +54,7 @@
     @vite('resources/js/toast.js')
     @vite('resources/js/auth.js')
     @vite('resources/js/password-toggle.js')
+    @vite('resources/js/mobile-nav.js')
 
     @stack('scripts')
 </body>

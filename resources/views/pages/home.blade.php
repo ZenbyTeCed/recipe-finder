@@ -28,7 +28,7 @@
                 <div class="filter-options">
                     <div class="filter-option">
                         <label>Category</label>
-                        <select name="category" onchange="document.getElementById('search-form').submit()">
+                        <select name="category" id="category-filter">
                             <option value="">All Categories</option>
                             @foreach ($validCategories as $cat)
                                 <option value="{{ $cat }}" {{ ($category ?? '') === $cat ? 'selected' : '' }}>
@@ -40,7 +40,7 @@
 
                     <div class="filter-option">
                         <label>Cuisine</label>
-                        <select name="area" onchange="document.getElementById('search-form').submit()">
+                        <select name="area" id="area-filter">
                             <option value="">All Cuisines</option>
                             @foreach ($validAreas as $a)
                                 <option value="{{ $a }}" {{ ($area ?? '') === $a ? 'selected' : '' }}>
@@ -69,7 +69,7 @@
 
         <div class="results-section">
             @forelse ($recipes as $recipe)
-                <div class="recipe-card" onclick="window.location='{{ route('recipe.show', $recipe['id']) }}'">
+                <div class="recipe-card" data-href="{{ route('recipe.show', $recipe['id']) }}" tabindex="0" role="link">
                     <div class="recipe-card-image">
                         <img src="{{ $recipe['image'] }}" alt="{{ $recipe['name'] }}">
                         <span class="recipe-card-category">{{ $recipe['category'] ?? '' }}</span>

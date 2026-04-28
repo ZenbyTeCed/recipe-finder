@@ -16,6 +16,8 @@ export default defineConfig({
                 'resources/js/forgot-password.js',
                 'resources/js/password-toggle.js',
                 'resources/js/home.js',
+                'resources/js/mobile-nav.js',
+                'resources/js/app-layout.js',
                 'resources/js/bootstrap.js',
             ],
             refresh: true,
@@ -23,6 +25,10 @@ export default defineConfig({
         tailwindcss(),
     ],
     server: {
+        host: 'localhost',
+        hmr: {
+            host: 'localhost',
+        },
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },

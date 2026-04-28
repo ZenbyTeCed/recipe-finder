@@ -9,6 +9,17 @@ const chatQuickClose = document.getElementById('chatQuickClose');
 const chatClearBtn = document.getElementById('chatClearBtn');
 
 const STORAGE_KEY = 'nutribot_messages';
+const hasChatUi = !!(
+    chatBtn &&
+    chatWindow &&
+    chatCloseBtn &&
+    chatInput &&
+    chatSendBtn &&
+    chatMessages &&
+    chatQuickQuestions &&
+    chatQuickClose &&
+    chatClearBtn
+);
 
 function getCurrentTime() {
     return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -60,6 +71,10 @@ function saveMessages() {
 }
 
 function loadMessages() {
+    if (!chatMessages) {
+        return;
+    }
+
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
         scrollToBottom();
@@ -100,6 +115,10 @@ function formatMessage(text) {
 }
 
 function appendMessage(text, type) {
+    if (!chatMessages) {
+        return;
+    }
+
     const msg = document.createElement('div');
     msg.classList.add('chat-message', type);
     const formatted = type === 'bot' ? formatMessage(text) : text;
@@ -110,6 +129,10 @@ function appendMessage(text, type) {
 }
 
 function appendTyping() {
+    if (!chatMessages) {
+        return null;
+    }
+
     const typing = document.createElement('div');
     typing.classList.add('chat-message', 'bot', 'typing-indicator');
     typing.innerHTML = `
@@ -125,7 +148,7 @@ function appendTyping() {
 }
 
 async function sendMessage(message) {
-    if (!message.trim()) return;
+    if (!hasChatUi || !message.trim()) return;
 
     hideQuickQuestions();
     appendMessage(message, 'user');
@@ -143,7 +166,7 @@ async function sendMessage(message) {
     });
 
     const data = await response.json();
-    typing.remove();
+    typing?.remove();
     appendMessage(data.reply, 'bot');
 
     if (data.mealLogged) {
@@ -162,38 +185,45 @@ async function sendMessage(message) {
     }
 }
 
-chatBtn.addEventListener('click', () => {
-    chatWindow.classList.toggle('open');
-    chatBtn.classList.toggle('hidden');
+if (hasChatUi) {
+    chatBtn.addEventListener('click', () => {
+        chatWindow.classList.toggle('open');
+        chatBtn.classList.toggle('hidden');
 
-    if (chatWindow.classList.contains('open')) {
-        chatInput.focus();
+        if (chatWindow.classList.contains('open')) {
+            chatInput.focus();
+            scrollToBottom();
+        }
+    });
+
+    chatCloseBtn.addEventListener('click', () => {
+        chatWindow.classList.remove('open');
+        chatBtn.classList.remove('hidden');
+    });
+
+    chatQuickClose.addEventListener('click', () => {
+        chatQuickQuestions.style.display = 'none';
+    });
+
+    chatClearBtn.addEventListener('click', () => {
+        localStorage.removeItem(STORAGE_KEY);
+        chatMessages.innerHTML = getDefaultWelcomeMessage();
+        showQuickQuestionsIfDefault();
         scrollToBottom();
-    }
-});
+        saveMessages();
+    });
 
-chatCloseBtn.addEventListener('click', () => {
-    chatWindow.classList.remove('open');
-    chatBtn.classList.remove('hidden');
-});
-chatQuickClose.addEventListener('click', () => chatQuickQuestions.style.display = 'none');
+    chatSendBtn.addEventListener('click', () => sendMessage(chatInput.value));
 
-chatClearBtn.addEventListener('click', () => {
-    localStorage.removeItem(STORAGE_KEY);
-    chatMessages.innerHTML = getDefaultWelcomeMessage();
-    showQuickQuestionsIfDefault();
-    scrollToBottom();
-    saveMessages();
-});
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage(chatInput.value);
+        }
+    });
 
-chatSendBtn.addEventListener('click', () => sendMessage(chatInput.value));
+    document.querySelectorAll('.chat-quick-btn').forEach(btn => {
+        btn.addEventListener('click', () => sendMessage(btn.textContent.trim()));
+    });
 
-chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage(chatInput.value);
-});
-
-document.querySelectorAll('.chat-quick-btn').forEach(btn => {
-    btn.addEventListener('click', () => sendMessage(btn.textContent.trim()));
-});
-
-loadMessages();
+    loadMessages();
+}

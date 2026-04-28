@@ -191,69 +191,77 @@
 
 .results-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, auto));
-    justify-content: space-between;
-    gap: 30px !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 360px));
+    justify-content: start;
+    gap: 24px !important;
     margin-top: 30px;
 }
 
 .recipe-card {
-    /* height: 370px; */
+    position: relative;
     background-color: white;
-    border-radius: 12px;
+    border-radius: 20px;
     overflow: hidden;
     border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
     cursor: pointer;
-    transition: box-shadow 0.2s ease;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    width: 100%;
 }
 
 .recipe-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
 }
 
 .recipe-card-image {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 205px;
+    overflow: hidden;
 }
 
 .recipe-card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+.recipe-card:hover .recipe-card-image img {
+    transform: scale(1.02);
 }
 
 .recipe-card-category {
     position: absolute;
     top: 12px;
     right: 12px;
-    background-color: white;
+    background: rgba(255, 255, 255, 0.95);
+    color: #111827;
     font-size: 13px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 20px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .recipe-card-info {
-    padding-right: 25px;
-    padding-left: 25px;
-    padding-top: 40px;
-    padding-bottom: 30px;
+    padding: 22px 18px 18px;
 }
 
 .recipe-card-info h3 {
-    font-size: 17px;
-    font-weight: 600;
-    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 6px 0;
     color: #111827;
 }
 
 .recipe-card-cuisine {
     font-size: 14px;
     color: #6b7280;
-    margin: 0 0 30px 0;
+    margin: 0 0 16px 0;
 }
 
 .recipe-card-meta {
@@ -287,10 +295,13 @@
 
 .recipe-card-tag {
     font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid #e5e7eb;
-    color: #374151;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid #dbe3ee;
+    background: #ffffff;
+    color: #475569;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 /* No Results */
@@ -718,7 +729,7 @@
     }
 
     .home-page-container {
-        max-width: 1200px;
+        max-width: 1150px;
     }
 
     .hero-section h1 {
@@ -755,7 +766,7 @@
     }
 
     .results-section {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
         margin-top: 30px;
     }

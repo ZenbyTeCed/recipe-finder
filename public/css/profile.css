@@ -384,16 +384,6 @@
 
 /* Mobile: 320px to 480px */
 @media (max-width: 480px) {
-    .profile-page {
-        padding: 70px 22px 40px 12px;
-    }
-
-    .profile-container {
-        padding: 0;
-        width: 95%;
-        gap: 20px;
-    }
-
     .profile-header {
         flex-direction: column;
         gap: 12px;
@@ -485,9 +475,9 @@
         display: flex;
         gap: 8px;
         padding-bottom: 20px;
-        width: 80%;
-        justify-content: flex-end;
-        margin-left: auto;
+        width: 100%;
+        justify-content: stretch;
+        margin-left: 0;
     }
 
     .profile-cancel-btn,

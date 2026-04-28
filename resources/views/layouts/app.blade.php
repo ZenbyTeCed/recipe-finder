@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @php
+        $cssVersion = static fn (string $path) => file_exists(public_path($path))
+            ? filemtime(public_path($path))
+            : '1';
+        $inlineCss = static fn (string $path) => file_exists(public_path($path))
+            ? file_get_contents(public_path($path))
+            : '';
+    @endphp
+
     <title>WellCook</title>
     <link rel="icon" type="image/png" href="{{ asset('images/WellCook.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,22 +24,45 @@
         <meta name="flash-error" content="{{ session('error') }}">
     @endif
     
-    <link rel="stylesheet" href="{{ asset('css/general.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}?v={{ time() }}">    
-    <link rel="stylesheet" href="{{ asset('css/meal-log.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/favorites.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/profile.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/recipe.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/chat-bubble.css') }}?v={{ time() }}">
+    @if (request()->is('meal-log'))
+        <style>{!! $inlineCss('css/general.css') !!}</style>
+    @else
+        <link rel="stylesheet" href="{{ asset('css/general.css') }}?v={{ $cssVersion('css/general.css') }}">
+    @endif
+
+    @if (request()->is('home'))
+        <link rel="stylesheet" href="{{ asset('css/homepage.css') }}?v={{ $cssVersion('css/homepage.css') }}">
+    @endif
+
+    @if (request()->is('dashboard'))
+        <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}?v={{ $cssVersion('css/dashboard.css') }}">
+    @endif
+
+    @if (request()->is('meal-log'))
+        <style>{!! $inlineCss('css/meal-log.css') !!}</style>
+    @elseif (request()->is('recipe*'))
+        <link rel="stylesheet" href="{{ asset('css/meal-log.css') }}?v={{ $cssVersion('css/meal-log.css') }}">
+    @endif
+
+    @if (request()->is('favorites'))
+        <link rel="stylesheet" href="{{ asset('css/favorites.css') }}?v={{ $cssVersion('css/favorites.css') }}">
+    @endif
+
+    @if (request()->is('profile'))
+        <link rel="stylesheet" href="{{ asset('css/profile.css') }}?v={{ $cssVersion('css/profile.css') }}">
+    @endif
+
+    @if (request()->is('recipe*'))
+        <link rel="stylesheet" href="{{ asset('css/recipe.css') }}?v={{ $cssVersion('css/recipe.css') }}">
+    @endif
+
+    <link rel="stylesheet" href="{{ asset('css/chat-bubble.css') }}?v={{ $cssVersion('css/chat-bubble.css') }}">
 
 </head>
 <body class="wellcook-body">
     <header>
         @include('partials.header')
     </header>
-
-    <div id="top-loader"></div>
 
     <main>
         @yield('content')
@@ -123,101 +155,11 @@
     @if (session()->has('firebase_uid'))
         @vite('resources/js/ai.js')
     @endif
+    @vite('resources/js/mobile-nav.js')
+    @vite('resources/js/app-layout.js')
     @vite('resources/js/toast.js')
     <!-- @vite('resources/js/recipe.js') -->
     @stack('scripts')
 
-    <script nonce="{{ request()->header('X-CSP-Nonce') }}">
-    const loader = document.getElementById("top-loader");
-    let isLoading = false;
-    let progressInterval;
-
-    // start loader
-    function startLoader() {
-    if (isLoading) return;
-
-    isLoading = true;
-    loader.style.opacity = "1";
-    loader.style.width = "10%";
-
-    let width = 10;
-
-    // fake smooth progress
-    progressInterval = setInterval(() => {
-        if (width < 90) {
-        width += Math.random() * 5; // random growth
-        loader.style.width = width + "%";
-        }
-    }, 200);
-    }
-
-    // finish loader
-    function finishLoader() {
-    if (!isLoading) return;
-
-    clearInterval(progressInterval);
-
-    setTimeout(() => {
-    loader.style.width = "100%";
-    }, 200);
-
-    // WAIT so user can actually SEE it finish
-    setTimeout(() => {
-        loader.style.opacity = "0";
-    }, 200); // delay before fade
-
-    setTimeout(() => {
-        loader.style.width = "0%";
-        isLoading = false;
-    }, 700);
-    }
-    </script>
-
-    </script>
-
-    <script nonce="{{ request()->header('X-CSP-Nonce') }}">
-        document.querySelectorAll("a[href]").forEach(link => {
-        link.addEventListener("click", function (e) {
-            const url = this.getAttribute("href");
-
-            if (
-            !url ||
-            url.startsWith("#") ||
-            url.startsWith("javascript") ||
-            this.target === "_blank"
-            ) return;
-
-            e.preventDefault();
-
-            startLoader();
-
-            setTimeout(() => {
-            window.location.href = url;
-            }, 300);
-        });
-        });
-    </script>
-
-    <script nonce="{{ request()->header('X-CSP-Nonce') }}">
-    window.addEventListener("DOMContentLoaded", () => {
-    const loader = document.getElementById("top-loader");
-
-    loader.style.opacity = "1";
-    loader.style.width = "85%";
-
-    // smoothly finish
-    setTimeout(() => {
-        loader.style.width = "100%";
-    }, 100);
-
-    setTimeout(() => {
-        loader.style.opacity = "0";
-    }, 300);
-
-    setTimeout(() => {
-        loader.style.width = "0%";
-    }, 600);
-    });
-    </script>
 </body>
 </html>

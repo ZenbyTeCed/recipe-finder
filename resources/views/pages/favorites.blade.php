@@ -12,7 +12,7 @@
 
         <div class="results-section">
             @forelse ($favorites as $recipe)
-                <div class="recipe-card" onclick="window.location='{{ route('recipe.show', $recipe['recipe_id']) }}'">
+                <div class="recipe-card" data-href="{{ route('recipe.show', $recipe['recipe_id']) }}" tabindex="0" role="link">
                     <div class="recipe-card-image">
                         <img src="{{ $recipe['image'] }}" alt="{{ $recipe['name'] }}">
                         <span class="recipe-card-category-favorite">{{ $recipe['category'] ?? '' }}</span>
@@ -28,10 +28,10 @@
                         </div>
                     </div>
 
-                    <form action="/favorites/remove" method="POST" class="recipe-card-unfavorite" onclick="event.stopPropagation()">
+                    <form action="/favorites/remove" method="POST" class="recipe-card-unfavorite">
                         @csrf
                         <input type="hidden" name="recipe_id" value="{{ $recipe['recipe_id'] }}">
-                        <button type="submit" class="unfavorite-btn" title="Remove from favorites" onclick="event.stopPropagation()">
+                        <button type="submit" class="unfavorite-btn" title="Remove from favorites">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-icon lucide-heart">
                                 <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>
                             </svg>
@@ -46,11 +46,38 @@
                     </svg>
                     <p>No favorite recipes yet</p>
                     <p>Start adding recipes to your favorites from the recipe detail page</p>
-                    <button onclick="window.location='/home'">Browse Recipes</button>
+                    <button type="button" id="browseRecipesBtn">Browse Recipes</button>
                 </div>
             @endforelse
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script nonce="{{ request()->attributes->get('csp_nonce') }}">
+document.querySelectorAll('.favorites-page .recipe-card[data-href]').forEach((card) => {
+    card.addEventListener('click', () => {
+        window.location.href = card.dataset.href;
+    });
+
+    card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            window.location.href = card.dataset.href;
+        }
+    });
+});
+
+document.querySelectorAll('.recipe-card-unfavorite, .unfavorite-btn').forEach((element) => {
+    element.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+});
+
+document.getElementById('browseRecipesBtn')?.addEventListener('click', () => {
+    window.location.href = '/home';
+});
+</script>
+@endpush
 
 @endsection

@@ -379,16 +379,16 @@
 
     .dashboard-content {
         grid-template-columns: repeat(2, 1fr);
-        gap: 5px;
-        margin-bottom: 16px;
+        gap: 8px;
+        margin-bottom: 12px;
     }
 
     .dashboard-goals-1,
     .dashboard-goals-2,
     .dashboard-goals-3,
     .dashboard-goals-4 {
-        padding: 12px;
-        gap: 3px;
+        padding: 14px 12px;
+        gap: 6px;
         border-radius: 10px;
         width: auto;
     }
@@ -404,9 +404,17 @@
     .dashboard-goals-2 > span,
     .dashboard-goals-3 > span,
     .dashboard-goals-4 > span {
-        font-size: 18px;
-        margin-top: 5px;
-        margin-bottom: 5px;
+        font-size: 20px;
+        line-height: 1.1;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .dashboard-goals-1 > p,
+    .dashboard-goals-2 > p,
+    .dashboard-goals-3 > p,
+    .dashboard-goals-4 > p {
+        font-size: 12px;
     }
 
     .dashboard-goals-summary {

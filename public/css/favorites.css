@@ -47,6 +47,7 @@ body {
 
 /* ─── Recipe Card ───────────────────────────────────────── */
 .recipe-card {
+    position: relative;
     background: #ffffff;
     border-radius: 20px;
     overflow: hidden;
