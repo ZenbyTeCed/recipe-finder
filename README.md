@@ -1,6 +1,4 @@
-![WellCook Logo](./public/images/WellCook-Logo2.png)
-
-# WellCook
+# WellCook <img src="./public/images/WellCook-Logo2.png" alt="WellCook Logo" width="42">
 
 WellCook is a Laravel recipe and nutrition tracker that helps users discover recipes, save favorites, log meals, track daily macro goals, and chat with an AI nutrition assistant.
 
