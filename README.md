@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="public/images/WellCook-Logo2.png" alt="WellCook Logo" width="220">
-</p>
+![WellCook Logo](./public/images/WellCook-Logo2.png)
 
 # WellCook
 
