@@ -11,6 +11,6 @@ storage/framework/sessions/*
 storage/framework/views/*
 public/build
 public/hot
-firebase-credentials.json
+firebase-credentials.json pmm
 npm-debug.log
 yarn-error.log
