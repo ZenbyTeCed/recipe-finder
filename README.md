@@ -2,6 +2,8 @@
 
 WellCook is a Laravel recipe and nutrition tracker that helps users discover recipes, save favorites, log meals, track daily macro goals, and chat with an AI nutrition assistant.
 
+https://wellcook.onrender.com/
+
 ## Features
 
 - Firebase email/password and Google authentication
